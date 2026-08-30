@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import {
   type CondominiumDraftFieldErrors,
+  readCondominiumDraftFormData,
   validateCondominiumDraft,
 } from "@/modules/catalog/application/validate-condominium-draft";
 import { validateCondominiumPublication } from "@/modules/catalog/application/validate-condominium-publication";
@@ -58,12 +59,7 @@ export async function updateCondominium(
     return { message: "El identificador del condominio no es válido." };
   }
 
-  const values = {
-    address: String(formData.get("address") ?? ""),
-    description: String(formData.get("description") ?? ""),
-    name: String(formData.get("name") ?? ""),
-    slug: String(formData.get("slug") ?? ""),
-  };
+  const values = readCondominiumDraftFormData(formData);
   const validation = validateCondominiumDraft(values);
 
   if (!validation.success) return { errors: validation.errors, values };

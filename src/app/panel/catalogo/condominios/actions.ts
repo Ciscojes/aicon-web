@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import {
   type CondominiumDraftFieldErrors,
+  readCondominiumDraftFormData,
   validateCondominiumDraft,
 } from "@/modules/catalog/application/validate-condominium-draft";
 import { insertCondominiumDraft } from "@/modules/catalog/infrastructure/condominium-repository";
@@ -32,12 +33,7 @@ export async function createCondominiumDraft(
     return { message: "No tienes permiso para administrar el catálogo." };
   }
 
-  const values = {
-    address: String(formData.get("address") ?? ""),
-    description: String(formData.get("description") ?? ""),
-    name: String(formData.get("name") ?? ""),
-    slug: String(formData.get("slug") ?? ""),
-  };
+  const values = readCondominiumDraftFormData(formData);
   const validation = validateCondominiumDraft(values);
 
   if (!validation.success) {

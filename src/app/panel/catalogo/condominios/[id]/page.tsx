@@ -26,10 +26,10 @@ const statusLabels = {
 export default async function EditCondominiumPage({
   params,
   searchParams,
-}: {
+}: Readonly<{
   params: Promise<{ id: string }>;
   searchParams: Promise<{ error?: string; notice?: string }>;
-}) {
+}>) {
   const profile = await getCurrentProfile();
   if (!profile || !canManageCatalog(profile.role)) redirect("/panel");
 
@@ -62,9 +62,9 @@ export default async function EditCondominiumPage({
       </div>
 
       {messages.notice ? (
-        <p className="form-success page-notice" role="status">
+        <output className="form-success page-notice">
           {messages.notice}
-        </p>
+        </output>
       ) : null}
       {messages.error ? (
         <p className="form-message page-notice" role="alert">
@@ -113,7 +113,7 @@ export default async function EditCondominiumPage({
             <form action={archiveAction}>
               <label className="confirmation-field">
                 <input name="confirmArchive" required type="checkbox" value="yes" />
-                Confirmo que deseo archivarlo.
+                <span>Confirmo que deseo archivarlo.</span>
               </label>
               <button className="button button-danger button-full" type="submit">
                 Archivar condominio

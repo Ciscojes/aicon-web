@@ -8,11 +8,13 @@ import {
 } from "@/app/panel/catalogo/condominios/[id]/actions";
 import type { CondominiumDetails } from "@/modules/catalog/domain/condominium";
 
+import { CondominiumFields } from "./condominium-fields";
+
 export function CondominiumEditForm({
   condominium,
-}: {
+}: Readonly<{
   condominium: CondominiumDetails;
-}) {
+}>) {
   const action = updateCondominium.bind(null, condominium.id);
   const [state, formAction, pending] = useActionState<
     UpdateCondominiumState,
@@ -21,67 +23,18 @@ export function CondominiumEditForm({
 
   return (
     <form action={formAction} className="catalog-form">
-      <div className="field">
-        <label htmlFor="edit-condominium-name">Nombre</label>
-        <input
-          defaultValue={state.values?.name ?? condominium.name}
-          id="edit-condominium-name"
-          maxLength={160}
-          name="name"
-          required
-        />
-        {state.errors?.name ? (
-          <p className="field-error">{state.errors.name[0]}</p>
-        ) : null}
-      </div>
+      <CondominiumFields
+        descriptionRows={8}
+        errors={state.errors}
+        idPrefix="edit-condominium"
+        values={state.values ?? condominium}
+      />
 
-      <div className="field">
-        <label htmlFor="edit-condominium-slug">URL pública</label>
-        <input
-          defaultValue={state.values?.slug ?? condominium.slug}
-          id="edit-condominium-slug"
-          maxLength={160}
-          name="slug"
-          required
-        />
-        {state.errors?.slug ? (
-          <p className="field-error">{state.errors.slug[0]}</p>
-        ) : null}
-      </div>
-
-      <div className="field field-wide">
-        <label htmlFor="edit-condominium-address">Dirección</label>
-        <input
-          defaultValue={state.values?.address ?? condominium.address}
-          id="edit-condominium-address"
-          maxLength={500}
-          name="address"
-        />
-        {state.errors?.address ? (
-          <p className="field-error">{state.errors.address[0]}</p>
-        ) : null}
-      </div>
-
-      <div className="field field-wide">
-        <label htmlFor="edit-condominium-description">Descripción</label>
-        <textarea
-          defaultValue={state.values?.description ?? condominium.description}
-          id="edit-condominium-description"
-          maxLength={5000}
-          name="description"
-          rows={8}
-        />
-        {state.errors?.description ? (
-          <p className="field-error">{state.errors.description[0]}</p>
-        ) : null}
-      </div>
-
-      {state.message ? (
-        <p
-          aria-live="polite"
-          className={state.success ? "form-success" : "form-message"}
-          role={state.success ? "status" : "alert"}
-        >
+      {state.message && state.success ? (
+        <output className="form-success">{state.message}</output>
+      ) : null}
+      {state.message && !state.success ? (
+        <p className="form-message" role="alert">
           {state.message}
         </p>
       ) : null}

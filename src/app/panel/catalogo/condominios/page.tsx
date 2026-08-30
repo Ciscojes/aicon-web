@@ -19,9 +19,9 @@ const statusLabels = {
 
 export default async function CondominiumsPage({
   searchParams,
-}: {
+}: Readonly<{
   searchParams: Promise<{ notice?: string }>;
-}) {
+}>) {
   const profile = await getCurrentProfile();
 
   if (!profile || !canManageCatalog(profile.role)) redirect("/panel");
@@ -45,9 +45,9 @@ export default async function CondominiumsPage({
       </div>
 
       {notice ? (
-        <p className="form-success page-notice" role="status">
+        <output className="form-success page-notice">
           {notice}
-        </p>
+        </output>
       ) : null}
 
       <div className="catalog-layout">

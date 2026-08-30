@@ -34,6 +34,22 @@ export type CondominiumDraftValidation =
   | { data: CondominiumDraft; success: true }
   | { errors: CondominiumDraftFieldErrors; success: false };
 
+function readTextFormValue(formData: FormData, name: string): string {
+  const value = formData.get(name);
+  return typeof value === "string" ? value : "";
+}
+
+export function readCondominiumDraftFormData(
+  formData: FormData,
+): CondominiumDraft {
+  return {
+    address: readTextFormValue(formData, "address"),
+    description: readTextFormValue(formData, "description"),
+    name: readTextFormValue(formData, "name"),
+    slug: readTextFormValue(formData, "slug"),
+  };
+}
+
 export function validateCondominiumDraft(input: {
   address: unknown;
   description: unknown;
