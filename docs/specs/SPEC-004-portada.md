@@ -30,7 +30,8 @@ Presentar Aicon, generar confianza y guiar al comprador hacia los condominios, l
 
 ## Dirección visual provisional
 
-- Verde oscuro y tonos crema.
+- Azul medianoche, marfil cálido y acentos coral/cobre y azul eléctrico.
+- Gradientes sutiles, profundidad ligera y superficies limpias.
 - Fotografías amplias.
 - Tipografía elegante y legible.
 - Apariencia propia de una constructora, no de una agencia inmobiliaria genérica.
@@ -54,3 +55,5 @@ Presentar Aicon, generar confianza y guiar al comprador hacia los condominios, l
 
 - 2026-08-28: creación de la especificación inicial.
 - 2026-08-28: se definieron WhatsApp y formulario como canales de contacto con asesores.
+- 2026-08-30: se reemplazó la dirección verde por una identidad más llamativa,
+  moderna y elegante a solicitud del dueño.
