@@ -1,0 +1,175 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aicon — Flujo del comprador</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f7f5ef;
+    --fg: #17251f;
+    --muted: #5e6b65;
+    --line: #5d7067;
+    --neutral: #e7e3d8;
+    --input: #dcebdc;
+    --process: #cddfd2;
+    --storage: #b9d9ca;
+    --external: #efe0b6;
+    --risk: #f0c7bd;
+    --white: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14201b;
+      --fg: #eef5f1;
+      --muted: #b8c6bf;
+      --line: #9fb4aa;
+      --neutral: #354039;
+      --input: #27543b;
+      --process: #315b43;
+      --storage: #1f6650;
+      --external: #68582c;
+      --risk: #713d35;
+      --white: #1c2b24;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 14px/1.4 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  main {
+    max-width: 1180px;
+    margin: 32px auto;
+    padding: 0 20px 32px;
+  }
+  h1 { margin: 0 0 6px; font-size: 25px; }
+  p { margin: 0 0 24px; color: var(--muted); }
+  .frame {
+    overflow-x: auto;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--white);
+  }
+  svg { width: 1080px; height: auto; display: block; }
+  .label { font-size: 14px; font-weight: 650; fill: var(--fg); text-anchor: middle; }
+  .small { font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .edge { stroke: var(--line); stroke-width: 2; fill: none; }
+  .node { stroke: var(--line); stroke-width: 1.2; rx: 12; }
+  .input { fill: var(--input); }
+  .process { fill: var(--process); }
+  .storage { fill: var(--storage); }
+  .external { fill: var(--external); }
+  .risk { fill: var(--risk); }
+  .neutral { fill: var(--neutral); }
+  .decision { fill: var(--white); stroke: var(--line); stroke-width: 1.2; }
+  .edge-label { font-size: 11px; fill: var(--muted); text-anchor: middle; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; color: var(--muted); font-size: 12px; }
+  .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 6px; border: 1px solid var(--line); border-radius: 3px; vertical-align: -2px; background: var(--swatch); }
+</style>
+<main>
+  <h1>Flujo público del comprador</h1>
+  <p>Aicon Edificadora S.A. · SPEC-008 · Borrador para revisión</p>
+  <div class="frame">
+    <svg viewBox="0 0 1080 570" role="img" aria-labelledby="title desc">
+      <title id="title">Recorrido del comprador desde la portada hasta la confirmación de una visita</title>
+      <desc id="desc">Flujo de izquierda a derecha con rutas alternativas para contactar a un asesor, consultar otras casas o solicitar ayuda cuando no hay horarios.</desc>
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--line)" />
+        </marker>
+      </defs>
+
+      <!-- Conectores principales -->
+      <path class="edge" marker-end="url(#arrow)" d="M180 120 H215" />
+      <path class="edge" marker-end="url(#arrow)" d="M355 120 H390" />
+      <path class="edge" marker-end="url(#arrow)" d="M530 120 H565" />
+      <path class="edge" marker-end="url(#arrow)" d="M705 120 H740" />
+      <path class="edge" marker-end="url(#arrow)" d="M460 75 V38 H810 V75" />
+      <path class="edge" marker-end="url(#arrow)" d="M880 120 H915" />
+      <path class="edge" marker-end="url(#arrow)" d="M985 165 V255 H870" />
+      <path class="edge" marker-end="url(#arrow)" d="M800 300 H715" />
+      <path class="edge" marker-end="url(#arrow)" d="M645 345 V410" />
+      <path class="edge" marker-end="url(#arrow)" d="M715 455 H750" />
+
+      <!-- Rutas alternativas -->
+      <path class="edge" marker-end="url(#arrow)" d="M110 165 V500 H410" />
+      <path class="edge" marker-end="url(#arrow)" d="M460 165 V215" />
+      <path class="edge" marker-end="url(#arrow)" d="M460 305 V455" />
+      <path class="edge" marker-end="url(#arrow)" d="M800 300 H765 V500 H550" />
+      <path class="edge" marker-end="url(#arrow)" d="M575 300 H560 Q550 300 550 310 V455" />
+
+      <!-- Nodos principales -->
+      <rect class="node input" x="40" y="75" width="140" height="90" />
+      <text class="label" x="110" y="112">Portada</text>
+      <text class="small" x="110" y="137">Buscar o explorar</text>
+
+      <rect class="node process" x="215" y="75" width="140" height="90" />
+      <text class="label" x="285" y="112">Catálogo</text>
+      <text class="small" x="285" y="137">Filtros y resultados</text>
+
+      <rect class="node process" x="390" y="75" width="140" height="90" />
+      <text class="label" x="460" y="106">Detalle</text>
+      <text class="label" x="460" y="125">de casa</text>
+      <text class="small" x="460" y="147">Datos y disponibilidad</text>
+
+      <rect class="node external" x="565" y="75" width="140" height="90" />
+      <text class="label" x="635" y="106">Simulación</text>
+      <text class="small" x="635" y="132">Financiamiento</text>
+      <text class="small" x="635" y="149">opcional</text>
+
+      <rect class="node input" x="740" y="75" width="140" height="90" />
+      <text class="label" x="810" y="106">Registro</text>
+      <text class="small" x="810" y="132">Nombre, teléfono</text>
+      <text class="small" x="810" y="149">y correo para cita</text>
+
+      <rect class="node storage" x="915" y="75" width="140" height="90" />
+      <text class="label" x="985" y="106">CRM</text>
+      <text class="small" x="985" y="132">Cliente y propiedad</text>
+      <text class="small" x="985" y="149">de interés</text>
+
+      <polygon class="decision" points="870,255 940,300 870,345 800,300" />
+      <text class="label" x="870" y="295">¿Quiere</text>
+      <text class="label" x="870" y="314">visitar?</text>
+
+      <polygon class="decision" points="645,255 715,300 645,345 575,300" />
+      <text class="label" x="645" y="295">¿Hay</text>
+      <text class="label" x="645" y="314">horarios?</text>
+
+      <rect class="node process" x="575" y="410" width="140" height="90" />
+      <text class="label" x="645" y="447">Calendario</text>
+      <text class="small" x="645" y="472">Elegir fecha y hora</text>
+
+      <rect class="node storage" x="750" y="410" width="180" height="90" />
+      <text class="label" x="840" y="447">Confirmación</text>
+      <text class="small" x="840" y="470">Correo + WhatsApp</text>
+
+      <rect class="node external" x="410" y="455" width="140" height="90" />
+      <text class="label" x="480" y="492">Asesor</text>
+      <text class="small" x="480" y="517">Contacto y ayuda</text>
+
+      <rect class="node risk" x="390" y="215" width="140" height="90" />
+      <text class="label" x="460" y="252">No disponible</text>
+      <text class="small" x="460" y="277">Mostrar alternativas</text>
+
+      <!-- Etiquetas de decisiones -->
+      <text class="edge-label" x="744" y="289">Sí</text>
+      <text class="edge-label" x="783" y="487">No</text>
+      <text class="edge-label" x="657" y="380">Sí</text>
+      <text class="edge-label" x="550" y="288">No</text>
+      <text class="edge-label" x="248" y="488">Contacto directo</text>
+      <text class="edge-label" x="474" y="195">Casa no disponible</text>
+      <text class="edge-label" x="635" y="30">Agendar directamente</text>
+
+    </svg>
+  </div>
+  <div class="legend" aria-label="Leyenda">
+    <span style="--swatch: var(--input)">Entrada de datos</span>
+    <span style="--swatch: var(--process)">Exploración o acción</span>
+    <span style="--swatch: var(--storage)">Registro o confirmación</span>
+    <span style="--swatch: var(--external)">Cálculo o atención</span>
+    <span style="--swatch: var(--risk)">Caso alternativo</span>
+  </div>
+</main>

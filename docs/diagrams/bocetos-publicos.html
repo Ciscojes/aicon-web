@@ -1,0 +1,191 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aicon — Bocetos públicos</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f8fafc;
+    --fg: #172033;
+    --muted: #5b6475;
+    --line: #64748b;
+    --neutral: #e2e8f0;
+    --input: #bfdbfe;
+    --process: #c7d2fe;
+    --storage: #99f6e4;
+    --external: #fde68a;
+    --white: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a;
+      --fg: #e5e7eb;
+      --muted: #a3adbd;
+      --line: #94a3b8;
+      --neutral: #334155;
+      --input: #1d4ed8;
+      --process: #4338ca;
+      --storage: #0f766e;
+      --external: #92400e;
+      --white: #172033;
+    }
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 14px/1.4 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  main { max-width: 1480px; margin: 32px auto; padding: 0 20px 40px; }
+  h1 { margin: 0 0 6px; font-size: 25px; }
+  p { margin: 0 0 24px; color: var(--muted); }
+  .frame { overflow-x: auto; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+  svg { width: 1400px; height: auto; display: block; }
+  .screen { fill: var(--white); stroke: var(--line); stroke-width: 1.5; rx: 14; }
+  .bar, .placeholder { fill: var(--neutral); stroke: var(--line); stroke-width: 1; }
+  .input { fill: var(--input); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .primary { fill: var(--process); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .success { fill: var(--storage); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .notice { fill: var(--external); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .title { font-size: 18px; font-weight: 700; fill: var(--fg); }
+  .label { font-size: 13px; font-weight: 650; fill: var(--fg); }
+  .small { font-size: 11px; fill: var(--muted); }
+  .center { text-anchor: middle; }
+  .line { stroke: var(--line); stroke-width: 1; fill: none; }
+  .dashed { stroke: var(--line); stroke-width: 1; fill: none; stroke-dasharray: 5 4; }
+</style>
+<main>
+  <h1>Bocetos públicos de baja fidelidad</h1>
+  <p>Aicon Edificadora S.A. · SPEC-009 · La distribución se revisa antes del diseño visual.</p>
+  <div class="frame">
+    <svg viewBox="0 0 1400 1050" role="img" aria-labelledby="wire-title wire-desc">
+      <title id="wire-title">Seis bocetos de las pantallas públicas de Aicon</title>
+      <desc id="wire-desc">Portada, catálogo, detalle de casa, cotización, registro y calendario de visitas presentados como esquemas de baja fidelidad.</desc>
+
+      <!-- Pantalla 1: Portada -->
+      <rect class="screen" x="20" y="40" width="430" height="450" />
+      <text class="title" x="44" y="26">1. Portada</text>
+      <rect class="bar" x="44" y="64" width="382" height="40" />
+      <text class="label" x="60" y="89">AICON</text>
+      <text class="small" x="284" y="89">Condominios · Casas · Nosotros</text>
+      <rect class="placeholder" x="44" y="120" width="382" height="150" />
+      <text class="small center" x="235" y="185">IMAGEN PRINCIPAL PROVISIONAL</text>
+      <text class="label center" x="235" y="211">Construimos espacios para vivir tu futuro</text>
+      <rect class="primary" x="82" y="226" width="142" height="28" />
+      <text class="small center" x="153" y="244">Explorar casas</text>
+      <rect class="input" x="236" y="226" width="152" height="28" />
+      <text class="small center" x="312" y="244">Hablar con asesor</text>
+      <rect class="input" x="44" y="286" width="382" height="58" />
+      <text class="label" x="60" y="308">Buscar casas</text>
+      <text class="small" x="60" y="328">Condominio · Precio · Habitaciones · Buscar</text>
+      <text class="label" x="44" y="372">Condominios destacados</text>
+      <rect class="placeholder" x="44" y="388" width="118" height="72" />
+      <rect class="placeholder" x="176" y="388" width="118" height="72" />
+      <rect class="placeholder" x="308" y="388" width="118" height="72" />
+
+      <!-- Pantalla 2: Catálogo -->
+      <rect class="screen" x="485" y="40" width="430" height="450" />
+      <text class="title" x="509" y="26">2. Catálogo</text>
+      <rect class="bar" x="509" y="64" width="382" height="40" />
+      <text class="label" x="525" y="89">AICON</text>
+      <text class="label" x="509" y="137">Casas disponibles</text>
+      <text class="small" x="509" y="157">Se muestran todas por defecto</text>
+      <rect class="input" x="509" y="174" width="382" height="48" />
+      <text class="small" x="525" y="203">Condominio · Precio · Habitaciones · Estado</text>
+      <rect class="placeholder" x="509" y="240" width="178" height="92" />
+      <rect class="placeholder" x="713" y="240" width="178" height="92" />
+      <text class="label" x="509" y="352">Casa A-01 · $125,000</text>
+      <text class="small" x="509" y="371">3 hab · 2 baños · Disponible</text>
+      <text class="label" x="713" y="352">Casa B-04 · $145,000</text>
+      <text class="small" x="713" y="371">4 hab · 3 baños · Disponible</text>
+      <rect class="primary" x="509" y="392" width="178" height="34" />
+      <text class="small center" x="598" y="413">Ver casa</text>
+      <rect class="primary" x="713" y="392" width="178" height="34" />
+      <text class="small center" x="802" y="413">Ver casa</text>
+      <text class="small center" x="700" y="462">Más resultados</text>
+
+      <!-- Pantalla 3: Detalle -->
+      <rect class="screen" x="950" y="40" width="430" height="450" />
+      <text class="title" x="974" y="26">3. Detalle de casa</text>
+      <rect class="bar" x="974" y="64" width="382" height="40" />
+      <text class="label" x="990" y="89">AICON</text>
+      <rect class="placeholder" x="974" y="120" width="235" height="145" />
+      <rect class="placeholder" x="1223" y="120" width="133" height="66" />
+      <rect class="placeholder" x="1223" y="199" width="133" height="66" />
+      <text class="label" x="974" y="294">Casa A-01 · Condominio Los Robles</text>
+      <text class="label" x="974" y="318">$125,000 · Disponible</text>
+      <text class="small" x="974" y="342">3 habitaciones · 2 baños · 2 estacionamientos</text>
+      <text class="small" x="974" y="363">Descripción, áreas, acabados y amenidades</text>
+      <rect class="primary" x="974" y="386" width="112" height="38" />
+      <text class="small center" x="1030" y="409">Cotizar</text>
+      <rect class="success" x="1096" y="386" width="126" height="38" />
+      <text class="small center" x="1159" y="409">Agendar visita</text>
+      <rect class="input" x="1232" y="386" width="124" height="38" />
+      <text class="small center" x="1294" y="409">Hablar con asesor</text>
+      <rect class="notice" x="974" y="440" width="382" height="28" />
+      <text class="small center" x="1165" y="458">El crédito y avalúo dependen del banco</text>
+
+      <!-- Pantalla 4: Cotización -->
+      <rect class="screen" x="20" y="570" width="430" height="450" />
+      <text class="title" x="44" y="556">4. Cotización estimada</text>
+      <text class="label" x="44" y="608">Casa A-01 · $125,000</text>
+      <text class="small" x="44" y="632">Prima</text>
+      <rect class="input" x="44" y="642" width="174" height="38" />
+      <text class="small" x="60" y="666">$12,500</text>
+      <text class="small" x="240" y="632">Plazo</text>
+      <rect class="input" x="240" y="642" width="186" height="38" />
+      <text class="small" x="256" y="666">20 años</text>
+      <text class="small" x="44" y="708">Tasa utilizada</text>
+      <rect class="input" x="44" y="718" width="382" height="38" />
+      <text class="small" x="60" y="742">Valor configurable</text>
+      <rect class="external notice" x="44" y="778" width="382" height="80" />
+      <text class="label" x="60" y="806">Cuota mensual estimada</text>
+      <text class="label" x="60" y="834">$ —</text>
+      <text class="small" x="44" y="882">Simulación informativa; condiciones sujetas al banco.</text>
+      <rect class="primary" x="44" y="906" width="184" height="42" />
+      <text class="small center" x="136" y="931">Solicitar cotización</text>
+      <rect class="success" x="242" y="906" width="184" height="42" />
+      <text class="small center" x="334" y="931">Agendar visita</text>
+      <text class="small center" x="235" y="983">También puede continuar sin agendar</text>
+
+      <!-- Pantalla 5: Registro -->
+      <rect class="screen" x="485" y="570" width="430" height="450" />
+      <text class="title" x="509" y="556">5. Datos del interesado</text>
+      <text class="label" x="509" y="608">¿Cómo podemos contactarle?</text>
+      <text class="small" x="509" y="641">Nombre *</text>
+      <rect class="input" x="509" y="651" width="382" height="38" />
+      <text class="small" x="509" y="718">Teléfono con código de país *</text>
+      <rect class="input" x="509" y="728" width="382" height="38" />
+      <text class="small" x="509" y="795">Correo para agenda y recordatorios</text>
+      <rect class="input" x="509" y="805" width="382" height="38" />
+      <rect class="input" x="509" y="866" width="18" height="18" />
+      <text class="small" x="540" y="879">Acepto avisos de esta solicitud y de mi cita</text>
+      <rect class="primary" x="509" y="910" width="382" height="42" />
+      <text class="label center" x="700" y="936">Continuar</text>
+      <text class="small center" x="700" y="980">Los datos se reutilizan en el siguiente paso</text>
+
+      <!-- Pantalla 6: Calendario -->
+      <rect class="screen" x="950" y="570" width="430" height="450" />
+      <text class="title" x="974" y="556">6. Calendario y confirmación</text>
+      <rect class="notice" x="974" y="596" width="382" height="52" />
+      <text class="label" x="990" y="618">Casa A-01</text>
+      <text class="small" x="990" y="637">Condominio Los Robles · visita de 60 minutos</text>
+      <text class="small" x="974" y="678">Seleccione una fecha disponible</text>
+      <rect class="input" x="974" y="691" width="382" height="110" />
+      <text class="small center" x="1165" y="721">Lun · Mar · Mié · Jue · Vie · Sáb</text>
+      <text class="label center" x="1165" y="759">12  13  14  15  16  17</text>
+      <text class="small center" x="1165" y="783">Solo días habilitados</text>
+      <text class="small" x="974" y="829">Horarios disponibles</text>
+      <rect class="input" x="974" y="842" width="112" height="36" />
+      <rect class="success" x="1096" y="842" width="112" height="36" />
+      <rect class="input" x="1218" y="842" width="138" height="36" />
+      <text class="small center" x="1030" y="865">9:00 a. m.</text>
+      <text class="small center" x="1152" y="865">10:30 a. m.</text>
+      <text class="small center" x="1287" y="865">1:00 p. m.</text>
+      <rect class="primary" x="974" y="902" width="382" height="42" />
+      <text class="label center" x="1165" y="928">Confirmar visita</text>
+      <text class="small center" x="1165" y="970">Avisos por correo y WhatsApp</text>
+      <text class="small center" x="1165" y="990">Recordatorios 24 h y 2 h antes</text>
+    </svg>
+  </div>
+</main>

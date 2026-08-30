@@ -1,0 +1,2 @@
+-- La Entrega 0 no crea usuarios ni credenciales de ejemplo.
+-- Consulta README.md para habilitar el primer administrador de forma segura.

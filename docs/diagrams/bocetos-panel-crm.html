@@ -1,0 +1,233 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aicon — Bocetos del panel y CRM</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f8fafc;
+    --fg: #172033;
+    --muted: #5b6475;
+    --line: #64748b;
+    --neutral: #e2e8f0;
+    --input: #bfdbfe;
+    --process: #c7d2fe;
+    --storage: #99f6e4;
+    --external: #fde68a;
+    --risk: #fecaca;
+    --white: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a;
+      --fg: #e5e7eb;
+      --muted: #a3adbd;
+      --line: #94a3b8;
+      --neutral: #334155;
+      --input: #1d4ed8;
+      --process: #4338ca;
+      --storage: #0f766e;
+      --external: #92400e;
+      --risk: #991b1b;
+      --white: #172033;
+    }
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.4 ui-sans-serif, system-ui, sans-serif; }
+  main { max-width: 1480px; margin: 32px auto; padding: 0 20px 40px; }
+  h1 { margin: 0 0 6px; font-size: 25px; }
+  p { margin: 0 0 24px; color: var(--muted); }
+  .frame { overflow-x: auto; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+  svg { width: 1400px; height: auto; display: block; }
+  .screen { fill: var(--white); stroke: var(--line); stroke-width: 1.5; rx: 14; }
+  .sidebar, .bar, .placeholder { fill: var(--neutral); stroke: var(--line); stroke-width: 1; }
+  .input { fill: var(--input); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .primary { fill: var(--process); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .success { fill: var(--storage); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .notice { fill: var(--external); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .risk { fill: var(--risk); stroke: var(--line); stroke-width: 1; rx: 5; }
+  .title { font-size: 18px; font-weight: 700; fill: var(--fg); }
+  .label { font-size: 13px; font-weight: 650; fill: var(--fg); }
+  .small { font-size: 11px; fill: var(--muted); }
+  .center { text-anchor: middle; }
+  .line { stroke: var(--line); stroke-width: 1; fill: none; }
+</style>
+<main>
+  <h1>Bocetos del panel administrativo y CRM</h1>
+  <p>Aicon Edificadora S.A. · SPEC-012 · Estructura interna de baja fidelidad.</p>
+  <div class="frame">
+    <svg viewBox="0 0 1400 1080" role="img" aria-labelledby="admin-title admin-desc">
+      <title id="admin-title">Seis bocetos del panel administrativo y CRM de Aicon</title>
+      <desc id="admin-desc">Resumen, propiedades, editor de casa, embudo CRM, detalle de cliente y agenda de visitas.</desc>
+
+      <!-- 1. Resumen -->
+      <text class="title" x="34" y="28">1. Resumen administrativo</text>
+      <rect class="screen" x="20" y="44" width="430" height="460" />
+      <rect class="sidebar" x="44" y="68" width="92" height="412" />
+      <text class="label" x="60" y="94">AICON</text>
+      <text class="small" x="60" y="132">Resumen</text>
+      <text class="small" x="60" y="158">Propiedades</text>
+      <text class="small" x="60" y="184">CRM</text>
+      <text class="small" x="60" y="210">Citas</text>
+      <text class="small" x="60" y="236">Configuración</text>
+      <text class="label" x="158" y="94">Buenos días</text>
+      <rect class="success" x="158" y="116" width="78" height="70" />
+      <rect class="notice" x="248" y="116" width="78" height="70" />
+      <rect class="input" x="338" y="116" width="88" height="70" />
+      <text class="small center" x="197" y="140">Disponibles</text>
+      <text class="label center" x="197" y="166">18</text>
+      <text class="small center" x="287" y="140">Nuevos</text>
+      <text class="label center" x="287" y="166">7</text>
+      <text class="small center" x="382" y="140">Visitas hoy</text>
+      <text class="label center" x="382" y="166">3</text>
+      <text class="label" x="158" y="222">Requieren atención</text>
+      <rect class="risk" x="158" y="238" width="268" height="56" />
+      <text class="small" x="174" y="261">2 clientes sin asignar</text>
+      <text class="small" x="174" y="280">1 recordatorio fallido</text>
+      <text class="label" x="158" y="328">Próximas visitas</text>
+      <rect class="placeholder" x="158" y="344" width="268" height="84" />
+      <text class="small" x="174" y="368">10:30 · María · Casa A-01</text>
+      <text class="small" x="174" y="391">1:00 · Carlos · Casa B-04</text>
+      <rect class="primary" x="158" y="440" width="126" height="32" />
+      <text class="small center" x="221" y="460">Agregar casa</text>
+
+      <!-- 2. Propiedades -->
+      <text class="title" x="499" y="28">2. Propiedades</text>
+      <rect class="screen" x="485" y="44" width="430" height="460" />
+      <rect class="sidebar" x="509" y="68" width="92" height="412" />
+      <text class="label" x="525" y="94">AICON</text>
+      <text class="small" x="525" y="132">Resumen</text>
+      <text class="label" x="525" y="158">Propiedades</text>
+      <text class="small" x="525" y="184">CRM</text>
+      <text class="small" x="525" y="210">Citas</text>
+      <text class="label" x="623" y="94">Casas y modelos</text>
+      <rect class="primary" x="795" y="74" width="96" height="34" />
+      <text class="small center" x="843" y="95">Agregar casa</text>
+      <rect class="input" x="623" y="124" width="268" height="42" />
+      <text class="small" x="639" y="149">Condominio · Estado · Publicación</text>
+      <rect class="bar" x="623" y="184" width="268" height="34" />
+      <text class="small" x="639" y="205">Casa         Precio       Estado</text>
+      <rect class="placeholder" x="623" y="218" width="268" height="54" />
+      <text class="small" x="639" y="241">A-01          $125k        Disponible</text>
+      <text class="small" x="639" y="259">Los Robles · Modelo Cedro · Publicada</text>
+      <rect class="placeholder" x="623" y="272" width="268" height="54" />
+      <text class="small" x="639" y="295">A-02          $128k        Reservada</text>
+      <text class="small" x="639" y="313">Los Robles · Modelo Cedro · Publicada</text>
+      <rect class="placeholder" x="623" y="326" width="268" height="54" />
+      <text class="small" x="639" y="349">B-01          $145k        Disponible</text>
+      <text class="small" x="639" y="367">Diseño único · Borrador</text>
+      <rect class="input" x="623" y="402" width="86" height="32" />
+      <text class="small center" x="666" y="422">Editar</text>
+      <rect class="input" x="719" y="402" width="86" height="32" />
+      <text class="small center" x="762" y="422">Previsualizar</text>
+
+      <!-- 3. Editor -->
+      <text class="title" x="964" y="28">3. Editor de casa</text>
+      <rect class="screen" x="950" y="44" width="430" height="460" />
+      <rect class="sidebar" x="974" y="68" width="92" height="412" />
+      <text class="label" x="990" y="94">AICON</text>
+      <text class="label" x="1088" y="94">Editar Casa A-01</text>
+      <text class="small" x="1088" y="120">General · Características · Fotos · Publicación</text>
+      <text class="small" x="1088" y="154">Condominio *</text>
+      <rect class="input" x="1088" y="164" width="268" height="34" />
+      <text class="small" x="1104" y="185">Los Robles</text>
+      <text class="small" x="1088" y="224">Modelo o diseño único *</text>
+      <rect class="input" x="1088" y="234" width="268" height="34" />
+      <text class="small" x="1104" y="255">Modelo Cedro</text>
+      <text class="small" x="1088" y="294">Precio USD *              Estado *</text>
+      <rect class="input" x="1088" y="304" width="126" height="34" />
+      <rect class="input" x="1230" y="304" width="126" height="34" />
+      <text class="small" x="1104" y="325">125,000</text>
+      <text class="small" x="1246" y="325">Disponible</text>
+      <rect class="placeholder" x="1088" y="356" width="268" height="54" />
+      <text class="small center" x="1222" y="386">Arrastrar o seleccionar fotografías</text>
+      <rect class="input" x="1088" y="430" width="78" height="34" />
+      <rect class="input" x="1178" y="430" width="86" height="34" />
+      <rect class="primary" x="1276" y="430" width="80" height="34" />
+      <text class="small center" x="1127" y="451">Borrador</text>
+      <text class="small center" x="1221" y="451">Previsualizar</text>
+      <text class="small center" x="1316" y="451">Publicar</text>
+
+      <!-- 4. Embudo CRM -->
+      <text class="title" x="34" y="558">4. Embudo CRM</text>
+      <rect class="screen" x="20" y="574" width="430" height="460" />
+      <rect class="sidebar" x="44" y="598" width="92" height="412" />
+      <text class="label" x="60" y="624">AICON</text>
+      <text class="label" x="158" y="624">Oportunidades</text>
+      <rect class="input" x="158" y="642" width="268" height="36" />
+      <text class="small" x="174" y="664">Asesor · Condominio · Fecha</text>
+      <text class="small center" x="202" y="712">Nuevo</text>
+      <text class="small center" x="291" y="712">Contactado</text>
+      <text class="small center" x="380" y="712">Visita</text>
+      <rect class="notice" x="158" y="726" width="82" height="96" />
+      <rect class="input" x="248" y="726" width="82" height="96" />
+      <rect class="success" x="338" y="726" width="88" height="96" />
+      <text class="small" x="170" y="750">María</text>
+      <text class="small" x="170" y="768">Casa A-01</text>
+      <text class="small" x="170" y="788">Sin asesor</text>
+      <text class="small" x="260" y="750">Carlos</text>
+      <text class="small" x="260" y="768">Casa B-04</text>
+      <text class="small" x="350" y="750">Ana</text>
+      <text class="small" x="350" y="768">Casa A-02</text>
+      <rect class="notice" x="158" y="836" width="82" height="76" />
+      <text class="small" x="170" y="860">Luis</text>
+      <text class="small" x="170" y="878">Los Robles</text>
+      <text class="label" x="158" y="952">Próxima acción visible en cada tarjeta</text>
+      <text class="small" x="158" y="974">Cambiar etapa mediante botón o arrastre opcional</text>
+
+      <!-- 5. Detalle del cliente -->
+      <text class="title" x="499" y="558">5. Detalle del cliente</text>
+      <rect class="screen" x="485" y="574" width="430" height="460" />
+      <rect class="sidebar" x="509" y="598" width="92" height="412" />
+      <text class="label" x="525" y="624">AICON</text>
+      <text class="label" x="623" y="624">María Rodríguez</text>
+      <text class="small" x="623" y="646">+506 8888 8888 · correo@ejemplo.com</text>
+      <rect class="success" x="623" y="664" width="126" height="34" />
+      <text class="small center" x="686" y="685">Visita programada</text>
+      <rect class="input" x="761" y="664" width="130" height="34" />
+      <text class="small center" x="826" y="685">Asesor: Daniel</text>
+      <text class="label" x="623" y="730">Interés</text>
+      <rect class="notice" x="623" y="744" width="268" height="52" />
+      <text class="small" x="639" y="766">Casa A-01 · Los Robles · $125,000</text>
+      <text class="small" x="639" y="784">Origen: formulario de cotización</text>
+      <text class="label" x="623" y="830">Historial</text>
+      <path class="line" d="M638 850 V942" />
+      <circle cx="638" cy="864" r="4" fill="var(--line)" />
+      <circle cx="638" cy="900" r="4" fill="var(--line)" />
+      <circle cx="638" cy="936" r="4" fill="var(--line)" />
+      <text class="small" x="652" y="868">Solicitó cotización</text>
+      <text class="small" x="652" y="904">Asesor llamó y agregó nota</text>
+      <text class="small" x="652" y="940">Visita: jueves 10:30</text>
+      <rect class="primary" x="623" y="962" width="82" height="34" />
+      <text class="small center" x="664" y="983">Agregar nota</text>
+      <rect class="input" x="717" y="962" width="82" height="34" />
+      <text class="small center" x="758" y="983">Agendar</text>
+
+      <!-- 6. Agenda -->
+      <text class="title" x="964" y="558">6. Agenda de visitas</text>
+      <rect class="screen" x="950" y="574" width="430" height="460" />
+      <rect class="sidebar" x="974" y="598" width="92" height="412" />
+      <text class="label" x="990" y="624">AICON</text>
+      <text class="label" x="1088" y="624">Semana del 12 al 17</text>
+      <rect class="input" x="1088" y="642" width="268" height="36" />
+      <text class="small" x="1104" y="664">Asesor · Casa · Estado</text>
+      <rect class="bar" x="1088" y="696" width="268" height="42" />
+      <text class="small center" x="1132" y="721">Lun</text>
+      <text class="small center" x="1192" y="721">Mar</text>
+      <text class="small center" x="1252" y="721">Mié</text>
+      <text class="small center" x="1312" y="721">Jue</text>
+      <path class="line" d="M1088 738 H1356 V934 H1088 Z M1148 738 V934 M1208 738 V934 M1268 738 V934 M1328 738 V934 M1088 804 H1356 M1088 870 H1356" />
+      <rect class="success" x="1276" y="752" width="44" height="44" />
+      <text class="small center" x="1298" y="771">10:30</text>
+      <text class="small center" x="1298" y="787">María</text>
+      <rect class="notice" x="1156" y="818" width="44" height="44" />
+      <text class="small center" x="1178" y="837">1:00</text>
+      <text class="small center" x="1178" y="853">Carlos</text>
+      <rect class="risk" x="1096" y="884" width="44" height="36" />
+      <text class="small center" x="1118" y="906">Bloqueo</text>
+      <rect class="primary" x="1088" y="954" width="126" height="34" />
+      <text class="small center" x="1151" y="975">Nueva cita</text>
+      <rect class="input" x="1226" y="954" width="130" height="34" />
+      <text class="small center" x="1291" y="975">Bloquear horario</text>
+    </svg>
+  </div>
+</main>

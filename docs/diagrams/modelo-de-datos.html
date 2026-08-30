@@ -1,0 +1,199 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aicon — Modelo lógico de datos</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f8fafc;
+    --fg: #172033;
+    --muted: #5b6475;
+    --line: #64748b;
+    --neutral: #e2e8f0;
+    --input: #bfdbfe;
+    --process: #c7d2fe;
+    --storage: #99f6e4;
+    --external: #fde68a;
+    --white: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a;
+      --fg: #e5e7eb;
+      --muted: #a3adbd;
+      --line: #94a3b8;
+      --neutral: #334155;
+      --input: #1d4ed8;
+      --process: #4338ca;
+      --storage: #0f766e;
+      --external: #92400e;
+      --white: #172033;
+    }
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.4 ui-sans-serif, system-ui, sans-serif; }
+  main { max-width: 1320px; margin: 32px auto; padding: 0 20px 40px; }
+  h1 { margin: 0 0 6px; font-size: 25px; }
+  p { margin: 0 0 24px; color: var(--muted); }
+  .frame { overflow-x: auto; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+  svg { width: 1240px; height: auto; display: block; }
+  .zone { fill: none; stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 7 5; rx: 16; }
+  .entity { stroke: var(--line); stroke-width: 1.2; rx: 10; }
+  .catalog { fill: var(--storage); }
+  .sales { fill: var(--process); }
+  .people { fill: var(--input); }
+  .operations { fill: var(--external); }
+  .support { fill: var(--neutral); }
+  .relation { stroke: var(--line); stroke-width: 1.6; fill: none; }
+  .title { font-size: 18px; font-weight: 700; fill: var(--fg); }
+  .label { font-size: 14px; font-weight: 700; fill: var(--fg); text-anchor: middle; }
+  .field { font-size: 11px; fill: var(--muted); text-anchor: middle; }
+  .zone-label { font-size: 12px; font-weight: 700; fill: var(--muted); }
+  .cardinality { font-size: 11px; font-weight: 650; fill: var(--muted); text-anchor: middle; }
+</style>
+<main>
+  <h1>Modelo lógico de datos</h1>
+  <p>Aicon Edificadora S.A. · SPEC-014 · Modelo lógico aprobado</p>
+  <div class="frame">
+    <svg viewBox="0 0 1240 1040" role="img" aria-labelledby="data-title data-desc">
+      <title id="data-title">Modelo lógico de datos para Aicon</title>
+      <desc id="data-desc">Dos vistas muestran las relaciones principales del catálogo y las ventas, y después las citas, actividades y notificaciones.</desc>
+
+      <!-- Relaciones: catálogo y ventas -->
+      <path class="relation" d="M250 165 H330" />
+      <path class="relation" d="M550 165 H630" />
+      <path class="relation" d="M140 230 V275 H740 V230" />
+      <path class="relation" d="M850 165 H990" />
+      <path class="relation" d="M250 415 H330" />
+      <path class="relation" d="M550 415 H630" />
+      <path class="relation" d="M1040 350 V300 H440 V350" />
+      <path class="relation" d="M550 440 H590 V215 H630" />
+
+      <!-- Relaciones: operación -->
+      <path class="relation" d="M250 725 H330" />
+      <path class="relation" d="M440 660 V645 H1040 V660" />
+      <path class="relation" d="M140 790 V835 H440 V790" />
+      <path class="relation" d="M250 925 H330" />
+      <path class="relation" d="M140 860 V825 H440 V790" />
+      <path class="relation" d="M140 990 V1005 H740 V790" />
+
+      <!-- Zonas -->
+      <rect class="zone" x="20" y="50" width="1200" height="500" />
+      <text class="zone-label" x="40" y="76">VISTA 1 · CATÁLOGO Y PROCESO COMERCIAL</text>
+      <rect class="zone" x="20" y="600" width="1200" height="420" />
+      <text class="zone-label" x="40" y="626">VISTA 2 · CITAS, SEGUIMIENTO Y OPERACIÓN</text>
+
+      <!-- Entidades superiores -->
+      <rect class="entity catalog" x="30" y="100" width="220" height="130" />
+      <text class="label" x="140" y="128">Condominio</text>
+      <text class="field" x="140" y="153">id · nombre · slug</text>
+      <text class="field" x="140" y="174">ubicación · publicación</text>
+      <text class="field" x="140" y="195">archivado · fechas</text>
+
+      <rect class="entity catalog" x="330" y="100" width="220" height="130" />
+      <text class="label" x="440" y="128">Modelo de casa</text>
+      <text class="field" x="440" y="153">id · nombre · descripción</text>
+      <text class="field" x="440" y="174">áreas · habitaciones</text>
+      <text class="field" x="440" y="195">características</text>
+
+      <rect class="entity catalog" x="630" y="100" width="220" height="130" />
+      <text class="label" x="740" y="128">Unidad</text>
+      <text class="field" x="740" y="153">condominio_id · modelo_id?</text>
+      <text class="field" x="740" y="174">código · precio USD</text>
+      <text class="field" x="740" y="195">disponibilidad · publicación</text>
+
+      <rect class="entity support" x="990" y="100" width="220" height="130" />
+      <text class="label" x="1100" y="128">Fotografías</text>
+      <text class="field" x="1100" y="153">ruta · texto alternativo</text>
+      <text class="field" x="1100" y="174">orden · portada</text>
+      <text class="field" x="1100" y="195">vínculos por tipo</text>
+
+      <rect class="entity people" x="30" y="350" width="220" height="130" />
+      <text class="label" x="140" y="378">Contacto</text>
+      <text class="field" x="140" y="403">nombre · teléfono · correo</text>
+      <text class="field" x="140" y="424">origen · consentimientos</text>
+      <text class="field" x="140" y="445">archivado · fechas</text>
+
+      <rect class="entity sales" x="330" y="350" width="220" height="130" />
+      <text class="label" x="440" y="378">Oportunidad</text>
+      <text class="field" x="440" y="403">contacto_id · unidad_id?</text>
+      <text class="field" x="440" y="424">asesor_id? · etapa</text>
+      <text class="field" x="440" y="445">próxima acción · cierre</text>
+
+      <rect class="entity sales" x="630" y="350" width="220" height="130" />
+      <text class="label" x="740" y="378">Cotización</text>
+      <text class="field" x="740" y="403">oportunidad_id · unidad_id</text>
+      <text class="field" x="740" y="424">precio · prima · tasa · plazo</text>
+      <text class="field" x="740" y="445">cuota estimada · fecha</text>
+
+      <rect class="entity people" x="930" y="350" width="220" height="130" />
+      <text class="label" x="1040" y="378">Usuario interno</text>
+      <text class="field" x="1040" y="403">auth_user_id · nombre</text>
+      <text class="field" x="1040" y="424">rol · activo</text>
+      <text class="field" x="1040" y="445">correo · teléfono</text>
+
+      <!-- Cardinalidades superiores -->
+      <text class="cardinality" x="290" y="155">N : N mediante vínculo</text>
+      <text class="cardinality" x="590" y="155">1 : N</text>
+      <text class="cardinality" x="290" y="405">1 : N</text>
+      <text class="cardinality" x="590" y="405">1 : N</text>
+      <text class="cardinality" x="590" y="258">1 : N</text>
+      <text class="cardinality" x="970" y="155">N : N</text>
+
+      <!-- Entidades inferiores -->
+      <rect class="entity sales" x="30" y="660" width="220" height="130" />
+      <text class="label" x="140" y="688">Oportunidad</text>
+      <text class="field" x="140" y="713">contexto comercial</text>
+      <text class="field" x="140" y="734">cliente · casa · asesor</text>
+      <text class="field" x="140" y="755">etapa · próxima acción</text>
+
+      <rect class="entity operations" x="330" y="660" width="220" height="130" />
+      <text class="label" x="440" y="688">Cita</text>
+      <text class="field" x="440" y="713">oportunidad · unidad · asesor</text>
+      <text class="field" x="440" y="734">inicio · fin · estado</text>
+      <text class="field" x="440" y="755">cancelación · fechas</text>
+
+      <rect class="entity operations" x="630" y="660" width="220" height="130" />
+      <text class="label" x="740" y="688">Disponibilidad</text>
+      <text class="field" x="740" y="713">asesor · día semanal</text>
+      <text class="field" x="740" y="734">inicio · fin · activo</text>
+      <text class="field" x="740" y="755">bloqueos y excepciones</text>
+
+      <rect class="entity operations" x="930" y="660" width="220" height="130" />
+      <text class="label" x="1040" y="688">Notificación</text>
+      <text class="field" x="1040" y="713">cita · contacto · canal</text>
+      <text class="field" x="1040" y="734">fecha programada · estado</text>
+      <text class="field" x="1040" y="755">intentos · resultado</text>
+
+      <rect class="entity people" x="30" y="860" width="220" height="130" />
+      <text class="label" x="140" y="888">Usuario interno</text>
+      <text class="field" x="140" y="913">asesor o administrador</text>
+      <text class="field" x="140" y="934">rol · permisos</text>
+      <text class="field" x="140" y="955">activo · fechas</text>
+
+      <rect class="entity sales" x="330" y="860" width="220" height="130" />
+      <text class="label" x="440" y="888">Actividad</text>
+      <text class="field" x="440" y="913">oportunidad · autor · tipo</text>
+      <text class="field" x="440" y="934">contenido · fecha</text>
+      <text class="field" x="440" y="955">nota · llamada · cambio</text>
+
+      <rect class="entity support" x="630" y="860" width="220" height="130" />
+      <text class="label" x="740" y="888">Configuración</text>
+      <text class="field" x="740" y="913">categoría · valor</text>
+      <text class="field" x="740" y="934">vigencia · responsable</text>
+      <text class="field" x="740" y="955">finanzas · citas · contacto</text>
+
+      <rect class="entity support" x="930" y="860" width="220" height="130" />
+      <text class="label" x="1040" y="888">Auditoría</text>
+      <text class="field" x="1040" y="913">autor · entidad · acción</text>
+      <text class="field" x="1040" y="934">cambios · fecha</text>
+      <text class="field" x="1040" y="955">sin secretos</text>
+
+      <!-- Cardinalidades inferiores -->
+      <text class="cardinality" x="290" y="715">1 : N</text>
+      <text class="cardinality" x="740" y="637">1 cita : N avisos</text>
+      <text class="cardinality" x="290" y="915">1 : N</text>
+      <text class="cardinality" x="290" y="825">1 : N actividades</text>
+      <text class="cardinality" x="500" y="1019">1 asesor : N horarios</text>
+    </svg>
+  </div>
+</main>
