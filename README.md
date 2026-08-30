@@ -3,6 +3,8 @@
 Sitio público, panel administrativo y CRM de Aicon Edificadora. La base técnica
 es Next.js 16, TypeScript y Supabase, organizada como un monolito modular.
 
+El avance por entregas se registra en [docs/STATUS.md](docs/STATUS.md).
+
 ## Requisitos
 
 - Node.js 22.23.1 (registrado en `.nvmrc` y `.node-version`).
