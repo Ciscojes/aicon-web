@@ -16,6 +16,10 @@ Implementado:
 
 - Listado administrativo de condominios no archivados.
 - Creación de condominios como borrador.
+- Edición de nombre, URL, dirección y descripción.
+- Publicación con validación de contenido mínimo.
+- Ocultamiento reversible de proyectos publicados.
+- Archivado confirmado sin eliminación física.
 - Generación y validación de la URL pública.
 - Autorización para administradores y editores tanto en la página como en la
   Server Action.
@@ -24,8 +28,8 @@ Implementado:
 
 Siguiente sección vertical:
 
-- Edición, ocultamiento y archivado de condominios.
-- Después: modelos reutilizables y unidades.
+- Administración de modelos reutilizables.
+- Después: unidades, medios y catálogo público.
 
 ## Verificación
 

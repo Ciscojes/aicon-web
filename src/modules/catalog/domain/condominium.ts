@@ -16,6 +16,11 @@ export type CondominiumSummary = {
   slug: string;
 };
 
+export type CondominiumDetails = CondominiumSummary & {
+  description: string;
+  publishedAt: string | null;
+};
+
 export function createCondominiumSlug(value: string): string {
   return value
     .normalize("NFD")

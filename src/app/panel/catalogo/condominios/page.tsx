@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { listCondominiums } from "@/modules/catalog/infrastructure/condominium-repository";
@@ -16,12 +17,17 @@ const statusLabels = {
   published: "Publicado",
 } as const;
 
-export default async function CondominiumsPage() {
+export default async function CondominiumsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ notice?: string }>;
+}) {
   const profile = await getCurrentProfile();
 
   if (!profile || !canManageCatalog(profile.role)) redirect("/panel");
 
   const condominiums = await listCondominiums();
+  const { notice } = await searchParams;
 
   return (
     <main className="panel-content catalog-page">
@@ -37,6 +43,12 @@ export default async function CondominiumsPage() {
           {condominiums.length} {condominiums.length === 1 ? "registro" : "registros"}
         </span>
       </div>
+
+      {notice ? (
+        <p className="form-success page-notice" role="status">
+          {notice}
+        </p>
+      ) : null}
 
       <div className="catalog-layout">
         <section aria-labelledby="condominiums-title" className="catalog-list-panel">
@@ -55,9 +67,19 @@ export default async function CondominiumsPage() {
                     <p>{condominium.address || "Dirección pendiente"}</p>
                     <code>/{condominium.slug}</code>
                   </div>
-                  <span className={`status-pill status-${condominium.publicationStatus}`}>
-                    {statusLabels[condominium.publicationStatus]}
-                  </span>
+                  <div className="catalog-list-actions">
+                    <span
+                      className={`status-pill status-${condominium.publicationStatus}`}
+                    >
+                      {statusLabels[condominium.publicationStatus]}
+                    </span>
+                    <Link
+                      className="text-link"
+                      href={`/panel/catalogo/condominios/${condominium.id}`}
+                    >
+                      Editar
+                    </Link>
+                  </div>
                 </li>
               ))}
             </ul>

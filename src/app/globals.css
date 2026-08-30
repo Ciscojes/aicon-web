@@ -92,6 +92,19 @@ textarea:focus-visible {
   color: var(--foreground);
 }
 
+.button-danger {
+  background: #8d2525;
+  color: white;
+}
+
+.button-danger:hover:not(:disabled) {
+  background: #681919;
+}
+
+.button-full {
+  width: 100%;
+}
+
 .eyebrow {
   color: var(--accent);
   font-size: 0.76rem;
@@ -415,6 +428,13 @@ textarea:focus-visible {
   margin-top: 0.5rem;
 }
 
+.catalog-list-actions {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
 .status-pill {
   padding: 0.35rem 0.65rem;
 }
@@ -444,6 +464,70 @@ textarea:focus-visible {
 .catalog-form .form-message,
 .catalog-form .form-success {
   grid-column: 1 / -1;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+.editor-heading h1 {
+  font-size: clamp(2.5rem, 6vw, 4.8rem);
+}
+
+.page-notice {
+  margin-top: 1.5rem;
+}
+
+.editor-layout {
+  align-items: start;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.38fr);
+  margin-top: 2rem;
+}
+
+.lifecycle-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.lifecycle-panel h2 {
+  margin: 0;
+}
+
+.lifecycle-panel > form {
+  margin-top: 1.5rem;
+}
+
+.danger-zone {
+  border-top: 1px solid var(--line);
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+
+.danger-zone h3,
+.danger-zone p {
+  margin-top: 0;
+}
+
+.danger-zone p,
+.confirmation-field {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.confirmation-field {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.confirmation-field input {
+  margin-top: 0.2rem;
 }
 
 @media (max-width: 640px) {
@@ -481,8 +565,13 @@ textarea:focus-visible {
   }
 
   .catalog-layout,
-  .catalog-form {
+  .catalog-form,
+  .editor-layout {
     grid-template-columns: 1fr;
+  }
+
+  .catalog-list-actions {
+    align-items: flex-end;
   }
 }
 
