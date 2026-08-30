@@ -8,6 +8,7 @@ import {
 } from "@/app/panel/catalogo/condominios/actions";
 
 import { CondominiumFields } from "./condominium-fields";
+import { FormFeedback } from "./form-feedback";
 
 const initialState: CreateCondominiumState = {};
 
@@ -31,14 +32,7 @@ export function CondominiumForm() {
         values={state.values}
       />
 
-      {state.message && state.success ? (
-        <output className="form-success">{state.message}</output>
-      ) : null}
-      {state.message && !state.success ? (
-        <p className="form-message" role="alert">
-          {state.message}
-        </p>
-      ) : null}
+      <FormFeedback message={state.message} success={state.success} />
 
       <div className="field-wide">
         <button className="button button-primary" disabled={pending} type="submit">
