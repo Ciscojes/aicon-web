@@ -33,9 +33,12 @@ export type UpdateCondominiumState = {
 
 const idSchema = z.uuid();
 
-async function authorizeCatalogAction() {
+async function authorizeCatalogAction(id?: string) {
   const profile = await getCurrentProfile();
   if (!profile || !canManageCatalog(profile.role)) redirect("/panel");
+  if (id !== undefined && !idSchema.safeParse(id).success) {
+    redirect("/panel/catalogo/condominios");
+  }
 }
 
 function editorUrl(id: string, key: "error" | "notice", message: string) {
@@ -48,16 +51,24 @@ function revalidateCondominium(id: string) {
   revalidatePath(`/panel/catalogo/condominios/${id}`);
 }
 
+async function changePublicationStatus(
+  id: string,
+  status: "hidden" | "published",
+  messages: { failure: string; success: string },
+) {
+  const result = await setCondominiumPublicationStatus(id, status);
+  if (!result.success) redirect(editorUrl(id, "error", messages.failure));
+
+  revalidateCondominium(id);
+  redirect(editorUrl(id, "notice", messages.success));
+}
+
 export async function updateCondominium(
   id: string,
   _previousState: UpdateCondominiumState,
   formData: FormData,
 ): Promise<UpdateCondominiumState> {
-  await authorizeCatalogAction();
-
-  if (!idSchema.safeParse(id).success) {
-    return { message: "El identificador del condominio no es válido." };
-  }
+  await authorizeCatalogAction(id);
 
   const values = readCondominiumDraftFormData(formData);
   const validation = validateCondominiumDraft(values);
@@ -80,8 +91,7 @@ export async function updateCondominium(
 }
 
 export async function publishCondominium(id: string) {
-  await authorizeCatalogAction();
-  if (!idSchema.safeParse(id).success) redirect("/panel/catalogo/condominios");
+  await authorizeCatalogAction(id);
 
   const condominium = await getCondominium(id);
   if (!condominium) redirect("/panel/catalogo/condominios");
@@ -97,31 +107,22 @@ export async function publishCondominium(id: string) {
     );
   }
 
-  const result = await setCondominiumPublicationStatus(id, "published");
-  if (!result.success) {
-    redirect(editorUrl(id, "error", "No fue posible publicar el condominio."));
-  }
-
-  revalidateCondominium(id);
-  redirect(editorUrl(id, "notice", "El condominio quedó publicado."));
+  await changePublicationStatus(id, "published", {
+    failure: "No fue posible publicar el condominio.",
+    success: "El condominio quedó publicado.",
+  });
 }
 
 export async function hideCondominium(id: string) {
-  await authorizeCatalogAction();
-  if (!idSchema.safeParse(id).success) redirect("/panel/catalogo/condominios");
-
-  const result = await setCondominiumPublicationStatus(id, "hidden");
-  if (!result.success) {
-    redirect(editorUrl(id, "error", "No fue posible ocultar el condominio."));
-  }
-
-  revalidateCondominium(id);
-  redirect(editorUrl(id, "notice", "El condominio quedó oculto."));
+  await authorizeCatalogAction(id);
+  await changePublicationStatus(id, "hidden", {
+    failure: "No fue posible ocultar el condominio.",
+    success: "El condominio quedó oculto.",
+  });
 }
 
 export async function archiveCondominium(id: string, formData: FormData) {
-  await authorizeCatalogAction();
-  if (!idSchema.safeParse(id).success) redirect("/panel/catalogo/condominios");
+  await authorizeCatalogAction(id);
 
   if (formData.get("confirmArchive") !== "yes") {
     redirect(editorUrl(id, "error", "Confirma el archivado antes de continuar."));
