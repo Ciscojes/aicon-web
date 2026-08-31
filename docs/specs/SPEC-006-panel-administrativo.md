@@ -42,6 +42,8 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 - Los campos obligatorios se validarán antes de publicar.
 - Las operaciones delicadas requerirán confirmación.
 - Las imágenes tendrán formatos y tamaños permitidos.
+- Cada condominio, modelo o unidad admitirá inicialmente hasta 20 fotografías
+  JPEG, PNG, WebP o AVIF de un máximo de 20 MB cada una.
 - Los cambios importantes registrarán usuario y fecha.
 
 ## Criterios de aceptación
@@ -60,7 +62,6 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 ## Preguntas pendientes
 
 - Confirmar si el rol Editor es necesario para el MVP.
-- Definir el tamaño y cantidad máxima de fotografías.
 - Definir si se requiere aprobación del dueño antes de publicar cambios de un editor.
 - Determinar qué configuraciones e indicadores aparecerán en el tablero principal.
 
@@ -68,3 +69,5 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 
 - 2026-08-28: creación de la especificación inicial.
 - 2026-08-28: se añadió la configuración y gestión administrativa de citas.
+- 2026-08-30: se fijaron provisionalmente los formatos y límites de fotografías
+  para el MVP.

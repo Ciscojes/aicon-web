@@ -33,6 +33,10 @@ Implementado:
   disponibilidad.
 - Detalle público de cada casa con precio, estado, características y valores
   específicos que prevalecen sobre el modelo.
+- Carga, orden, portada y retiro confirmado de hasta 20 fotografías por
+  condominio, modelo o unidad mediante Supabase Storage.
+- Herencia visual pública: la unidad prioriza sus fotografías, después las del
+  modelo y finalmente las del condominio.
 - Diseño público adaptable a celulares, con ilustraciones conceptuales
   identificadas como tales mientras se obtienen fotografías reales.
 - Generación y validación de la URL pública.
@@ -43,7 +47,7 @@ Implementado:
 
 Siguiente sección vertical:
 
-- Medios de condominios, modelos y unidades.
+- Detalle público de cada condominio y previsualización administrativa.
 - Después: contacto con asesor y cotización.
 
 ## Verificación

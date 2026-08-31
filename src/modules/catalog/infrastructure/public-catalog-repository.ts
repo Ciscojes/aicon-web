@@ -1,7 +1,7 @@
 import { createClient } from "@/infrastructure/supabase/server";
 
 import type { UnitAvailabilityStatus } from "../domain/house-unit";
-import type { PublicCondominium, PublicProperty } from "../domain/public-property";
+import type { PublicCondominium, PublicImage, PublicProperty } from "../domain/public-property";
 
 type UnitRow = {
   availability_status: UnitAvailabilityStatus;
@@ -31,25 +31,56 @@ type ModelRow = {
   parking_spaces: number | null;
 };
 
+type PublicMediaRow = {
+  display_order: number;
+  is_cover: boolean;
+  media_assets: { alt_text: string; storage_path: string };
+};
+
+const bucket = "property-media";
+function mediaByEntity(rows: unknown[], entityColumn: string, publicUrl: (path: string) => string) {
+  const result = new Map<string, PublicImage[]>();
+  for (const raw of rows as Array<PublicMediaRow & Record<string, string>>) {
+    const entityId = raw[entityColumn];
+    const current = result.get(entityId) ?? [];
+    const image = { altText: raw.media_assets.alt_text, url: publicUrl(raw.media_assets.storage_path) };
+    if (raw.is_cover) current.unshift(image); else current.push(image);
+    result.set(entityId, current);
+  }
+  return result;
+}
+
 const numberOrNull = (value: number | string | null) => value === null ? null : Number(value);
 const strings = (value: unknown) => Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
 
 export async function listPublicCondominiums(): Promise<PublicCondominium[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("condominiums").select("id, slug, name, description, address").eq("publication_status", "published").is("archived_at", null).order("name");
-  if (error) throw new Error("No fue posible cargar los condominios públicos.");
-  return data ?? [];
+  const [{ data, error }, { data: media, error: mediaError }] = await Promise.all([
+    supabase.from("condominiums").select("id, slug, name, description, address").eq("publication_status", "published").is("archived_at", null).order("name"),
+    supabase.from("condominium_media").select("condominium_id, display_order, is_cover, media_assets!inner(alt_text, storage_path)").order("display_order"),
+  ]);
+  if (error || mediaError) throw new Error("No fue posible cargar los condominios públicos.");
+  const getUrl = (path: string) => supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+  const mediaMap = mediaByEntity(media ?? [], "condominium_id", getUrl);
+  return (data ?? []).map((item) => ({ ...item, coverImage: mediaMap.get(item.id)?.[0] ?? null }));
 }
 
 export async function listPublicProperties(): Promise<PublicProperty[]> {
   const supabase = await createClient();
-  const [{ data: units, error: unitError }, { data: condominiums, error: condominiumError }, { data: models, error: modelError }] = await Promise.all([
+  const [{ data: units, error: unitError }, { data: condominiums, error: condominiumError }, { data: models, error: modelError }, { data: unitMedia, error: unitMediaError }, { data: modelMedia, error: modelMediaError }, { data: condominiumMedia, error: condominiumMediaError }] = await Promise.all([
     supabase.from("house_units").select("id, condominium_id, model_id, code, price_usd, availability_status, description_override, bedrooms_override, bathrooms_override, parking_spaces_override, construction_area_m2_override, land_area_m2_override, features_override").eq("publication_status", "published").is("archived_at", null).order("price_usd"),
     supabase.from("condominiums").select("id, slug, name, description, address").eq("publication_status", "published").is("archived_at", null),
     supabase.from("house_models").select("id, name, description, bedrooms, bathrooms, parking_spaces, construction_area_m2, land_area_m2, features"),
+    supabase.from("unit_media").select("unit_id, display_order, is_cover, media_assets!inner(alt_text, storage_path)").order("display_order"),
+    supabase.from("model_media").select("model_id, display_order, is_cover, media_assets!inner(alt_text, storage_path)").order("display_order"),
+    supabase.from("condominium_media").select("condominium_id, display_order, is_cover, media_assets!inner(alt_text, storage_path)").order("display_order"),
   ]);
-  if (unitError || condominiumError || modelError) throw new Error("No fue posible cargar el catálogo público.");
-  const condominiumMap = new Map((condominiums ?? []).map((item) => [item.id, item as PublicCondominium]));
+  if (unitError || condominiumError || modelError || unitMediaError || modelMediaError || condominiumMediaError) throw new Error("No fue posible cargar el catálogo público.");
+  const getUrl = (path: string) => supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+  const unitMediaMap = mediaByEntity(unitMedia ?? [], "unit_id", getUrl);
+  const modelMediaMap = mediaByEntity(modelMedia ?? [], "model_id", getUrl);
+  const condominiumMediaMap = mediaByEntity(condominiumMedia ?? [], "condominium_id", getUrl);
+  const condominiumMap = new Map((condominiums ?? []).map((item) => [item.id, { ...item, coverImage: condominiumMediaMap.get(item.id)?.[0] ?? null } as PublicCondominium]));
   const modelMap = new Map(((models ?? []) as ModelRow[]).map((item) => [item.id, item]));
   return ((units ?? []) as UnitRow[]).flatMap((unit) => {
     const condominium = condominiumMap.get(unit.condominium_id);
@@ -65,6 +96,7 @@ export async function listPublicProperties(): Promise<PublicProperty[]> {
       description: unit.description_override || model?.description || condominium.description,
       features: unit.features_override === null ? strings(model?.features) : strings(unit.features_override),
       id: unit.id,
+      images: unitMediaMap.get(unit.id) ?? (unit.model_id ? modelMediaMap.get(unit.model_id) : undefined) ?? condominiumMediaMap.get(unit.condominium_id) ?? [],
       landAreaM2: numberOrNull(unit.land_area_m2_override) ?? numberOrNull(model?.land_area_m2 ?? null),
       modelName: model?.name ?? null,
       parkingSpaces: unit.parking_spaces_override ?? model?.parking_spaces ?? null,

@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { archiveHouseUnit, changeHouseUnitPublication } from "./actions";
 import { isCatalogEntityId, requireCatalogManager } from "@/app/panel/catalogo/authorization";
 import { getHouseUnit, listHouseUnitOptions } from "@/modules/catalog/infrastructure/house-unit-repository";
+import { listCatalogMedia } from "@/modules/catalog/infrastructure/catalog-media-repository";
+import { CatalogMediaManager } from "@/modules/catalog/ui/catalog-media-manager";
 import { HouseUnitEditForm } from "@/modules/catalog/ui/house-unit-edit-form";
 
 export const metadata: Metadata = { title: "Editar unidad | Panel Aicon" };
@@ -14,7 +16,7 @@ export default async function EditHouseUnitPage({ params, searchParams }: Readon
   await requireCatalogManager();
   const { id } = await params;
   if (!isCatalogEntityId(id)) notFound();
-  const [unit, options, messages] = await Promise.all([getHouseUnit(id), listHouseUnitOptions(), searchParams]);
+  const [unit, options, messages, media] = await Promise.all([getHouseUnit(id), listHouseUnitOptions(), searchParams, listCatalogMedia("unit", id)]);
   if (!unit) notFound();
   const models = unit.modelId && !options.models.some((model) => model.id === unit.modelId && model.condominiumId === unit.condominiumId)
     ? [...options.models, { condominiumId: unit.condominiumId, id: unit.modelId, name: `${unit.modelName ?? "Modelo anterior"} · no disponible para nuevas unidades` }]
@@ -54,6 +56,7 @@ export default async function EditHouseUnitPage({ params, searchParams }: Readon
           </div>
         </aside>
       </div>
+      <CatalogMediaManager entityId={id} entityType="unit" media={media} />
     </main>
   );
 }
