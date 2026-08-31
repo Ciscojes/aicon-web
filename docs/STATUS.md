@@ -28,6 +28,13 @@ Implementado:
 - Publicación, ocultamiento y archivado de unidades sin eliminación física.
 - Protección en aplicación y PostgreSQL para impedir publicar una unidad si su
   condominio no está publicado o su modelo dejó de estar habilitado.
+- Portada pública conectada al inventario publicado.
+- Catálogo público con filtros por condominio, precio, habitaciones, baños y
+  disponibilidad.
+- Detalle público de cada casa con precio, estado, características y valores
+  específicos que prevalecen sobre el modelo.
+- Diseño público adaptable a celulares, con ilustraciones conceptuales
+  identificadas como tales mientras se obtienen fotografías reales.
 - Generación y validación de la URL pública.
 - Autorización para administradores y editores tanto en la página como en la
   Server Action.
@@ -37,7 +44,7 @@ Implementado:
 Siguiente sección vertical:
 
 - Medios de condominios, modelos y unidades.
-- Después: catálogo público.
+- Después: contacto con asesor y cotización.
 
 ## Verificación
 
