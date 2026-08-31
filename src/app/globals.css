@@ -757,13 +757,26 @@ textarea:focus-visible {
 
 .public-hero {
   align-items: center;
+  background:
+    linear-gradient(90deg, rgb(9 17 35 / 94%) 0%, rgb(9 17 35 / 78%) 38%, rgb(9 17 35 / 18%) 72%, transparent 100%),
+    url("/images/aicon-hero-residence.webp") center / cover no-repeat;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 2rem;
+  box-shadow: 0 34px 90px rgb(18 29 55 / 28%);
   display: grid;
-  gap: clamp(2rem, 6vw, 6rem);
-  grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.78fr);
   margin: 0 auto;
   max-width: 76rem;
   min-height: min(48rem, calc(100vh - 6rem));
-  padding: clamp(4rem, 9vw, 8rem) 0;
+  overflow: hidden;
+  padding: clamp(4rem, 9vw, 8rem) clamp(1.5rem, 6vw, 5rem);
+  position: relative;
+}
+
+.public-hero-copy {
+  color: white;
+  max-width: 42rem;
+  position: relative;
+  z-index: 1;
 }
 
 .public-hero h1,
@@ -779,7 +792,7 @@ textarea:focus-visible {
 }
 
 .public-hero h1 {
-  background: linear-gradient(115deg, #171727 0%, #373967 60%, #c84732 112%);
+  background: linear-gradient(115deg, #fff 0%, #eeeefa 60%, #f2a184 112%);
   background-clip: text;
   font-size: clamp(3.2rem, 7.2vw, 6.5rem);
   -webkit-background-clip: text;
@@ -787,7 +800,7 @@ textarea:focus-visible {
 }
 
 .public-hero-copy > p:not(.eyebrow) {
-  color: var(--muted);
+  color: rgb(255 255 255 / 80%);
   font-size: clamp(1.05rem, 2vw, 1.28rem);
   max-width: 39rem;
 }
@@ -801,7 +814,7 @@ textarea:focus-visible {
 }
 
 .hero-trust {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgb(255 255 255 / 24%);
   display: flex;
   gap: 2rem;
   margin-top: 2.7rem;
@@ -809,14 +822,30 @@ textarea:focus-visible {
 }
 
 .hero-trust span {
-  color: var(--muted);
+  color: rgb(255 255 255 / 68%);
   display: grid;
   font-size: 0.82rem;
 }
 
 .hero-trust strong {
-  color: var(--accent-dark);
+  color: white;
   font-size: 1.35rem;
+}
+
+.public-hero-label {
+  backdrop-filter: blur(12px);
+  background: rgb(9 17 35 / 52%);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 999px;
+  bottom: 1.25rem;
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 0.7rem;
+  position: absolute;
+  right: 1.25rem;
+  text-transform: uppercase;
 }
 
 .public-hero-art,
@@ -1100,7 +1129,11 @@ textarea:focus-visible {
   .public-values,
   .property-detail-hero,
   .property-detail-content { grid-template-columns: 1fr; }
-  .public-hero { padding-top: 4rem; }
+  .public-hero {
+    background-position: 62% center;
+    min-height: 42rem;
+    padding: 4rem 1.35rem;
+  }
   .public-hero-art { min-height: 27rem; transform: none; }
   .hero-art-card { left: 1rem; transform: none; }
   .hero-trust { gap: 1rem; }

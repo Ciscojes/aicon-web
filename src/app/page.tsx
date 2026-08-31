@@ -14,7 +14,7 @@ export default async function Home() {
       <main>
         <section className="public-hero">
           <div className="public-hero-copy"><p className="eyebrow">Aicon Edificadora</p><h1>Construimos espacios para vivir tu futuro.</h1><p>Explora proyectos residenciales y encuentra una casa que se adapte a la vida que quieres construir.</p><div className="public-hero-actions"><Link className="button button-primary" href="/catalogo">Explorar casas</Link><Link className="button button-secondary" href="#condominios">Ver condominios</Link></div><div className="hero-trust"><span><strong>{available.length}</strong> casas disponibles</span><span><strong>{condominiums.length}</strong> proyectos publicados</span></div></div>
-          <div className="public-hero-art" aria-label="Composición arquitectónica ilustrativa"><span className="illustration-label">Imagen conceptual</span><div className="hero-building"><span /><span /><span /></div><div className="hero-art-card"><span>Diseño</span><strong>Espacios pensados para vivir mejor</strong></div></div>
+          <span className="public-hero-label">Imagen conceptual</span>
         </section>
 
         <section className="public-search-band" aria-labelledby="quick-search-title"><div><p className="eyebrow">Encuentra tu casa</p><h2 id="quick-search-title">Empieza por el proyecto que te interesa.</h2></div><form action="/catalogo" method="get"><label htmlFor="home-condominium">Condominio</label><select id="home-condominium" name="condominio"><option value="">Todos los condominios</option>{condominiums.map((item) => <option key={item.id} value={item.slug}>{item.name}</option>)}</select><button className="button button-primary" type="submit">Buscar casas</button></form></section>
