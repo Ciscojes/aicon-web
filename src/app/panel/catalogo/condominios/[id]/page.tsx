@@ -12,6 +12,8 @@ import {
   requireCatalogManager,
 } from "@/app/panel/catalogo/authorization";
 import { getCondominium } from "@/modules/catalog/infrastructure/condominium-repository";
+import { listCatalogMedia } from "@/modules/catalog/infrastructure/catalog-media-repository";
+import { CatalogMediaManager } from "@/modules/catalog/ui/catalog-media-manager";
 import { CondominiumEditForm } from "@/modules/catalog/ui/condominium-edit-form";
 
 export const metadata: Metadata = {
@@ -36,7 +38,10 @@ export default async function EditCondominiumPage({
   const { id } = await params;
   if (!isCatalogEntityId(id)) notFound();
 
-  const condominium = await getCondominium(id);
+  const [condominium, media] = await Promise.all([
+    getCondominium(id),
+    listCatalogMedia("condominium", id),
+  ]);
   if (!condominium) notFound();
 
   const messages = await searchParams;
@@ -122,6 +127,7 @@ export default async function EditCondominiumPage({
           </div>
         </aside>
       </div>
+      <CatalogMediaManager entityId={id} entityType="condominium" media={media} />
     </main>
   );
 }

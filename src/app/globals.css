@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f5f2;
+  --background: #e7eaf4;
   --surface: #ffffff;
   --surface-soft: #f0eef8;
   --foreground: #171727;
@@ -22,16 +22,16 @@
 }
 
 html {
-  background: var(--background);
+  background: #e7eaf4;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 90% 10%, rgb(72 88 232 / 12%), transparent 32rem),
-    radial-gradient(circle at 5% 45%, rgb(228 93 63 / 9%), transparent 28rem),
-    #f1f3f8;
+    radial-gradient(circle at 92% 8%, rgb(72 88 232 / 22%), transparent 34rem),
+    radial-gradient(circle at 4% 42%, rgb(228 93 63 / 16%), transparent 30rem),
+    linear-gradient(155deg, #eef0f8 0%, #e1e5f1 52%, #eae4ed 100%);
   color: var(--foreground);
   font-family: Inter, Aptos, "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -703,6 +703,69 @@ textarea:focus-visible {
   font-size: 0.88rem;
 }
 
+.media-manager {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-soft);
+  margin-top: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.media-manager-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.media-manager-heading h2 { margin: 0; }
+.media-manager-heading p:last-child { margin-bottom: 0; }
+
+.media-upload-form {
+  align-items: end;
+  background: var(--surface-soft);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: 1fr 1.4fr auto;
+  margin: 1.5rem 0;
+  padding: 1rem;
+}
+
+.media-upload-form label { display: grid; gap: 0.35rem; }
+.media-upload-form label span { font-size: 0.78rem; font-weight: 800; }
+.media-upload-form input { background: white; }
+.media-upload-form .field-help { font-size: 0.72rem; grid-column: 1 / -1; margin: 0; }
+
+.media-empty {
+  border: 1px dashed var(--line);
+  border-radius: 1rem;
+  color: var(--muted);
+  padding: 2rem;
+  text-align: center;
+}
+.media-empty p { margin-bottom: 0; }
+
+.media-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.media-card { border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; }
+.media-preview { background-color: var(--surface-soft); background-position: center; background-size: cover; min-height: 13rem; position: relative; }
+.media-preview span { background: var(--accent); border-radius: 999px; color: white; font-size: 0.7rem; font-weight: 900; left: 0.75rem; padding: 0.35rem 0.6rem; position: absolute; top: 0.75rem; }
+.media-card-body { display: grid; gap: 0.65rem; padding: 0.9rem; }
+.media-card-body small { color: var(--muted); }
+.media-card-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.media-card-actions button,
+.media-remove-form button { background: transparent; border: 1px solid var(--line); border-radius: 0.5rem; color: var(--accent-secondary); cursor: pointer; font-weight: 800; min-height: 34px; padding: 0.3rem 0.55rem; }
+.media-card-actions button:disabled { cursor: not-allowed; opacity: 0.35; }
+.media-remove-form { align-items: center; border-top: 1px solid var(--line); display: flex; font-size: 0.72rem; justify-content: space-between; padding-top: 0.65rem; }
+.media-remove-form label { align-items: center; color: var(--muted); display: flex; gap: 0.3rem; }
+.media-remove-form button { color: var(--danger); }
+
 .confirmation-field {
   align-items: flex-start;
   display: flex;
@@ -717,9 +780,10 @@ textarea:focus-visible {
 /* Public experience */
 .public-shell {
   background:
-    radial-gradient(circle at 88% 8%, rgb(72 88 232 / 12%), transparent 30rem),
-    radial-gradient(circle at 4% 38%, rgb(228 93 63 / 9%), transparent 25rem),
-    #f1f3f8;
+    radial-gradient(circle at 88% 7%, rgb(72 88 232 / 24%), transparent 32rem),
+    radial-gradient(circle at 3% 34%, rgb(228 93 63 / 17%), transparent 29rem),
+    radial-gradient(circle at 82% 72%, rgb(117 87 208 / 13%), transparent 34rem),
+    linear-gradient(155deg, #eef0f8 0%, #dfe4f1 50%, #ebe3ec 100%);
   min-height: 100vh;
   overflow: hidden;
   padding: 1.25rem;
@@ -758,9 +822,7 @@ textarea:focus-visible {
 
 .public-hero {
   align-items: center;
-  background:
-    linear-gradient(90deg, rgb(9 17 35 / 94%) 0%, rgb(9 17 35 / 78%) 38%, rgb(9 17 35 / 18%) 72%, transparent 100%),
-    url("/images/aicon-hero-residence.webp") center / cover no-repeat;
+  background: #091123;
   border: 1px solid rgb(255 255 255 / 16%);
   border-radius: 2rem;
   box-shadow: 0 34px 90px rgb(18 29 55 / 28%);
@@ -771,6 +833,30 @@ textarea:focus-visible {
   overflow: hidden;
   padding: clamp(4rem, 9vw, 8rem) clamp(1.5rem, 6vw, 5rem);
   position: relative;
+}
+
+.public-hero::before {
+  animation: hero-image-drift 20s ease-in-out infinite alternate;
+  background: url("/images/aicon-hero-residence.webp") center / cover no-repeat;
+  content: "";
+  inset: -3%;
+  position: absolute;
+  transform: scale(1.03);
+  transform-origin: 65% 50%;
+  will-change: transform;
+}
+
+.public-hero::after {
+  background: linear-gradient(90deg, rgb(9 17 35 / 94%) 0%, rgb(9 17 35 / 78%) 38%, rgb(9 17 35 / 18%) 72%, transparent 100%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+@keyframes hero-image-drift {
+  from { transform: scale(1.04) translate3d(2.2%, 0, 0); }
+  to { transform: scale(1.11) translate3d(-2.2%, -0.8%, 0); }
 }
 
 .public-hero-copy {
@@ -847,6 +933,14 @@ textarea:focus-visible {
   position: absolute;
   right: 1.25rem;
   text-transform: uppercase;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-hero::before {
+    animation: none;
+    transform: scale(1.03);
+  }
 }
 
 .public-hero-art,
@@ -982,6 +1076,11 @@ textarea:focus-visible {
   position: relative;
 }
 
+.condominium-card-photo { padding: 0; }
+.condominium-card-image { background-position: center; background-size: cover; min-height: 10rem; }
+.condominium-card-content { min-height: 17rem; padding: 1.5rem; position: relative; }
+.condominium-card-photo .condominium-card-content h3 { margin-top: 1.5rem; }
+
 .condominium-number { color: var(--accent); font-size: 0.8rem; font-weight: 900; }
 .condominium-card h3 { font-family: Georgia, serif; font-size: 2rem; line-height: 1.05; margin: 4rem 0 0.8rem; }
 .condominium-card p { color: var(--muted); }
@@ -990,6 +1089,7 @@ textarea:focus-visible {
 .property-section { border-top: 1px solid var(--line); }
 .property-card { background: white; border: 1px solid var(--line); border-radius: 1.2rem; box-shadow: var(--shadow-soft); overflow: hidden; }
 .property-visual { min-height: 14rem; }
+.property-photo { background-position: center; background-size: cover; }
 .house-outline,
 .detail-house-outline { border: 4px solid rgb(255 255 255 / 80%); border-top: 0; bottom: 2rem; height: 7rem; left: 20%; position: absolute; right: 20%; }
 .house-outline::before,
@@ -1050,6 +1150,8 @@ textarea:focus-visible {
 
 .property-detail-hero { align-items: center; display: grid; gap: clamp(2rem, 6vw, 5rem); grid-template-columns: 1.05fr 0.95fr; }
 .property-detail-art { border-radius: 1.6rem; min-height: 35rem; }
+.public-gallery { display: grid; gap: 0.8rem; grid-template-columns: repeat(3, 1fr); margin: 1rem 0 3rem; }
+.public-gallery div { background-position: center; background-size: cover; border-radius: 1rem; min-height: 14rem; }
 .detail-house-outline { bottom: 7rem; left: 18%; right: 18%; }
 .detail-price-row { align-items: center; display: flex; gap: 1rem; margin: 1.5rem 0; }
 .detail-price-row strong { font-size: clamp(1.8rem, 4vw, 2.7rem); }
@@ -1107,7 +1209,9 @@ textarea:focus-visible {
 
   .catalog-layout,
   .catalog-form,
-  .editor-layout {
+  .editor-layout,
+  .media-upload-form,
+  .media-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1146,7 +1250,8 @@ textarea:focus-visible {
   .property-grid,
   .public-filter-form,
   .property-fact-grid,
-  .feature-list { grid-template-columns: 1fr; }
+  .feature-list,
+  .public-gallery { grid-template-columns: 1fr; }
   .public-footer { grid-template-columns: 1fr; }
   .public-footer nav { align-items: flex-start; flex-direction: column; gap: 0.5rem; }
   .public-footer .public-disclaimer { grid-column: auto; }

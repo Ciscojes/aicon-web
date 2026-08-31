@@ -13,9 +13,8 @@ export function PublicPropertyCard({ property }: Readonly<{ property: PublicProp
   ].filter(Boolean);
   return (
     <article className="property-card">
-      <div aria-label="Representación visual ilustrativa de una vivienda" className="property-visual">
-        <span className="illustration-label">Vista ilustrativa</span>
-        <span className="house-outline" aria-hidden="true" />
+      <div aria-label={property.images[0]?.altText ?? "Representación visual ilustrativa de una vivienda"} className={`property-visual${property.images[0] ? " property-photo" : ""}`} role="img" style={property.images[0] ? { backgroundImage: `url("${property.images[0].url}")` } : undefined}>
+        {!property.images[0] ? <><span className="illustration-label">Vista ilustrativa</span><span className="house-outline" aria-hidden="true" /></> : null}
       </div>
       <div className="property-card-body">
         <div className="property-card-topline"><span>{property.condominium.name}</span><span className={`public-status public-status-${property.availabilityStatus}`}>{status[property.availabilityStatus]}</span></div>

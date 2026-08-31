@@ -9,6 +9,8 @@ import {
 } from "@/app/panel/catalogo/authorization";
 import { listCondominiums } from "@/modules/catalog/infrastructure/condominium-repository";
 import { getHouseModel } from "@/modules/catalog/infrastructure/house-model-repository";
+import { listCatalogMedia } from "@/modules/catalog/infrastructure/catalog-media-repository";
+import { CatalogMediaManager } from "@/modules/catalog/ui/catalog-media-manager";
 import { HouseModelEditForm } from "@/modules/catalog/ui/house-model-edit-form";
 
 export const metadata: Metadata = { title: "Editar modelo | Panel Aicon" };
@@ -18,19 +20,20 @@ export default async function EditHouseModelPage({
   searchParams,
 }: Readonly<{
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; notice?: string }>;
 }>) {
   await requireCatalogManager();
   const { id } = await params;
   if (!isCatalogEntityId(id)) notFound();
 
-  const [model, condominiums] = await Promise.all([
+  const [model, condominiums, media] = await Promise.all([
     getHouseModel(id),
     listCondominiums(),
+    listCatalogMedia("model", id),
   ]);
   if (!model) notFound();
 
-  const { error } = await searchParams;
+  const { error, notice } = await searchParams;
   const archiveAction = archiveHouseModel.bind(null, id);
 
   return (
@@ -55,6 +58,7 @@ export default async function EditHouseModelPage({
       {error ? (
         <p className="form-message page-notice" role="alert">{error}</p>
       ) : null}
+      {notice ? <output className="form-success page-notice">{notice}</output> : null}
 
       <div className="editor-layout">
         <section aria-labelledby="edit-model-title" className="catalog-form-panel">
@@ -86,6 +90,7 @@ export default async function EditHouseModelPage({
           </div>
         </aside>
       </div>
+      <CatalogMediaManager entityId={id} entityType="model" media={media} />
     </main>
   );
 }

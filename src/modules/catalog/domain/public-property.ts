@@ -2,10 +2,16 @@ import type { UnitAvailabilityStatus } from "./house-unit";
 
 export type PublicCondominium = {
   address: string;
+  coverImage: PublicImage | null;
   description: string;
   id: string;
   name: string;
   slug: string;
+};
+
+export type PublicImage = {
+  altText: string;
+  url: string;
 };
 
 export type PublicProperty = {
@@ -18,6 +24,7 @@ export type PublicProperty = {
   description: string;
   features: string[];
   id: string;
+  images: PublicImage[];
   landAreaM2: number | null;
   modelName: string | null;
   parkingSpaces: number | null;
