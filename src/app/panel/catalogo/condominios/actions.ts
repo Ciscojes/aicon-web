@@ -2,14 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 
+import { requireCatalogManager } from "@/app/panel/catalogo/authorization";
 import {
   type CondominiumDraftFieldErrors,
   readCondominiumDraftFormData,
   validateCondominiumDraft,
 } from "@/modules/catalog/application/validate-condominium-draft";
 import { insertCondominiumDraft } from "@/modules/catalog/infrastructure/condominium-repository";
-import { canManageCatalog } from "@/modules/users/domain/role";
-import { getCurrentProfile } from "@/modules/users/infrastructure/get-current-profile";
 
 export type CreateCondominiumState = {
   errors?: CondominiumDraftFieldErrors;
@@ -27,11 +26,7 @@ export async function createCondominiumDraft(
   _previousState: CreateCondominiumState,
   formData: FormData,
 ): Promise<CreateCondominiumState> {
-  const profile = await getCurrentProfile();
-
-  if (!profile || !canManageCatalog(profile.role)) {
-    return { message: "No tienes permiso para administrar el catálogo." };
-  }
+  await requireCatalogManager();
 
   const values = readCondominiumDraftFormData(formData);
   const validation = validateCondominiumDraft(values);

@@ -7,7 +7,9 @@ import { authorizeInternalAccess } from "@/modules/users/application/authorize-i
 import { canManageCatalog } from "@/modules/users/domain/role";
 import { getCurrentProfile } from "@/modules/users/infrastructure/get-current-profile";
 
-export default async function PanelLayout({ children }: { children: ReactNode }) {
+export default async function PanelLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   const access = authorizeInternalAccess(await getCurrentProfile());
 
   if (!access.allowed) {
@@ -25,9 +27,14 @@ export default async function PanelLayout({ children }: { children: ReactNode })
         </div>
         <div className="panel-actions">
           {canManageCatalog(access.profile.role) ? (
-            <Link className="text-link" href="/panel/catalogo/condominios">
-              Catálogo
-            </Link>
+            <nav aria-label="Administración del catálogo" className="panel-catalog-nav">
+              <Link className="text-link" href="/panel/catalogo/condominios">
+                Condominios
+              </Link>
+              <Link className="text-link" href="/panel/catalogo/modelos">
+                Modelos
+              </Link>
+            </nav>
           ) : null}
           <form action={logout}>
             <button className="button button-secondary" type="submit">

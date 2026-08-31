@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { z } from "zod";
 
+import { requireCatalogManagerForId } from "@/app/panel/catalogo/authorization";
 import {
   type CondominiumDraftFieldErrors,
   readCondominiumDraftFormData,
@@ -16,8 +16,6 @@ import {
   setCondominiumPublicationStatus,
   updateCondominium as updateCondominiumRecord,
 } from "@/modules/catalog/infrastructure/condominium-repository";
-import { canManageCatalog } from "@/modules/users/domain/role";
-import { getCurrentProfile } from "@/modules/users/infrastructure/get-current-profile";
 
 export type UpdateCondominiumState = {
   errors?: CondominiumDraftFieldErrors;
@@ -30,16 +28,6 @@ export type UpdateCondominiumState = {
     slug: string;
   };
 };
-
-const idSchema = z.uuid();
-
-async function authorizeCatalogAction(id?: string) {
-  const profile = await getCurrentProfile();
-  if (!profile || !canManageCatalog(profile.role)) redirect("/panel");
-  if (id !== undefined && !idSchema.safeParse(id).success) {
-    redirect("/panel/catalogo/condominios");
-  }
-}
 
 function editorUrl(id: string, key: "error" | "notice", message: string) {
   const query = new URLSearchParams({ [key]: message });
@@ -68,7 +56,7 @@ export async function updateCondominium(
   _previousState: UpdateCondominiumState,
   formData: FormData,
 ): Promise<UpdateCondominiumState> {
-  await authorizeCatalogAction(id);
+  await requireCatalogManagerForId(id);
 
   const values = readCondominiumDraftFormData(formData);
   const validation = validateCondominiumDraft(values);
@@ -91,7 +79,7 @@ export async function updateCondominium(
 }
 
 export async function publishCondominium(id: string) {
-  await authorizeCatalogAction(id);
+  await requireCatalogManagerForId(id);
 
   const condominium = await getCondominium(id);
   if (!condominium) redirect("/panel/catalogo/condominios");
@@ -114,7 +102,7 @@ export async function publishCondominium(id: string) {
 }
 
 export async function hideCondominium(id: string) {
-  await authorizeCatalogAction(id);
+  await requireCatalogManagerForId(id);
   await changePublicationStatus(id, "hidden", {
     failure: "No fue posible ocultar el condominio.",
     success: "El condominio quedó oculto.",
@@ -122,7 +110,7 @@ export async function hideCondominium(id: string) {
 }
 
 export async function archiveCondominium(id: string, formData: FormData) {
-  await authorizeCatalogAction(id);
+  await requireCatalogManagerForId(id);
 
   if (formData.get("confirmArchive") !== "yes") {
     redirect(editorUrl(id, "error", "Confirma el archivado antes de continuar."));

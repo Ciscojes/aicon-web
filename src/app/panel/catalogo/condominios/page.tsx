@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
+import { requireCatalogManager } from "@/app/panel/catalogo/authorization";
 import { listCondominiums } from "@/modules/catalog/infrastructure/condominium-repository";
 import { CondominiumForm } from "@/modules/catalog/ui/condominium-form";
-import { canManageCatalog } from "@/modules/users/domain/role";
-import { getCurrentProfile } from "@/modules/users/infrastructure/get-current-profile";
 
 export const metadata: Metadata = {
   title: "Condominios | Panel Aicon",
@@ -22,9 +20,7 @@ export default async function CondominiumsPage({
 }: Readonly<{
   searchParams: Promise<{ notice?: string }>;
 }>) {
-  const profile = await getCurrentProfile();
-
-  if (!profile || !canManageCatalog(profile.role)) redirect("/panel");
+  await requireCatalogManager();
 
   const condominiums = await listCondominiums();
   const { notice } = await searchParams;

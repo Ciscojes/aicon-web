@@ -20,6 +20,9 @@ Implementado:
 - Publicación con validación de contenido mínimo.
 - Ocultamiento reversible de proyectos publicados.
 - Archivado confirmado sin eliminación física.
+- Creación, edición y archivado de modelos reutilizables.
+- Características, áreas, habitaciones, baños y estacionamientos por modelo.
+- Asignación de un modelo a varios condominios.
 - Generación y validación de la URL pública.
 - Autorización para administradores y editores tanto en la página como en la
   Server Action.
@@ -28,8 +31,8 @@ Implementado:
 
 Siguiente sección vertical:
 
-- Administración de modelos reutilizables.
-- Después: unidades, medios y catálogo público.
+- Administración de unidades basadas en modelos o de diseño único.
+- Después: medios y catálogo público.
 
 ## Verificación
 

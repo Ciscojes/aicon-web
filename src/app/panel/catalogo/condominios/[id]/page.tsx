@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { z } from "zod";
+import { notFound } from "next/navigation";
 
 import {
   archiveCondominium,
   hideCondominium,
   publishCondominium,
 } from "./actions";
+import {
+  isCatalogEntityId,
+  requireCatalogManager,
+} from "@/app/panel/catalogo/authorization";
 import { getCondominium } from "@/modules/catalog/infrastructure/condominium-repository";
 import { CondominiumEditForm } from "@/modules/catalog/ui/condominium-edit-form";
-import { canManageCatalog } from "@/modules/users/domain/role";
-import { getCurrentProfile } from "@/modules/users/infrastructure/get-current-profile";
 
 export const metadata: Metadata = {
   title: "Editar condominio | Panel Aicon",
@@ -30,11 +31,10 @@ export default async function EditCondominiumPage({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ error?: string; notice?: string }>;
 }>) {
-  const profile = await getCurrentProfile();
-  if (!profile || !canManageCatalog(profile.role)) redirect("/panel");
+  await requireCatalogManager();
 
   const { id } = await params;
-  if (!z.uuid().safeParse(id).success) notFound();
+  if (!isCatalogEntityId(id)) notFound();
 
   const condominium = await getCondominium(id);
   if (!condominium) notFound();

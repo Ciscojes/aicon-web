@@ -363,6 +363,12 @@ textarea:focus-visible {
   gap: 1rem;
 }
 
+.panel-catalog-nav {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
 .panel-content {
   margin: 0 auto;
   max-width: 72rem;
@@ -512,6 +518,14 @@ textarea:focus-visible {
   margin-top: 0.5rem;
 }
 
+.model-assignment-count {
+  color: var(--accent-secondary);
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-top: 0.55rem;
+}
+
 .catalog-list-actions {
   align-items: flex-end;
   display: flex;
@@ -542,6 +556,61 @@ textarea:focus-visible {
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
+}
+
+.numeric-fields {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.assignment-fieldset {
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  margin: 0;
+  padding: 1rem;
+}
+
+.assignment-fieldset legend {
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 0 0.35rem;
+}
+
+.checkbox-grid {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
+.checkbox-card {
+  align-items: flex-start;
+  background: #fbfaff;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  gap: 0.65rem;
+  padding: 0.8rem;
+}
+
+.checkbox-card:has(input:checked) {
+  background: #eceeff;
+  border-color: #9da5f4;
+}
+
+.checkbox-card input {
+  margin-top: 0.25rem;
+}
+
+.checkbox-card span {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.checkbox-card small {
+  color: var(--muted);
 }
 
 .field-wide,
@@ -636,6 +705,12 @@ textarea:focus-visible {
     flex-direction: column;
   }
 
+  .panel-catalog-nav {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
   .panel-user {
     max-width: 12rem;
   }
@@ -658,6 +733,11 @@ textarea:focus-visible {
 
   .catalog-list-actions {
     align-items: flex-end;
+  }
+
+  .numeric-fields,
+  .checkbox-grid {
+    grid-template-columns: 1fr;
   }
 }
 

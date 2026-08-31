@@ -120,6 +120,46 @@ async function validateFreshDatabase(migrations) {
       throw new Error("El bucket property-media no quedó configurado.");
     }
 
+    const condominiumId = "22222222-2222-4222-8222-222222222222";
+    const modelId = "33333333-3333-4333-8333-333333333333";
+    await database.query(
+      `insert into public.condominiums (id, slug, name)
+       values ($1, 'condominio-prueba', 'Condominio Prueba')`,
+      [condominiumId],
+    );
+    await database.query(
+      `insert into public.house_models (id, name)
+       values ($1, 'Modelo Prueba')`,
+      [modelId],
+    );
+    await database.query(
+      `select public.sync_condominium_model_assignments($1, array[$2]::uuid[])`,
+      [modelId, condominiumId],
+    );
+
+    const [activeAssignment] = (await database.query(
+      `select active
+       from public.condominium_models
+       where model_id = $1 and condominium_id = $2`,
+      [modelId, condominiumId],
+    )).rows;
+    if (!activeAssignment?.active) {
+      throw new Error("La asignación transaccional de modelos no quedó activa.");
+    }
+
+    await database.query(`select public.archive_house_model($1)`, [modelId]);
+    const [archivedModel] = (await database.query(
+      `select house_models.archived_at, condominium_models.active
+       from public.house_models
+       join public.condominium_models
+         on condominium_models.model_id = house_models.id
+       where house_models.id = $1`,
+      [modelId],
+    )).rows;
+    if (!archivedModel?.archived_at || archivedModel.active) {
+      throw new Error("Archivar un modelo no desactivó correctamente sus asignaciones.");
+    }
+
     return { policyCount, rlsCount, tableCount };
   } finally {
     await database.close();
