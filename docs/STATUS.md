@@ -23,6 +23,11 @@ Implementado:
 - Creación, edición y archivado de modelos reutilizables.
 - Características, áreas, habitaciones, baños y estacionamientos por modelo.
 - Asignación de un modelo a varios condominios.
+- Creación y edición de unidades basadas en modelos o de diseño único.
+- Precio USD, disponibilidad y valores específicos que prevalecen sobre el modelo.
+- Publicación, ocultamiento y archivado de unidades sin eliminación física.
+- Protección en aplicación y PostgreSQL para impedir publicar una unidad si su
+  condominio no está publicado o su modelo dejó de estar habilitado.
 - Generación y validación de la URL pública.
 - Autorización para administradores y editores tanto en la página como en la
   Server Action.
@@ -31,8 +36,8 @@ Implementado:
 
 Siguiente sección vertical:
 
-- Administración de unidades basadas en modelos o de diseño único.
-- Después: medios y catálogo público.
+- Medios de condominios, modelos y unidades.
+- Después: catálogo público.
 
 ## Verificación
 

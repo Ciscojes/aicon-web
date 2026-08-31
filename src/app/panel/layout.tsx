@@ -34,6 +34,9 @@ export default async function PanelLayout({
               <Link className="text-link" href="/panel/catalogo/modelos">
                 Modelos
               </Link>
+              <Link className="text-link" href="/panel/catalogo/unidades">
+                Unidades
+              </Link>
             </nav>
           ) : null}
           <form action={logout}>
