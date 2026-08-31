@@ -29,8 +29,9 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 8% 0%, rgb(72 88 232 / 8%), transparent 28rem),
-    var(--background);
+    radial-gradient(circle at 90% 10%, rgb(72 88 232 / 12%), transparent 32rem),
+    radial-gradient(circle at 5% 45%, rgb(228 93 63 / 9%), transparent 28rem),
+    #f1f3f8;
   color: var(--foreground);
   font-family: Inter, Aptos, "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -718,7 +719,7 @@ textarea:focus-visible {
   background:
     radial-gradient(circle at 88% 8%, rgb(72 88 232 / 12%), transparent 30rem),
     radial-gradient(circle at 4% 38%, rgb(228 93 63 / 9%), transparent 25rem),
-    #f7f5f2;
+    #f1f3f8;
   min-height: 100vh;
   overflow: hidden;
   padding: 1.25rem;
