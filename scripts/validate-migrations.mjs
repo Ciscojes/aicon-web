@@ -147,6 +147,34 @@ async function validateFreshDatabase(migrations) {
       throw new Error("La asignación transaccional de modelos no quedó activa.");
     }
 
+    let draftCondominiumRejected = false;
+    try {
+      await database.query(
+        `insert into public.house_units
+          (condominium_id, model_id, code, price_usd, publication_status, published_at)
+         values ($1, $2, 'A-01', 185000, 'published', now())`,
+        [condominiumId, modelId],
+      );
+    } catch {
+      draftCondominiumRejected = true;
+    }
+    if (!draftCondominiumRejected) {
+      throw new Error("Una unidad publicada fue aceptada dentro de un condominio borrador.");
+    }
+
+    await database.query(
+      `update public.condominiums
+       set publication_status = 'published', published_at = now()
+       where id = $1`,
+      [condominiumId],
+    );
+    await database.query(
+      `insert into public.house_units
+        (condominium_id, model_id, code, price_usd, publication_status, published_at)
+       values ($1, $2, 'A-01', 185000, 'published', now())`,
+      [condominiumId, modelId],
+    );
+
     await database.query(`select public.archive_house_model($1)`, [modelId]);
     const [archivedModel] = (await database.query(
       `select house_models.archived_at, condominium_models.active
@@ -159,6 +187,13 @@ async function validateFreshDatabase(migrations) {
     if (!archivedModel?.archived_at || archivedModel.active) {
       throw new Error("Archivar un modelo no desactivó correctamente sus asignaciones.");
     }
+
+    await database.query(
+      `update public.house_units
+       set availability_status = 'reserved', model_id = $2
+       where condominium_id = $1 and code = 'A-01'`,
+      [condominiumId, modelId],
+    );
 
     return { policyCount, rlsCount, tableCount };
   } finally {
