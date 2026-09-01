@@ -5,8 +5,14 @@ export type PublicCondominium = {
   coverImage: PublicImage | null;
   description: string;
   id: string;
+  images: PublicImage[];
   name: string;
   slug: string;
+};
+
+export type PublicCondominiumDetail = {
+  condominium: PublicCondominium;
+  properties: PublicProperty[];
 };
 
 export type PublicImage = {

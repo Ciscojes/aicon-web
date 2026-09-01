@@ -33,6 +33,16 @@ Implementado:
   disponibilidad.
 - Detalle público de cada casa con precio, estado, características y valores
   específicos que prevalecen sobre el modelo.
+- Detalle público de cada condominio mediante su URL, con descripción, dirección,
+  galería ordenada, inventario publicado y estado vacío sin contenido ficticio.
+- Previsualización administrativa protegida del contenido guardado de un
+  condominio antes de publicarlo.
+- Formulario público de contacto general o asociado a una casa o condominio,
+  con validación, consentimiento, campo señuelo y límite de repetición.
+- Registro privado de contactos, oportunidades y actividades de consulta con
+  deduplicación inicial por teléfono normalizado.
+- Bandeja CRM inicial de oportunidades abiertas, disponible solamente para
+  administradores y asesores activos.
 - Carga, orden, portada y retiro confirmado de hasta 20 fotografías por
   condominio, modelo o unidad mediante Supabase Storage.
 - Herencia visual pública: la unidad prioriza sus fotografías, después las del
@@ -47,8 +57,8 @@ Implementado:
 
 Siguiente sección vertical:
 
-- Detalle público de cada condominio y previsualización administrativa.
-- Después: contacto con asesor y cotización.
+- Configuración financiera, simulador y solicitud formal de cotización.
+- WhatsApp directo cuando se confirme el número empresarial.
 
 ## Verificación
 

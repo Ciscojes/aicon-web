@@ -102,6 +102,8 @@ Registra notas y acciones del historial comercial.
 Campos principales: `id`, `opportunity_id`, `actor_user_id`, `type`, `content`, `occurred_at`, `created_at`.
 
 Tipos iniciales: nota, llamada, correo, WhatsApp, cambio de etapa, cotización y visita.
+Las consultas públicas podrán registrar una actividad de tipo `inquiry` sin actor
+interno para conservar el mensaje y la fecha de ingreso.
 
 ## Citas y disponibilidad
 
@@ -194,3 +196,5 @@ No almacenará secretos ni datos completos innecesarios.
 
 - 2026-08-28: creación de la propuesta inicial del modelo lógico.
 - 2026-08-28: modelo aprobado; se habilitó la reutilización de modelos entre condominios y una oportunidad por propiedad.
+- 2026-08-31: se añadió la actividad de consulta pública y la reutilización inicial
+  de contactos por teléfono normalizado.

@@ -44,6 +44,21 @@ Permitir que un comprador hable rápidamente con Aicon por WhatsApp o envíe un 
 - Un clic en WhatsApp podrá registrarse como evento estadístico, pero no como cliente confirmado en el CRM.
 - Una conversación iniciada únicamente por WhatsApp podrá registrarse manualmente o mediante una integración oficial posterior.
 
+## Primer incremento implementable sin proveedores
+
+- Se habilitará primero el formulario web en una ruta propia y desde los detalles
+  de casas y condominios.
+- La ruta conservará el contexto mediante identificadores internos validados en el
+  servidor; un visitante no podrá asociar una consulta a contenido no publicado.
+- El teléfono se exigirá en formato internacional, por ejemplo `+50688887777`,
+  para evitar asumir el país del visitante.
+- El consentimiento provisional autorizará únicamente a Aicon a responder la
+  consulta por llamada o WhatsApp al teléfono y, si se indicó, al correo suministrado.
+- Un campo señuelo y un límite de cinco minutos para repetir una consulta del mismo
+  contacto e interés reducirán envíos automatizados sin contratar servicios externos.
+- WhatsApp directo se habilitará cuando se confirme el número empresarial; hasta
+  entonces no se mostrará ningún número inventado.
+
 ## Mensaje inicial provisional
 
 > Hola, me interesa recibir información sobre [casa o condominio].
@@ -57,6 +72,8 @@ Permitir que un comprador hable rápidamente con Aicon por WhatsApp o envíe un 
 - La propiedad de origen queda asociada a la oportunidad.
 - Los errores del formulario conservan los datos introducidos y explican cómo corregirlos.
 - Ningún mensaje de WhatsApp se envía sin una acción expresa del usuario.
+- Una consulta pública no permite leer datos de otros interesados y queda visible
+  únicamente para administradores y asesores activos.
 
 ## Preguntas pendientes
 
@@ -68,3 +85,5 @@ Permitir que un comprador hable rápidamente con Aicon por WhatsApp o envíe un 
 ## Historial de cambios
 
 - 2026-08-28: creación de la especificación con WhatsApp directo y formulario alternativo.
+- 2026-08-31: se definió el primer incremento del formulario sin depender de
+  proveedores ni datos empresariales pendientes.

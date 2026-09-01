@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  canAccessCrm,
   canManageCatalog,
   canManageUsers,
   isInternalRole,
@@ -24,5 +25,11 @@ describe("roles internos", () => {
     expect(canManageCatalog("administrator")).toBe(true);
     expect(canManageCatalog("editor")).toBe(true);
     expect(canManageCatalog("advisor")).toBe(false);
+  });
+
+  it("reserva los datos del CRM para administradores y asesores", () => {
+    expect(canAccessCrm("administrator")).toBe(true);
+    expect(canAccessCrm("advisor")).toBe(true);
+    expect(canAccessCrm("editor")).toBe(false);
   });
 });

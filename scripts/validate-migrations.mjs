@@ -84,7 +84,7 @@ async function validateFreshDatabase(migrations) {
       where schemaname in ('public', 'storage')
     `)).rows;
 
-    if (tableCount !== 9 || rlsCount !== 9 || policyCount < 20) {
+    if (tableCount !== 12 || rlsCount !== 12 || policyCount < 23) {
       throw new Error(
         `Esquema incompleto: ${tableCount} tablas, ${rlsCount} con RLS, ${policyCount} políticas.`,
       );
@@ -194,6 +194,42 @@ async function validateFreshDatabase(migrations) {
        where condominium_id = $1 and code = 'A-01'`,
       [condominiumId, modelId],
     );
+
+    const [unit] = (await database.query(
+      `select id from public.house_units where condominium_id = $1 and code = 'A-01'`,
+      [condominiumId],
+    )).rows;
+    await database.query(
+      `select public.submit_public_inquiry(
+        'Persona Prueba', '+50688887777', 'persona@example.com',
+        'Deseo más información.', 'unit', $1, null
+      )`,
+      [unit.id],
+    );
+    const [inquiry] = (await database.query(`
+      select
+        (select count(*)::integer from public.contacts) as contacts,
+        (select count(*)::integer from public.opportunities where unit_id = $1) as opportunities,
+        (select count(*)::integer from public.activities where type = 'inquiry') as activities
+    `, [unit.id])).rows;
+    if (inquiry.contacts !== 1 || inquiry.opportunities !== 1 || inquiry.activities !== 1) {
+      throw new Error("La consulta pública no creó el contacto, oportunidad y actividad esperados.");
+    }
+
+    let repeatedInquiryRejected = false;
+    try {
+      await database.query(
+        `select public.submit_public_inquiry(
+          'Persona Prueba', '+50688887777', null, null, 'unit', $1, null
+        )`,
+        [unit.id],
+      );
+    } catch {
+      repeatedInquiryRejected = true;
+    }
+    if (!repeatedInquiryRejected) {
+      throw new Error("El límite de consultas repetidas no rechazó un envío inmediato.");
+    }
 
     return { policyCount, rlsCount, tableCount };
   } finally {

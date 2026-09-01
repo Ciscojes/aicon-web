@@ -7,6 +7,7 @@ export function PublicSiteHeader() {
       <nav aria-label="Navegación pública" className="public-nav">
         <Link href="/#condominios">Condominios</Link>
         <Link href="/catalogo">Casas</Link>
+        <Link href="/contacto">Contacto</Link>
         <Link className="button button-primary public-nav-action" href="/catalogo">Explorar catálogo</Link>
       </nav>
     </header>

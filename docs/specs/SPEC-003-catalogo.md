@@ -62,6 +62,18 @@ Una unidad podrá utilizar un modelo compartido o registrarse como diseño únic
 - El comprador podrá filtrar las casas por condominio.
 - Cada condominio también tendrá una página propia con su información y sus unidades.
 
+## Detalle de condominio
+
+- La ruta pública será `/condominios/{slug}`.
+- Mostrará nombre, descripción, dirección, galería y casas publicadas del proyecto.
+- La fotografía marcada como portada ocupará la posición principal; las restantes
+  conservarán el orden definido en el panel.
+- Si todavía no existen fotografías, se mostrará una representación identificada
+  expresamente como ilustrativa.
+- Un condominio oculto, en borrador o archivado no responderá en la ruta pública.
+- Si el proyecto no tiene casas publicadas, la página conservará su información y
+  mostrará un estado vacío en lugar de inventario ficticio.
+
 ## Criterios de aceptación
 
 - El visitante puede recorrer condominios y ver sus casas.
@@ -69,6 +81,8 @@ Una unidad podrá utilizar un modelo compartido o registrarse como diseño únic
 - Una unidad muestra datos del modelo y sus diferencias específicas correctamente.
 - Las casas no publicadas no aparecen en el catálogo público.
 - Las casas reservadas o vendidas muestran el estado correcto.
+- Cada tarjeta pública de condominio conduce a su página propia.
+- La página de un condominio solo enumera casas publicadas que le pertenecen.
 
 ## Preguntas pendientes
 
@@ -80,3 +94,4 @@ Una unidad podrá utilizar un modelo compartido o registrarse como diseño únic
 
 - 2026-08-28: creación de la especificación inicial.
 - 2026-08-28: se definió que el catálogo abrirá con todas las casas disponibles y filtro por condominio.
+- 2026-08-31: se definió la ruta y el contenido del detalle público de condominio.

@@ -1,7 +1,7 @@
 import { createClient } from "@/infrastructure/supabase/server";
 
 import type { UnitAvailabilityStatus } from "../domain/house-unit";
-import type { PublicCondominium, PublicImage, PublicProperty } from "../domain/public-property";
+import type { PublicCondominium, PublicCondominiumDetail, PublicImage, PublicProperty } from "../domain/public-property";
 
 type UnitRow = {
   availability_status: UnitAvailabilityStatus;
@@ -62,7 +62,10 @@ export async function listPublicCondominiums(): Promise<PublicCondominium[]> {
   if (error || mediaError) throw new Error("No fue posible cargar los condominios públicos.");
   const getUrl = (path: string) => supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
   const mediaMap = mediaByEntity(media ?? [], "condominium_id", getUrl);
-  return (data ?? []).map((item) => ({ ...item, coverImage: mediaMap.get(item.id)?.[0] ?? null }));
+  return (data ?? []).map((item) => {
+    const images = mediaMap.get(item.id) ?? [];
+    return { ...item, coverImage: images[0] ?? null, images };
+  });
 }
 
 export async function listPublicProperties(): Promise<PublicProperty[]> {
@@ -80,7 +83,10 @@ export async function listPublicProperties(): Promise<PublicProperty[]> {
   const unitMediaMap = mediaByEntity(unitMedia ?? [], "unit_id", getUrl);
   const modelMediaMap = mediaByEntity(modelMedia ?? [], "model_id", getUrl);
   const condominiumMediaMap = mediaByEntity(condominiumMedia ?? [], "condominium_id", getUrl);
-  const condominiumMap = new Map((condominiums ?? []).map((item) => [item.id, { ...item, coverImage: condominiumMediaMap.get(item.id)?.[0] ?? null } as PublicCondominium]));
+  const condominiumMap = new Map((condominiums ?? []).map((item) => {
+    const images = condominiumMediaMap.get(item.id) ?? [];
+    return [item.id, { ...item, coverImage: images[0] ?? null, images } as PublicCondominium];
+  }));
   const modelMap = new Map(((models ?? []) as ModelRow[]).map((item) => [item.id, item]));
   return ((units ?? []) as UnitRow[]).flatMap((unit) => {
     const condominium = condominiumMap.get(unit.condominium_id);
@@ -108,4 +114,17 @@ export async function listPublicProperties(): Promise<PublicProperty[]> {
 export async function getPublicProperty(id: string): Promise<PublicProperty | null> {
   const properties = await listPublicProperties();
   return properties.find((property) => property.id === id) ?? null;
+}
+
+export async function getPublicCondominium(slug: string): Promise<PublicCondominiumDetail | null> {
+  const [condominiums, properties] = await Promise.all([
+    listPublicCondominiums(),
+    listPublicProperties(),
+  ]);
+  const condominium = condominiums.find((item) => item.slug === slug);
+  if (!condominium) return null;
+  return {
+    condominium,
+    properties: properties.filter((property) => property.condominium.id === condominium.id),
+  };
 }

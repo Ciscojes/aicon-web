@@ -40,9 +40,15 @@ Definir la jerarquía de contenido y las acciones principales de las pantallas p
 
 - [Bocetos del recorrido público](../diagrams/bocetos-publicos.html)
 
+## Detalle de condominio
+
+- Encabezado visual con portada, nombre, ubicación y descripción.
+- Galería secundaria cuando existan más fotografías.
+- Inventario publicado del proyecto con acceso al detalle de cada casa.
+- Acción para regresar al catálogo completo.
+
 ## Pendiente para el siguiente conjunto
 
-- Detalle de condominio.
 - Página de contacto y asesor.
 - Estados vacíos y errores.
 - Bocetos del CRM y panel administrativo.
@@ -51,3 +57,4 @@ Definir la jerarquía de contenido y las acciones principales de las pantallas p
 
 - 2026-08-28: creación del primer conjunto de bocetos públicos.
 - 2026-08-28: la adaptación para celulares pasó a SPEC-010.
+- 2026-08-31: se incorporó la jerarquía del detalle de condominio.

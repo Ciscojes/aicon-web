@@ -60,6 +60,9 @@ export default async function EditCondominiumPage({
           <p className="eyebrow">Editar proyecto</p>
           <h1>{condominium.name}</h1>
           <p className="lede">Completa la información antes de publicarla.</p>
+          <Link className="text-link" href={`/panel/catalogo/condominios/${id}/previsualizacion`}>
+            Previsualizar página →
+          </Link>
         </div>
         <span className={`status-pill status-${condominium.publicationStatus}`}>
           {statusLabels[condominium.publicationStatus]}

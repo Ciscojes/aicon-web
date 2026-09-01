@@ -22,3 +22,7 @@ export function canManageCatalog(role: InternalRole): boolean {
 export function canManageUsers(role: InternalRole): boolean {
   return role === "administrator";
 }
+
+export function canAccessCrm(role: InternalRole): boolean {
+  return role === "administrator" || role === "advisor";
+}

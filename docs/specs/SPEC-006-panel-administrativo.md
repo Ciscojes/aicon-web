@@ -35,6 +35,17 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 
 `Crear casa → completar datos → subir fotografías → previsualizar → publicar`
 
+## Previsualización del condominio
+
+- Administradores y editores podrán abrir desde el editor una previsualización del
+  contenido guardado, aunque el condominio esté en borrador u oculto.
+- La previsualización utilizará la misma presentación principal que la ruta pública
+  y mostrará una franja visible que indique que no es la página publicada.
+- La previsualización no cambiará el estado de publicación ni hará accesible el
+  borrador a visitantes.
+- El inventario de la previsualización se limitará a unidades publicadas; los
+  borradores de unidades tendrán su propia previsualización en un incremento futuro.
+
 ## Protección contra errores
 
 - Archivar será preferible a eliminar definitivamente.
@@ -54,6 +65,8 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 - Una casa archivada deja de aparecer sin perder su información.
 - Los permisos impiden que un asesor o editor acceda a funciones restringidas.
 - La configuración financiera modifica futuras simulaciones sin alterar registros históricos.
+- Un administrador o editor puede revisar el detalle guardado de un condominio antes
+  de publicarlo sin exponerlo públicamente.
 
 ## Bocetos relacionados
 
@@ -71,3 +84,4 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 - 2026-08-28: se añadió la configuración y gestión administrativa de citas.
 - 2026-08-30: se fijaron provisionalmente los formatos y límites de fotografías
   para el MVP.
+- 2026-08-31: se definió la previsualización protegida de condominios.

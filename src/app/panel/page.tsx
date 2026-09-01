@@ -7,22 +7,22 @@ export const metadata: Metadata = {
 export default function PanelPage() {
   return (
     <main className="panel-content">
-      <p className="eyebrow">Entrega 0</p>
-      <h1>Fundamentos listos</h1>
+      <p className="eyebrow">Estado del MVP</p>
+      <h1>Catálogo y consultas</h1>
       <p className="lede">
-        La autenticación, los perfiles internos y la protección del panel ya
-        forman la base sobre la que construiremos el catálogo.
+        El catálogo público y administrativo ya reciben consultas que el equipo
+        autorizado puede revisar desde el CRM.
       </p>
       <section aria-label="Estado de módulos" className="status-grid">
         <article className="status-card">
           <span aria-hidden="true">01</span>
           <h2>Catálogo</h2>
-          <p>Preparado para la Entrega 1.</p>
+          <p>Condominios, modelos, casas y fotografías operativos.</p>
         </article>
         <article className="status-card">
           <span aria-hidden="true">02</span>
           <h2>CRM</h2>
-          <p>Estructura reservada para próximas entregas.</p>
+          <p>Bandeja inicial de consultas públicas disponible.</p>
         </article>
         <article className="status-card">
           <span aria-hidden="true">03</span>

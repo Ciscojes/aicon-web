@@ -1167,6 +1167,49 @@ textarea:focus-visible {
 .feature-list { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, 1fr); list-style: none; padding: 0; }
 .feature-list li { background: white; border: 1px solid var(--line); border-radius: 0.7rem; padding: 0.9rem; }
 
+.condominium-detail-art { min-height: 31rem; }
+.condominium-gallery { margin-top: 1rem; }
+.condominium-inventory { border-top: 1px solid var(--line); margin-top: 4rem; padding-top: 4rem; }
+.condominium-inventory h2 { font-family: "Iowan Old Style", Baskerville, Georgia, "Times New Roman", serif; font-size: clamp(2.4rem, 5vw, 4.4rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; margin: 0; }
+
+.preview-page { max-width: 80rem; }
+.preview-toolbar { align-items: center; background: #fff3cf; border: 1px solid #e0be62; border-radius: 1rem; display: flex; gap: 1rem; justify-content: space-between; margin-bottom: 1rem; padding: 1rem 1.2rem; }
+.preview-toolbar div { display: grid; gap: 0.2rem; }
+.preview-toolbar span { color: #6e5718; font-size: 0.82rem; }
+.preview-surface { background: var(--surface); border: 1px solid var(--line); border-radius: 1.5rem; overflow: hidden; padding: clamp(1rem, 3vw, 2rem); }
+.preview-surface .property-detail-page { padding-bottom: 2rem; padding-top: 2rem; }
+
+.contact-page { align-items: start; display: grid; gap: clamp(2rem, 7vw, 6rem); grid-template-columns: 0.9fr 1.1fr; margin: 0 auto; max-width: 72rem; padding: clamp(4rem, 9vw, 7rem) 0; }
+.contact-intro { position: sticky; top: 2rem; }
+.contact-intro h1 { font-family: "Iowan Old Style", Baskerville, Georgia, "Times New Roman", serif; font-size: clamp(3rem, 6vw, 5rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; margin: 0; }
+.contact-intro > p:not(.eyebrow) { color: var(--muted); font-size: 1.05rem; }
+.contact-promise { border-left: 3px solid var(--accent); display: grid; gap: 0.3rem; margin-top: 2rem; padding: 0.7rem 1rem; }
+.contact-promise span { color: var(--muted); font-size: 0.82rem; }
+.contact-form-panel { background: white; border: 1px solid var(--line); border-radius: 1.3rem; box-shadow: var(--shadow-soft); padding: clamp(1.3rem, 4vw, 2.2rem); }
+.contact-form { display: grid; gap: 0.65rem; }
+.contact-form > label:not(.contact-consent, .form-trap) { display: grid; gap: 0.4rem; margin-top: 0.45rem; }
+.contact-form label > span { font-size: 0.8rem; font-weight: 800; }
+.contact-form label small { color: var(--muted); font-weight: 500; }
+.contact-form input:not([type="checkbox"]), .contact-form textarea { width: 100%; }
+.contact-context { background: var(--surface-soft); border-radius: 0.8rem; display: grid; gap: 0.2rem; margin-bottom: 0.6rem; padding: 1rem; }
+.contact-context span { color: var(--muted); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
+.contact-consent { align-items: start; display: grid; gap: 0.7rem; grid-template-columns: auto 1fr; margin: 0.8rem 0; }
+.contact-consent input { margin-top: 0.2rem; }
+.contact-consent span { color: var(--muted); font-weight: 500 !important; line-height: 1.45; }
+.contact-privacy-note { color: var(--muted); font-size: 0.74rem; margin: 0; text-align: center; }
+.contact-success { padding: 2rem 0.5rem; text-align: center; }
+.contact-success h2 { font-family: Georgia, serif; font-size: 2rem; }
+.contact-success p:not(.eyebrow) { color: var(--muted); }
+.form-trap { height: 0; left: -10000px; overflow: hidden; position: absolute; width: 0; }
+
+.crm-list { display: grid; gap: 0.8rem; margin-top: 2rem; }
+.crm-card { align-items: center; background: white; border: 1px solid var(--line); border-radius: 1rem; display: grid; gap: 1.5rem; grid-template-columns: 1fr minmax(12rem, 0.65fr) auto; padding: 1.2rem; }
+.crm-card h2 { font-size: 1.2rem; margin: 0.7rem 0 0.2rem; }
+.crm-card p { color: var(--muted); margin: 0; }
+.crm-contact { display: grid; gap: 0.25rem; }
+.crm-contact a { color: var(--accent-secondary); font-weight: 700; text-decoration: none; }
+.crm-contact span, .crm-card time { color: var(--muted); font-size: 0.78rem; }
+
 @media (max-width: 640px) {
   .home-shell,
   .panel-shell {
@@ -1257,6 +1300,10 @@ textarea:focus-visible {
   .public-footer .public-disclaimer { grid-column: auto; }
   .property-detail-art { min-height: 25rem; }
   .property-fact-grid { grid-template-columns: repeat(2, 1fr); }
+  .preview-toolbar { align-items: stretch; flex-direction: column; }
+  .contact-page { grid-template-columns: 1fr; }
+  .contact-intro { position: static; }
+  .crm-card { align-items: start; grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -59,6 +59,10 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
 - El correo electrónico se solicitará al programar una visita para enviar la confirmación y servir como canal alternativo.
 - Si un canal no está disponible o falla, el sistema intentará utilizar el otro canal autorizado.
 - El proveedor y los costos de la integración oficial de WhatsApp deberán aprobarse antes de implementarla.
+- El formulario público reutilizará el contacto por teléfono normalizado y evitará
+  crear otra oportunidad abierta para el mismo interés cuando ya exista una.
+- El mensaje inicial se conservará como actividad de la oportunidad, con fecha y
+  origen, sin quedar expuesto en ninguna ruta pública.
 
 ## Criterios de aceptación
 
@@ -91,3 +95,5 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
 - 2026-08-28: se seleccionó provisionalmente el correo electrónico para confirmaciones y recordatorios de visitas.
 - 2026-08-28: se añadió WhatsApp como canal de confirmaciones y recordatorios, sujeto a validar proveedor y costos.
 - 2026-08-28: se vinculó el formulario de contacto con asesores al CRM.
+- 2026-08-31: se definieron deduplicación inicial, privacidad y trazabilidad para
+  las consultas del formulario público.
