@@ -140,6 +140,8 @@ Almacena configuración versionada de financiamiento, citas y datos empresariale
 Campos principales: `id`, `category`, `value`, `effective_from`, `updated_by`, `updated_at`.
 
 No sustituye las fotografías históricas guardadas en cotizaciones y citas.
+La categoría `financing` guardará en JSON validado la tasa anual, prima mínima,
+opciones de prima, plazos y estado activo. Cada guardado insertará una fila nueva.
 
 ### `audit_logs`
 
@@ -198,3 +200,5 @@ No almacenará secretos ni datos completos innecesarios.
 - 2026-08-28: modelo aprobado; se habilitó la reutilización de modelos entre condominios y una oportunidad por propiedad.
 - 2026-08-31: se añadió la actividad de consulta pública y la reutilización inicial
   de contactos por teléfono normalizado.
+- 2026-08-31: se concretó la configuración financiera versionada y su relación con
+  las fotografías históricas de cotización.

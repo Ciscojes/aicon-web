@@ -1,6 +1,6 @@
 # Estado de implementación
 
-Actualizado: 2026-08-30.
+Actualizado: 2026-09-02.
 
 ## Entrega 0 — Fundamentos técnicos
 
@@ -10,7 +10,7 @@ calidad en GitHub Actions.
 
 ## Entrega 1 — Catálogo
 
-En progreso.
+Completada.
 
 Implementado:
 
@@ -37,12 +37,6 @@ Implementado:
   galería ordenada, inventario publicado y estado vacío sin contenido ficticio.
 - Previsualización administrativa protegida del contenido guardado de un
   condominio antes de publicarlo.
-- Formulario público de contacto general o asociado a una casa o condominio,
-  con validación, consentimiento, campo señuelo y límite de repetición.
-- Registro privado de contactos, oportunidades y actividades de consulta con
-  deduplicación inicial por teléfono normalizado.
-- Bandeja CRM inicial de oportunidades abiertas, disponible solamente para
-  administradores y asesores activos.
 - Carga, orden, portada y retiro confirmado de hasta 20 fotografías por
   condominio, modelo o unidad mediante Supabase Storage.
 - Herencia visual pública: la unidad prioriza sus fotografías, después las del
@@ -55,9 +49,33 @@ Implementado:
 - Mensajes de validación, estado vacío y diseño adaptable.
 - Pruebas de las reglas de URL y validación del borrador.
 
+## Entrega 2 — Cotizaciones y contacto
+
+En progreso.
+
+Implementado:
+
+- Formulario público de contacto general o asociado a una casa o condominio,
+  con validación, consentimiento, campo señuelo y límite de repetición.
+- Registro privado de contactos, oportunidades y actividades de consulta con
+  deduplicación inicial por teléfono normalizado.
+- Bandeja CRM inicial de oportunidades abiertas, disponible solamente para
+  administradores y asesores activos.
+- Configuración financiera versionada y restringida a administradores, sin
+  valores inventados ni configuración activa por defecto.
+- Simulador dentro del detalle de casas disponibles con prima, plazo, tasa,
+  monto por financiar, cuota nivelada y aviso bancario obligatorio.
+- Solicitud formal que repite el cálculo en PostgreSQL y conserva fotografías
+  históricas de precio, prima, tasa, plazo y cuota.
+- Validación en PostgreSQL para impedir cotizaciones de casas no disponibles o
+  con opciones financieras desactualizadas.
+- Resumen de la cotización más reciente dentro de la bandeja CRM.
+- Base segura para agregar notas y cambiar etapas de oportunidades, conservando
+  cada acción en el historial.
+
 Siguiente sección vertical:
 
-- Configuración financiera, simulador y solicitud formal de cotización.
+- Interfaz de detalle y gestión de oportunidades en el CRM.
 - WhatsApp directo cuando se confirme el número empresarial.
 
 ## Verificación

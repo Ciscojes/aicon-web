@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { logout } from "@/app/iniciar-sesion/actions";
 import { authorizeInternalAccess } from "@/modules/users/application/authorize-internal-access";
-import { canAccessCrm, canManageCatalog } from "@/modules/users/domain/role";
+import { canAccessCrm, canManageCatalog, canManageUsers } from "@/modules/users/domain/role";
 import { getCurrentProfile } from "@/modules/users/infrastructure/get-current-profile";
 
 export default async function PanelLayout({
@@ -27,6 +27,7 @@ export default async function PanelLayout({
         </div>
         <div className="panel-actions">
           {canAccessCrm(access.profile.role) ? <Link className="text-link" href="/panel/crm">CRM</Link> : null}
+          {canManageUsers(access.profile.role) ? <Link className="text-link" href="/panel/configuracion/financiamiento">Configuración</Link> : null}
           {canManageCatalog(access.profile.role) ? (
             <nav aria-label="Administración del catálogo" className="panel-catalog-nav">
               <Link className="text-link" href="/panel/catalogo/condominios">

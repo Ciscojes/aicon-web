@@ -72,6 +72,8 @@ Definir la estructura de las pantallas internas que utilizarán el dueño, los a
 - Etapa, asesor y próxima acción.
 - Historial cronológico de notas, comunicaciones, citas y cambios.
 - Acciones para llamar, escribir, agendar, cotizar o cerrar la oportunidad.
+- La primera versión priorizará cambio explícito de etapa y notas; agenda,
+  asignación y acciones de proveedores se incorporarán en incrementos posteriores.
 
 ## Agenda de visitas
 
@@ -106,3 +108,4 @@ Definir la estructura de las pantallas internas que utilizarán el dueño, los a
 
 - 2026-08-28: creación del primer conjunto de bocetos internos.
 - 2026-08-28: se aprobaron los indicadores iniciales del resumen administrativo.
+- 2026-09-01: se delimitó la primera pantalla funcional de detalle de oportunidad.

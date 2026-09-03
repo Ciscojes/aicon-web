@@ -64,6 +64,19 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
 - El mensaje inicial se conservará como actividad de la oportunidad, con fecha y
   origen, sin quedar expuesto en ninguna ruta pública.
 
+## Gestión inicial de oportunidades
+
+- Cada oportunidad tendrá una ruta interna protegida con datos de contacto,
+  consentimiento, propiedad de interés, cotizaciones e historial cronológico.
+- Administradores y asesores activos podrán agregar notas y cambiar la etapa
+  mediante acciones explícitas; editores no podrán leer ni modificar el CRM.
+- Hasta que se aprueben reglas de asignación, administradores y asesores activos
+  podrán gestionar todas las oportunidades y la interfaz indicará que aún no hay
+  responsable asignado.
+- Cambiar a `Vendido` o `Descartado` cerrará la oportunidad; cambiarla nuevamente
+  a una etapa activa la reabrirá sin eliminar su historial.
+- Cada nota y cambio de etapa se registrará transaccionalmente con autor y fecha.
+
 ## Criterios de aceptación
 
 - Cada formulario público aprobado genera o actualiza correctamente un cliente potencial.
@@ -97,3 +110,5 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
 - 2026-08-28: se vinculó el formulario de contacto con asesores al CRM.
 - 2026-08-31: se definieron deduplicación inicial, privacidad y trazabilidad para
   las consultas del formulario público.
+- 2026-09-01: se definieron detalle protegido, notas, etapas y permisos
+  provisionales antes de implementar asignación de asesores.

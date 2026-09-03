@@ -1210,6 +1210,27 @@ textarea:focus-visible {
 .crm-contact a { color: var(--accent-secondary); font-weight: 700; text-decoration: none; }
 .crm-contact span, .crm-card time { color: var(--muted); font-size: 0.78rem; }
 
+.financial-settings-panel { margin-top: 2rem; }
+.financial-settings-form small { color: var(--muted); display: block; margin-top: 0.35rem; }
+.financing-section { border-top: 1px solid var(--line); margin-top: 4rem; padding-top: 4rem; }
+.financing-heading { align-items: end; display: flex; gap: 2rem; justify-content: space-between; margin-bottom: 1.5rem; }
+.financing-heading h2 { font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3.5rem); margin: 0; }
+.financing-heading > p { color: var(--muted); }
+.financing-layout { display: grid; gap: 1rem; grid-template-columns: 1fr 0.8fr; }
+.financing-controls, .quote-contact-fields { background: white; border: 1px solid var(--line); border-radius: 1.2rem; padding: clamp(1.2rem, 3vw, 2rem); }
+.financing-controls { display: grid; gap: 1rem; }
+.financing-controls > label, .quote-contact-fields > label:not(.contact-consent, .form-trap) { display: grid; gap: 0.4rem; }
+.financing-controls label > span, .quote-contact-fields label > span { font-size: 0.8rem; font-weight: 800; }
+.estimate-grid { display: grid; gap: 0.8rem; grid-template-columns: 1fr 1fr; }
+.estimate-grid div { background: var(--surface-soft); border-radius: 0.8rem; display: grid; gap: 0.35rem; padding: 1rem; }
+.estimate-grid span { color: var(--muted); font-size: 0.72rem; }
+.estimate-grid strong { font-size: 1.35rem; }
+.financial-disclaimer { background: #fff3cf; border-radius: 0.7rem; color: #6e5718; font-size: 0.78rem; margin: 0; padding: 0.9rem; }
+.quote-contact-fields { display: grid; gap: 0.65rem; }
+.quote-contact-fields h3 { font-family: Georgia, serif; font-size: 1.6rem; margin: 0 0 0.5rem; }
+.quote-success { background: white; border: 1px solid var(--line); border-radius: 1.2rem; margin-top: 4rem; padding: 2rem; text-align: center; }
+.quote-success h2 { font-family: Georgia, serif; font-size: 2rem; }
+
 @media (max-width: 640px) {
   .home-shell,
   .panel-shell {
@@ -1304,6 +1325,8 @@ textarea:focus-visible {
   .contact-page { grid-template-columns: 1fr; }
   .contact-intro { position: static; }
   .crm-card { align-items: start; grid-template-columns: 1fr; }
+  .financing-heading { align-items: flex-start; flex-direction: column; }
+  .financing-layout, .estimate-grid { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

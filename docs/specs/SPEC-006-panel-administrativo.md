@@ -65,6 +65,8 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 - Una casa archivada deja de aparecer sin perder su información.
 - Los permisos impiden que un asesor o editor acceda a funciones restringidas.
 - La configuración financiera modifica futuras simulaciones sin alterar registros históricos.
+- Solamente el administrador puede activar una versión financiera nueva; el panel
+  debe mostrar con claridad cuándo el simulador público está deshabilitado.
 - Un administrador o editor puede revisar el detalle guardado de un condominio antes
   de publicarlo sin exponerlo públicamente.
 
@@ -85,3 +87,4 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 - 2026-08-30: se fijaron provisionalmente los formatos y límites de fotografías
   para el MVP.
 - 2026-08-31: se definió la previsualización protegida de condominios.
+- 2026-08-31: se reservó la activación y el versionado financiero al administrador.

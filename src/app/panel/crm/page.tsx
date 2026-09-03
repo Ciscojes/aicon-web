@@ -15,6 +15,7 @@ const stages = {
   visit_scheduled: "Visita programada",
 } as const;
 const date = new Intl.DateTimeFormat("es-CR", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Costa_Rica" });
+const usd = new Intl.NumberFormat("es-CR", { currency: "USD", maximumFractionDigits: 2, style: "currency" });
 
 export default async function CrmPage() {
   await requireCrmAccess();
@@ -30,7 +31,7 @@ export default async function CrmPage() {
           {opportunities.map((opportunity) => (
             <article className="crm-card" key={opportunity.id}>
               <div><span className={`status-pill status-${opportunity.stage === "new" ? "draft" : "published"}`}>{stages[opportunity.stage]}</span><h2>{opportunity.contactName}</h2><p>{opportunity.condominiumName ? `${opportunity.condominiumName}${opportunity.unitCode ? ` · Unidad ${opportunity.unitCode}` : ""}` : "Información general"}</p></div>
-              <div className="crm-contact"><a href={`tel:${opportunity.contactPhone}`}>{opportunity.contactPhone}</a>{opportunity.contactEmail ? <a href={`mailto:${opportunity.contactEmail}`}>{opportunity.contactEmail}</a> : <span>Sin correo</span>}</div>
+              <div className="crm-contact"><a href={`tel:${opportunity.contactPhone}`}>{opportunity.contactPhone}</a>{opportunity.contactEmail ? <a href={`mailto:${opportunity.contactEmail}`}>{opportunity.contactEmail}</a> : <span>Sin correo</span>}{opportunity.latestQuote ? <span className="crm-quote">Cuota {usd.format(opportunity.latestQuote.monthlyPaymentUsd)} · {opportunity.latestQuote.termMonths / 12} años · tasa {opportunity.latestQuote.annualRatePct}%</span> : null}</div>
               <time dateTime={opportunity.createdAt}>{date.format(new Date(opportunity.createdAt))}</time>
             </article>
           ))}
