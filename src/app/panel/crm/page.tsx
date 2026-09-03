@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { requireCrmAccess } from "./authorization";
 import { listOpenOpportunities } from "@/modules/crm/infrastructure/opportunity-repository";
@@ -32,7 +33,7 @@ export default async function CrmPage() {
             <article className="crm-card" key={opportunity.id}>
               <div><span className={`status-pill status-${opportunity.stage === "new" ? "draft" : "published"}`}>{stages[opportunity.stage]}</span><h2>{opportunity.contactName}</h2><p>{opportunity.condominiumName ? `${opportunity.condominiumName}${opportunity.unitCode ? ` · Unidad ${opportunity.unitCode}` : ""}` : "Información general"}</p></div>
               <div className="crm-contact"><a href={`tel:${opportunity.contactPhone}`}>{opportunity.contactPhone}</a>{opportunity.contactEmail ? <a href={`mailto:${opportunity.contactEmail}`}>{opportunity.contactEmail}</a> : <span>Sin correo</span>}{opportunity.latestQuote ? <span className="crm-quote">Cuota {usd.format(opportunity.latestQuote.monthlyPaymentUsd)} · {opportunity.latestQuote.termMonths / 12} años · tasa {opportunity.latestQuote.annualRatePct}%</span> : null}</div>
-              <time dateTime={opportunity.createdAt}>{date.format(new Date(opportunity.createdAt))}</time>
+              <div className="crm-card-actions"><time dateTime={opportunity.createdAt}>{date.format(new Date(opportunity.createdAt))}</time><Link className="text-link" href={`/panel/crm/${opportunity.id}`}>Ver detalle →</Link></div>
             </article>
           ))}
         </section>

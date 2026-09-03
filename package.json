@@ -9,6 +9,7 @@
   "packageManager": "npm@10.9.8",
   "scripts": {
     "dev": "next dev",
+    "dev:full": "npm run doctor && npm run db:start && npm run dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -17,9 +18,12 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "check": "npm run lint && npm run typecheck && npm run test && npm run db:test",
+    "doctor": "node scripts/development-harness.mjs",
+    "verify": "npm run check && npm run build",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
+    "db:apply": "supabase migration up --local",
     "db:lint": "supabase db lint --local",
     "db:test": "node scripts/validate-migrations.mjs"
   },

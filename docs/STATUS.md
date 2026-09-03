@@ -72,10 +72,14 @@ Implementado:
 - Resumen de la cotización más reciente dentro de la bandeja CRM.
 - Base segura para agregar notas y cambiar etapas de oportunidades, conservando
   cada acción en el historial.
+- Detalle protegido de oportunidades con contacto, consentimientos, interés,
+  cotizaciones, historial, notas y cambio explícito de etapa.
+- Harness ligero para diagnosticar e iniciar el entorno local en Windows o WSL
+  y ejecutar el contrato completo de verificación.
 
 Siguiente sección vertical:
 
-- Interfaz de detalle y gestión de oportunidades en el CRM.
+- Embudo, filtros y asignación de asesores en el CRM.
 - WhatsApp directo cuando se confirme el número empresarial.
 
 ## Verificación

@@ -28,6 +28,17 @@ npm run db:reset
 npm run dev
 ```
 
+También puedes comprobar el entorno e iniciar toda la pila con:
+
+```bash
+npm run doctor
+npm run dev:full
+```
+
+`doctor` no imprime valores de configuración. En WSL comprueba además que
+Docker Desktop esté iniciado y que la integración con la distribución esté
+habilitada.
+
 `npm run db:start` muestra la URL y la clave pública del Supabase local. Copia
 ambas en `.env.local` como `NEXT_PUBLIC_SUPABASE_URL` y
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. La aplicación estará disponible en
@@ -84,8 +95,11 @@ en el repositorio.
 ```bash
 npm run check       # ESLint, TypeScript y pruebas
 npm run build       # compilación de producción
+npm run verify      # contrato completo: check y build
+npm run doctor      # diagnóstico seguro de Node, npm, entorno, Docker y Supabase
 npm run db:test     # aplica migraciones dos veces en PostgreSQL WASM limpio
 npm run db:lint     # revisión SQL con Supabase local activo
+npm run db:apply    # aplica únicamente migraciones locales pendientes
 npm run db:reset    # reconstruye la base aplicando migraciones y seed
 ```
 

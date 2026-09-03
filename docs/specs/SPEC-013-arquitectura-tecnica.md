@@ -66,6 +66,17 @@ No se crearán interfaces para cada archivo ni capas vacías. Las abstracciones 
 - Integración empresarial oficial de WhatsApp por definir.
 - Servicio de mapas por definir solamente si el alcance lo requiere.
 
+### Harness de desarrollo local
+
+- Una capa ligera de comandos npm comprobará versión de Node, dependencias,
+  variables públicas, acceso a Docker y estado de Supabase antes del arranque.
+- El diagnóstico reconocerá Windows y WSL y mostrará acciones concretas sin
+  imprimir valores de variables ni secretos.
+- El harness coordinará herramientas existentes; no contendrá reglas del
+  negocio ni se convertirá en una dependencia de la aplicación en producción.
+- GitHub Actions seguirá siendo la verificación remota y ejecutará el mismo
+  contrato local de calidad y compilación.
+
 ## Flujo de datos
 
 1. El comprador consulta el sitio público.
@@ -158,3 +169,5 @@ Es posible, pero obliga a asumir seguridad, copias de respaldo, monitoreo, actua
 
 - 2026-08-28: creación de la propuesta inicial de monolito modular.
 - 2026-08-28: arquitectura aprobada; se incorporaron principios ligeros de Clean Architecture.
+- 2026-09-02: se incorporó un harness ligero para diagnóstico, arranque y
+  verificación reproducible en Windows y WSL.
