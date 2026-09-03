@@ -28,7 +28,8 @@ export async function listOpportunities(filters: OpportunityFilters = {}): Promi
     .order("created_at", { ascending: false });
   if (filters.status && filters.status !== "all") query = query.eq("status", filters.status);
   if (filters.stage) query = query.eq("stage", filters.stage);
-  if (filters.advisorId) query = query.eq("advisor_id", filters.advisorId);
+  if (filters.advisorId === "unassigned") query = query.is("advisor_id", null);
+  else if (filters.advisorId) query = query.eq("advisor_id", filters.advisorId);
   if (filters.dateFrom) query = query.gte("created_at", `${filters.dateFrom}T00:00:00-06:00`);
   if (filters.dateTo) {
     const exclusiveEnd = new Date(`${filters.dateTo}T12:00:00-06:00`);

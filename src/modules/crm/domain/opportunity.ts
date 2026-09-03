@@ -30,7 +30,7 @@ export type OpportunityActivity = {
 export type CrmAdvisorOption = { id: string; name: string };
 export type CrmCondominiumOption = { id: string; name: string };
 export type OpportunityFilters = {
-  advisorId?: string;
+  advisorId?: "unassigned" | string;
   condominiumId?: string;
   dateFrom?: string;
   dateTo?: string;

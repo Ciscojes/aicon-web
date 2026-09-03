@@ -78,12 +78,14 @@ Implementado:
   asesor, condominio y rango de fechas.
 - Asignación manual de asesores activos por administradores, con cada cambio
   conservado en el historial de la oportunidad.
+- Resumen administrativo con inventario disponible, reservado y vendido,
+  oportunidades nuevas, consultas sin asesor y accesos directos filtrados.
 - Harness ligero para diagnosticar e iniciar el entorno local en Windows o WSL
   y ejecutar el contrato completo de verificación.
 
 Siguiente sección vertical:
 
-- Resumen para el dueño con indicadores y seguimientos que requieren atención.
+- Programación de la próxima acción y señalización de seguimientos atrasados.
 - WhatsApp directo cuando se confirme el número empresarial.
 
 ## Verificación

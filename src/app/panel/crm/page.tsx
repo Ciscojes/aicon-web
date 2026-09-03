@@ -41,8 +41,9 @@ export default async function CrmPage({
   await requireCrmAccess();
   const query = await searchParams;
   const value = (name: string) => typeof query[name] === "string" ? query[name] : undefined;
+  const advisorValue = value("advisor");
   const filters: OpportunityFilters = {
-    advisorId: valid(value("advisor"), uuidSchema),
+    advisorId: advisorValue === "unassigned" ? "unassigned" : valid(advisorValue, uuidSchema),
     condominiumId: valid(value("condominium"), uuidSchema),
     dateFrom: valid(value("from"), dateSchema),
     dateTo: valid(value("to"), dateSchema),
@@ -67,7 +68,7 @@ export default async function CrmPage({
       <form className="crm-filters" method="get">
         <label><span>Estado</span><select defaultValue={filters.status} name="status"><option value="open">Abiertas</option><option value="closed">Cerradas</option><option value="all">Todas</option></select></label>
         <label><span>Etapa</span><select defaultValue={filters.stage ?? ""} name="stage"><option value="">Todas</option>{Object.entries(stages).map(([stage, label]) => <option key={stage} value={stage}>{label}</option>)}</select></label>
-        <label><span>Asesor</span><select defaultValue={filters.advisorId ?? ""} name="advisor"><option value="">Todos</option>{advisors.map((advisor) => <option key={advisor.id} value={advisor.id}>{advisor.name}</option>)}</select></label>
+        <label><span>Asesor</span><select defaultValue={filters.advisorId ?? ""} name="advisor"><option value="">Todos</option><option value="unassigned">Sin asignar</option>{advisors.map((advisor) => <option key={advisor.id} value={advisor.id}>{advisor.name}</option>)}</select></label>
         <label><span>Condominio</span><select defaultValue={filters.condominiumId ?? ""} name="condominium"><option value="">Todos</option>{condominiums.map((condominium) => <option key={condominium.id} value={condominium.id}>{condominium.name}</option>)}</select></label>
         <label><span>Desde</span><input defaultValue={filters.dateFrom ?? ""} name="from" type="date" /></label>
         <label><span>Hasta</span><input defaultValue={filters.dateTo ?? ""} name="to" type="date" /></label>

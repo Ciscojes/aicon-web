@@ -1,34 +1,40 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+
+import { getPanelSummary } from "@/modules/dashboard/infrastructure/panel-summary-repository";
+import { canAccessCrm } from "@/modules/users/domain/role";
+import { getCurrentProfile } from "@/modules/users/infrastructure/get-current-profile";
 
 export const metadata: Metadata = {
   title: "Panel | Aicon",
 };
 
-export default function PanelPage() {
+export default async function PanelPage() {
+  const profile = await getCurrentProfile();
+  const showCrm = profile ? canAccessCrm(profile.role) : false;
+  const summary = await getPanelSummary(showCrm);
+
   return (
-    <main className="panel-content">
-      <p className="eyebrow">Estado del MVP</p>
-      <h1>Catálogo y consultas</h1>
-      <p className="lede">
-        El catálogo público y administrativo ya reciben consultas que el equipo
-        autorizado puede revisar desde el CRM.
-      </p>
-      <section aria-label="Estado de módulos" className="status-grid">
-        <article className="status-card">
-          <span aria-hidden="true">01</span>
-          <h2>Catálogo</h2>
-          <p>Condominios, modelos, casas y fotografías operativos.</p>
-        </article>
-        <article className="status-card">
-          <span aria-hidden="true">02</span>
-          <h2>CRM</h2>
-          <p>Bandeja inicial de consultas públicas disponible.</p>
-        </article>
-        <article className="status-card">
-          <span aria-hidden="true">03</span>
-          <h2>Citas</h2>
-          <p>Estructura reservada para próximas entregas.</p>
-        </article>
+    <main className="panel-content dashboard-page">
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">Resumen administrativo</p>
+          <h1>Estado de Aicon</h1>
+          <p className="lede">Inventario y oportunidades que requieren atención.</p>
+        </div>
+      </div>
+
+      <section aria-label="Indicadores de inventario" className="dashboard-metrics">
+        <Link className="dashboard-metric" href="/panel/catalogo/unidades"><span>Casas disponibles</span><strong>{summary.availableUnits}</strong><small>Revisar inventario →</small></Link>
+        <Link className="dashboard-metric" href="/panel/catalogo/unidades"><span>Casas reservadas</span><strong>{summary.reservedUnits}</strong><small>Revisar inventario →</small></Link>
+        <Link className="dashboard-metric" href="/panel/catalogo/unidades"><span>Casas vendidas</span><strong>{summary.soldUnits}</strong><small>Revisar inventario →</small></Link>
+        {showCrm ? <Link className="dashboard-metric dashboard-metric-accent" href="/panel/crm?status=open&amp;stage=new"><span>Oportunidades nuevas</span><strong>{summary.newOpportunities}</strong><small>Atender consultas →</small></Link> : null}
+        {showCrm ? <Link className="dashboard-metric dashboard-metric-warning" href="/panel/crm?status=open&amp;advisor=unassigned"><span>Sin asesor asignado</span><strong>{summary.unassignedOpportunities}</strong><small>Asignar responsables →</small></Link> : null}
+      </section>
+
+      <section className="dashboard-next">
+        <div><p className="eyebrow">Próxima entrega</p><h2>Agenda y seguimiento</h2><p>Las próximas visitas, seguimientos atrasados y fallos de notificación aparecerán aquí cuando sus módulos estén implementados.</p></div>
+        {showCrm ? <Link className="button button-secondary" href="/panel/crm">Abrir CRM</Link> : null}
       </section>
     </main>
   );
