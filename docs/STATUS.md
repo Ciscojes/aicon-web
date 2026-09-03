@@ -74,12 +74,16 @@ Implementado:
   cada acción en el historial.
 - Detalle protegido de oportunidades con contacto, consentimientos, interés,
   cotizaciones, historial, notas y cambio explícito de etapa.
+- Embudo comercial con oportunidades abiertas o cerradas y filtros por etapa,
+  asesor, condominio y rango de fechas.
+- Asignación manual de asesores activos por administradores, con cada cambio
+  conservado en el historial de la oportunidad.
 - Harness ligero para diagnosticar e iniciar el entorno local en Windows o WSL
   y ejecutar el contrato completo de verificación.
 
 Siguiente sección vertical:
 
-- Embudo, filtros y asignación de asesores en el CRM.
+- Resumen para el dueño con indicadores y seguimientos que requieren atención.
 - WhatsApp directo cuando se confirme el número empresarial.
 
 ## Verificación

@@ -72,6 +72,8 @@ Definir la estructura de las pantallas internas que utilizarán el dueño, los a
 - Etapa, asesor y próxima acción.
 - Historial cronológico de notas, comunicaciones, citas y cambios.
 - Acciones para llamar, escribir, agendar, cotizar o cerrar la oportunidad.
+- Selector de asesor visible solamente para administradores; la asignación y
+  desasignación manual quedarán en el historial.
 - La primera versión priorizará cambio explícito de etapa y notas; agenda,
   asignación y acciones de proveedores se incorporarán en incrementos posteriores.
 

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { requireCrmAccess } from "../authorization";
 import {
   addOpportunityNote,
+  assignOpportunityAdvisor,
   changeOpportunityStage,
 } from "@/modules/crm/infrastructure/opportunity-repository";
 
@@ -62,4 +63,26 @@ export async function updateOpportunityStage(id: string, formData: FormData) {
   revalidatePath("/panel/crm");
   revalidatePath(`/panel/crm/${id}`);
   redirect(destination(id, "notice", "Etapa actualizada."));
+}
+
+export async function updateOpportunityAdvisor(id: string, formData: FormData) {
+  const profile = await requireCrmAccess();
+  if (profile.role !== "administrator") {
+    redirect(destination(id, "error", "Solamente un administrador puede cambiar el asesor."));
+  }
+  if (!idSchema.safeParse(id).success) redirect("/panel/crm");
+
+  const value = formData.get("advisorId");
+  const advisorId = value === "" ? null : z.uuid().safeParse(value);
+  if (advisorId !== null && !advisorId.success) {
+    redirect(destination(id, "error", "Selecciona un asesor válido."));
+  }
+
+  if (!(await assignOpportunityAdvisor(id, advisorId === null ? null : advisorId.data))) {
+    redirect(destination(id, "error", "No fue posible cambiar el asesor."));
+  }
+
+  revalidatePath("/panel/crm");
+  revalidatePath(`/panel/crm/${id}`);
+  redirect(destination(id, "notice", advisorId === null ? "Asignación retirada." : "Asesor asignado."));
 }

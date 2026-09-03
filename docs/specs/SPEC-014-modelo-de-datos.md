@@ -101,7 +101,8 @@ Registra notas y acciones del historial comercial.
 
 Campos principales: `id`, `opportunity_id`, `actor_user_id`, `type`, `content`, `occurred_at`, `created_at`.
 
-Tipos iniciales: nota, llamada, correo, WhatsApp, cambio de etapa, cotización y visita.
+Tipos iniciales: nota, llamada, correo, WhatsApp, cambio de etapa, asignación,
+cotización y visita.
 Las consultas públicas podrán registrar una actividad de tipo `inquiry` sin actor
 interno para conservar el mensaje y la fecha de ingreso.
 

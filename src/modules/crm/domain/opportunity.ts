@@ -1,4 +1,6 @@
 export type OpportunitySummary = {
+  advisorId: string | null;
+  advisorName: string | null;
   condominiumName: string | null;
   contactEmail: string | null;
   contactName: string;
@@ -12,6 +14,7 @@ export type OpportunitySummary = {
     monthlyPaymentUsd: number;
     termMonths: number;
   } | null;
+  status: "closed" | "open";
   stage: "contacted" | "discarded" | "negotiation" | "new" | "quote" | "sold" | "visit_scheduled";
   unitCode: string | null;
 };
@@ -21,7 +24,18 @@ export type OpportunityActivity = {
   content: string;
   id: string;
   occurredAt: string;
-  type: "call" | "email" | "inquiry" | "note" | "quote" | "stage_change" | "visit" | "whatsapp";
+  type: "assignment" | "call" | "email" | "inquiry" | "note" | "quote" | "stage_change" | "visit" | "whatsapp";
+};
+
+export type CrmAdvisorOption = { id: string; name: string };
+export type CrmCondominiumOption = { id: string; name: string };
+export type OpportunityFilters = {
+  advisorId?: string;
+  condominiumId?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  stage?: OpportunitySummary["stage"];
+  status?: OpportunitySummary["status"] | "all";
 };
 
 export type OpportunityQuote = {
@@ -42,5 +56,4 @@ export type OpportunityDetails = OpportunitySummary & {
   contactWhatsappConsent: boolean;
   quotes: OpportunityQuote[];
   source: "contact_form" | "manual" | "quote_request";
-  status: "closed" | "open";
 };

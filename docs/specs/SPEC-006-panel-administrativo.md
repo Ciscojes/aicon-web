@@ -30,6 +30,8 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 - Consultar, reprogramar y cancelar citas según los permisos del usuario.
 - Permitir que los asesores bloqueen períodos en los que no estarán disponibles.
 - Acceder al CRM según los permisos del usuario.
+- Asignar o retirar manualmente asesores de una oportunidad solamente como
+  administrador; el cambio deberá quedar registrado en el historial.
 
 ## Flujo principal de publicación
 

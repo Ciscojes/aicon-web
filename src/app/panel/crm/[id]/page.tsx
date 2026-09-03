@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 
-import { createOpportunityNote, updateOpportunityStage } from "./actions";
+import { createOpportunityNote, updateOpportunityAdvisor, updateOpportunityStage } from "./actions";
 import { requireCrmAccess } from "../authorization";
-import { getOpportunity } from "@/modules/crm/infrastructure/opportunity-repository";
+import { getOpportunity, listActiveAdvisors } from "@/modules/crm/infrastructure/opportunity-repository";
 
 export const metadata: Metadata = { title: "Detalle de oportunidad | Panel Aicon" };
 
@@ -19,6 +19,7 @@ const stages = {
   visit_scheduled: "Visita programada",
 } as const;
 const activityTypes = {
+  assignment: "Asignación",
   call: "Llamada",
   email: "Correo",
   inquiry: "Consulta",
@@ -51,16 +52,20 @@ export default async function OpportunityPage({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ error?: string; notice?: string }>;
 }>) {
-  await requireCrmAccess();
+  const profile = await requireCrmAccess();
   const { id } = await params;
   if (!z.uuid().safeParse(id).success) notFound();
 
-  const opportunity = await getOpportunity(id);
+  const [opportunity, advisors] = await Promise.all([
+    getOpportunity(id),
+    profile.role === "administrator" ? listActiveAdvisors() : Promise.resolve([]),
+  ]);
   if (!opportunity) notFound();
 
   const messages = await searchParams;
   const noteAction = createOpportunityNote.bind(null, id);
   const stageAction = updateOpportunityStage.bind(null, id);
+  const advisorAction = updateOpportunityAdvisor.bind(null, id);
   const interest = opportunity.condominiumName
     ? `${opportunity.condominiumName}${opportunity.unitCode ? ` · Unidad ${opportunity.unitCode}` : ""}`
     : "Interés general";
@@ -137,6 +142,13 @@ export default async function OpportunityPage({
             <label><span>Etapa comercial</span><select defaultValue={opportunity.stage} name="stage">{Object.entries(stages).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
             <button className="button button-secondary button-full" type="submit">Guardar etapa</button>
           </form>
+
+          {profile.role === "administrator" ? (
+            <form action={advisorAction} className="crm-management-form">
+              <label><span>Asesor responsable</span><select defaultValue={opportunity.advisorId ?? ""} name="advisorId"><option value="">Sin asignar</option>{advisors.map((advisor) => <option key={advisor.id} value={advisor.id}>{advisor.name}</option>)}</select></label>
+              <button className="button button-secondary button-full" type="submit">Guardar responsable</button>
+            </form>
+          ) : null}
 
           <form action={noteAction} className="crm-management-form crm-note-form">
             <label><span>Nueva nota</span><textarea maxLength={5000} name="content" placeholder="Registra el resultado del seguimiento…" required rows={6} /></label>

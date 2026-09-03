@@ -275,6 +275,38 @@ async function validateFreshDatabase(migrations) {
       throw new Error("La gestión de oportunidades no conservó la nota y el cambio de etapa.");
     }
 
+    const advisorAuthId = "44444444-4444-4444-8444-444444444444";
+    await database.query(
+      `insert into auth.users (id, email, raw_user_meta_data)
+       values ($1, $2, $3::jsonb)`,
+      [advisorAuthId, "advisor@example.com", JSON.stringify({ name: "Asesor Prueba" })],
+    );
+    await database.query(
+      `update public.user_profiles set active = true where auth_user_id = $1`,
+      [advisorAuthId],
+    );
+    const [advisor] = (await database.query(
+      `select id from public.user_profiles where auth_user_id = $1`,
+      [advisorAuthId],
+    )).rows;
+    await database.query(
+      `select public.assign_opportunity_advisor($1, $2)`,
+      [opportunity.id, advisor.id],
+    );
+    const [assignedOpportunity] = (await database.query(
+      `select
+        opportunities.advisor_id,
+        count(activities.id) filter (where activities.type = 'assignment')::integer as assignment_activities
+       from public.opportunities
+       left join public.activities on activities.opportunity_id = opportunities.id
+       where opportunities.id = $1
+       group by opportunities.id`,
+      [opportunity.id],
+    )).rows;
+    if (assignedOpportunity.advisor_id !== advisor.id || assignedOpportunity.assignment_activities !== 1) {
+      throw new Error("La asignación no conservó el asesor y su actividad de auditoría.");
+    }
+
     await database.query(
       `insert into public.app_settings (category, value, updated_by)
        values ('financing', $1::jsonb, $2)`,

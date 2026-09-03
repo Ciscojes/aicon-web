@@ -73,6 +73,10 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
 - Hasta que se aprueben reglas de asignación, administradores y asesores activos
   podrán gestionar todas las oportunidades y la interfaz indicará que aún no hay
   responsable asignado.
+- La primera asignación será manual: solamente un administrador podrá asignar o
+  retirar un asesor activo; la automatización se pospone hasta aprobar sus reglas.
+- Asignar, reasignar o retirar un asesor quedará registrado como actividad con
+  el administrador responsable y la fecha.
 - Cambiar a `Vendido` o `Descartado` cerrará la oportunidad; cambiarla nuevamente
   a una etapa activa la reabrirá sin eliminar su historial.
 - Cada nota y cambio de etapa se registrará transaccionalmente con autor y fecha.
@@ -112,3 +116,5 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
   las consultas del formulario público.
 - 2026-09-01: se definieron detalle protegido, notas, etapas y permisos
   provisionales antes de implementar asignación de asesores.
+- 2026-09-02: se aprobó la asignación manual por administradores como primera
+  versión, conservando la asignación automática como decisión pendiente.
