@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { requireCrmAccess } from "./authorization";
 import type { OpportunityFilters, OpportunitySummary } from "@/modules/crm/domain/opportunity";
+import { getFollowUpState } from "@/modules/crm/domain/follow-up";
 import {
   listActiveAdvisors,
   listCrmCondominiums,
@@ -23,10 +24,30 @@ const stages = {
 } as const;
 const stageSchema = z.enum(Object.keys(stages) as [keyof typeof stages, ...(keyof typeof stages)[]]);
 const statusSchema = z.enum(["all", "open", "closed"]);
+const followUpSchema = z.enum(["overdue", "today", "upcoming", "unscheduled"]);
 const dateSchema = z.iso.date();
 const uuidSchema = z.uuid();
 const date = new Intl.DateTimeFormat("es-CR", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Costa_Rica" });
 const usd = new Intl.NumberFormat("es-CR", { currency: "USD", maximumFractionDigits: 2, style: "currency" });
+const followUpLabels = {
+  closed: "Cerrada",
+  overdue: "Atrasado",
+  today: "Vence hoy",
+  upcoming: "Próximo",
+  unscheduled: "Sin programar",
+} as const;
+
+function FollowUpSummary({ opportunity }: Readonly<{ opportunity: OpportunitySummary }>) {
+  if (opportunity.status === "closed") return null;
+  const state = getFollowUpState(opportunity.nextActionAt, opportunity.status);
+  return (
+    <div className={`crm-follow-up-summary follow-up-${state}`}>
+      <strong>{followUpLabels[state]}</strong>
+      {opportunity.nextActionAt ? <time dateTime={opportunity.nextActionAt}>{date.format(new Date(opportunity.nextActionAt))}</time> : null}
+      <span>{opportunity.nextActionDescription ?? "Programa la próxima actividad."}</span>
+    </div>
+  );
+}
 
 function valid<T>(value: string | undefined, schema: z.ZodType<T>): T | undefined {
   const result = schema.safeParse(value);
@@ -47,6 +68,7 @@ export default async function CrmPage({
     condominiumId: valid(value("condominium"), uuidSchema),
     dateFrom: valid(value("from"), dateSchema),
     dateTo: valid(value("to"), dateSchema),
+    followUp: valid(value("followUp"), followUpSchema),
     stage: valid(value("stage"), stageSchema),
     status: valid(value("status"), statusSchema) ?? "open",
   };
@@ -72,6 +94,7 @@ export default async function CrmPage({
         <label><span>Condominio</span><select defaultValue={filters.condominiumId ?? ""} name="condominium"><option value="">Todos</option>{condominiums.map((condominium) => <option key={condominium.id} value={condominium.id}>{condominium.name}</option>)}</select></label>
         <label><span>Desde</span><input defaultValue={filters.dateFrom ?? ""} name="from" type="date" /></label>
         <label><span>Hasta</span><input defaultValue={filters.dateTo ?? ""} name="to" type="date" /></label>
+        <label><span>Seguimiento</span><select defaultValue={filters.followUp ?? ""} name="followUp"><option value="">Todos</option><option value="overdue">Atrasados</option><option value="today">Vencen hoy</option><option value="upcoming">Próximos</option><option value="unscheduled">Sin programar</option></select></label>
         <div className="crm-filter-actions"><button className="button button-primary" type="submit">Aplicar filtros</button><Link className="text-link" href="/panel/crm">Limpiar</Link></div>
       </form>
 
@@ -87,6 +110,7 @@ export default async function CrmPage({
                   <article className="crm-card" key={opportunity.id}>
                     <div><h3>{opportunity.contactName}</h3><p>{opportunity.condominiumName ? `${opportunity.condominiumName}${opportunity.unitCode ? ` · Unidad ${opportunity.unitCode}` : ""}` : "Información general"}</p><span className="crm-owner">{opportunity.advisorName ?? "Sin asesor"}</span></div>
                     <div className="crm-contact"><a href={`tel:${opportunity.contactPhone}`}>{opportunity.contactPhone}</a>{opportunity.latestQuote ? <span className="crm-quote">Cuota {usd.format(opportunity.latestQuote.monthlyPaymentUsd)} · {opportunity.latestQuote.termMonths / 12} años</span> : null}</div>
+                    <FollowUpSummary opportunity={opportunity} />
                     <div className="crm-card-actions"><time dateTime={opportunity.createdAt}>{date.format(new Date(opportunity.createdAt))}</time><Link className="text-link" href={`/panel/crm/${opportunity.id}`}>Ver detalle →</Link></div>
                   </article>
                 ))}

@@ -51,7 +51,7 @@ Implementado:
 
 ## Entrega 2 — Cotizaciones y contacto
 
-En progreso.
+En progreso por las integraciones externas pendientes.
 
 Implementado:
 
@@ -59,8 +59,6 @@ Implementado:
   con validación, consentimiento, campo señuelo y límite de repetición.
 - Registro privado de contactos, oportunidades y actividades de consulta con
   deduplicación inicial por teléfono normalizado.
-- Bandeja CRM inicial de oportunidades abiertas, disponible solamente para
-  administradores y asesores activos.
 - Configuración financiera versionada y restringida a administradores, sin
   valores inventados ni configuración activa por defecto.
 - Simulador dentro del detalle de casas disponibles con prima, plazo, tasa,
@@ -69,6 +67,21 @@ Implementado:
   históricas de precio, prima, tasa, plazo y cuota.
 - Validación en PostgreSQL para impedir cotizaciones de casas no disponibles o
   con opciones financieras desactualizadas.
+- Registro de la cotización formal dentro de la oportunidad correspondiente.
+
+Pendiente externo:
+
+- WhatsApp directo y confirmaciones cuando se aprueben número empresarial,
+  proveedor, presupuesto y plantillas.
+
+## Entrega 3 — CRM operativo
+
+En progreso.
+
+Implementado:
+
+- Bandeja CRM y embudo de oportunidades, disponibles solamente para
+  administradores y asesores activos.
 - Resumen de la cotización más reciente dentro de la bandeja CRM.
 - Base segura para agregar notas y cambiar etapas de oportunidades, conservando
   cada acción en el historial.
@@ -80,13 +93,16 @@ Implementado:
   conservado en el historial de la oportunidad.
 - Resumen administrativo con inventario disponible, reservado y vendido,
   oportunidades nuevas, consultas sin asesor y accesos directos filtrados.
+- Programación de próxima acción con fecha, hora y descripción, retiro explícito
+  al atenderla y auditoría de cada cambio.
+- Señalización de seguimientos atrasados o que vencen hoy en el embudo, filtros
+  rápidos y contador de atrasados en el resumen administrativo.
 - Harness ligero para diagnosticar e iniciar el entorno local en Windows o WSL
   y ejecutar el contrato completo de verificación.
 
 Siguiente sección vertical:
 
-- Programación de la próxima acción y señalización de seguimientos atrasados.
-- WhatsApp directo cuando se confirme el número empresarial.
+- Agenda de visitas y recordatorios/notificaciones.
 
 ## Verificación
 

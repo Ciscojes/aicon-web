@@ -81,7 +81,7 @@ El teléfono y el correo servirán para detectar posibles duplicados, pero el si
 
 Representa un proceso comercial relacionado con un contacto y una propiedad o condominio.
 
-Campos principales: `id`, `contact_id`, `unit_id` opcional, `condominium_id` opcional, `advisor_id` opcional, `stage`, `status`, `source`, `next_action_at`, `closed_reason`, `created_at`, `updated_at`, `closed_at`.
+Campos principales: `id`, `contact_id`, `unit_id` opcional, `condominium_id` opcional, `advisor_id` opcional, `stage`, `status`, `source`, `next_action_at`, `next_action_description`, `closed_reason`, `created_at`, `updated_at`, `closed_at`.
 
 Un contacto puede tener varias oportunidades. Cada oportunidad tendrá una etapa independiente y representará una sola propiedad o, cuando todavía no se haya escogido una casa, un solo condominio.
 
@@ -182,6 +182,8 @@ No almacenará secretos ni datos completos innecesarios.
 - Condominio, modelo, precio, habitaciones y disponibilidad de unidades.
 - Teléfono normalizado y correo de contactos.
 - Etapa, asesor, propiedad y próxima acción de oportunidades.
+- La próxima acción tendrá fecha, hora y descripción en conjunto; las oportunidades
+  cerradas no conservarán una acción pendiente.
 - Fecha, asesor, propiedad y estado de citas.
 - Estado y fecha programada de notificaciones.
 
@@ -199,6 +201,7 @@ No almacenará secretos ni datos completos innecesarios.
 
 - 2026-08-28: creación de la propuesta inicial del modelo lógico.
 - 2026-08-28: modelo aprobado; se habilitó la reutilización de modelos entre condominios y una oportunidad por propiedad.
+- 2026-09-03: se agregó la descripción de próxima acción y su integridad con el estado de la oportunidad.
 - 2026-08-31: se añadió la actividad de consulta pública y la reutilización inicial
   de contactos por teléfono normalizado.
 - 2026-08-31: se concretó la configuración financiera versionada y su relación con

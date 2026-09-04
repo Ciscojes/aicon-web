@@ -3,9 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 
-import { createOpportunityNote, updateOpportunityAdvisor, updateOpportunityStage } from "./actions";
+import { createOpportunityNote, updateOpportunityAdvisor, updateOpportunityFollowUp, updateOpportunityStage } from "./actions";
 import { requireCrmAccess } from "../authorization";
 import { getOpportunity, listActiveAdvisors } from "@/modules/crm/infrastructure/opportunity-repository";
+import { getFollowUpState, toCostaRicaDateTimeLocal } from "@/modules/crm/domain/follow-up";
 
 export const metadata: Metadata = { title: "Detalle de oportunidad | Panel Aicon" };
 
@@ -22,6 +23,7 @@ const activityTypes = {
   assignment: "Asignación",
   call: "Llamada",
   email: "Correo",
+  follow_up: "Próxima acción",
   inquiry: "Consulta",
   note: "Nota",
   quote: "Cotización",
@@ -66,9 +68,18 @@ export default async function OpportunityPage({
   const noteAction = createOpportunityNote.bind(null, id);
   const stageAction = updateOpportunityStage.bind(null, id);
   const advisorAction = updateOpportunityAdvisor.bind(null, id);
+  const followUpAction = updateOpportunityFollowUp.bind(null, id);
   const interest = opportunity.condominiumName
     ? `${opportunity.condominiumName}${opportunity.unitCode ? ` · Unidad ${opportunity.unitCode}` : ""}`
     : "Interés general";
+  const followUpState = getFollowUpState(opportunity.nextActionAt, opportunity.status);
+  const followUpLabels = {
+    closed: "Oportunidad cerrada",
+    overdue: "Seguimiento atrasado",
+    today: "Vence hoy",
+    upcoming: "Programado",
+    unscheduled: "Sin programar",
+  } as const;
 
   return (
     <main className="panel-content catalog-page crm-detail-page">
@@ -90,6 +101,14 @@ export default async function OpportunityPage({
 
       <div className="crm-detail-grid">
         <div className="crm-detail-main">
+          <section className={`crm-detail-panel crm-follow-up-panel follow-up-${followUpState}`} aria-labelledby="follow-up-title">
+            <div className="crm-section-heading">
+              <div><p className="eyebrow">Próxima acción</p><h2 id="follow-up-title">{followUpLabels[followUpState]}</h2></div>
+              {opportunity.nextActionAt ? <time dateTime={opportunity.nextActionAt}>{date.format(new Date(opportunity.nextActionAt))}</time> : null}
+            </div>
+            <p>{opportunity.nextActionDescription ?? (opportunity.status === "closed" ? "Reabre la oportunidad para programar un nuevo seguimiento." : "Programa la siguiente llamada, mensaje o tarea comercial.")}</p>
+          </section>
+
           <section className="crm-detail-panel" aria-labelledby="contact-title">
             <div className="crm-section-heading"><div><p className="eyebrow">Cliente</p><h2 id="contact-title">Datos de contacto</h2></div><span>{sources[opportunity.source]}</span></div>
             <dl className="crm-data-grid">
@@ -147,6 +166,15 @@ export default async function OpportunityPage({
             <form action={advisorAction} className="crm-management-form">
               <label><span>Asesor responsable</span><select defaultValue={opportunity.advisorId ?? ""} name="advisorId"><option value="">Sin asignar</option>{advisors.map((advisor) => <option key={advisor.id} value={advisor.id}>{advisor.name}</option>)}</select></label>
               <button className="button button-secondary button-full" type="submit">Guardar responsable</button>
+            </form>
+          ) : null}
+
+          {opportunity.status === "open" ? (
+            <form action={followUpAction} className="crm-management-form">
+              <label><span>Fecha y hora de próxima acción</span><input defaultValue={toCostaRicaDateTimeLocal(opportunity.nextActionAt)} name="nextActionAt" required type="datetime-local" /></label>
+              <label><span>Descripción</span><textarea defaultValue={opportunity.nextActionDescription ?? ""} maxLength={500} name="description" placeholder="Ej.: llamar para confirmar documentos" required rows={3} /></label>
+              <button className="button button-primary button-full" type="submit">Guardar próxima acción</button>
+              {opportunity.nextActionAt ? <button className="button button-secondary button-full" name="intent" type="submit" value="clear">Marcar como atendida</button> : null}
             </form>
           ) : null}
 

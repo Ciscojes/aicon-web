@@ -430,6 +430,7 @@ textarea:focus-visible {
 .dashboard-metric > small { color: var(--accent-secondary); font-weight: 800; }
 .dashboard-metric-accent { background: linear-gradient(145deg, #eef0ff, #ffffff); }
 .dashboard-metric-warning { background: linear-gradient(145deg, #fff4dc, #ffffff); }
+.dashboard-metric-danger { background: linear-gradient(145deg, #ffe8e8, #ffffff); border-color: #efc0c0; }
 .dashboard-next { align-items: center; background: var(--accent-dark); border-radius: 1.2rem; color: white; display: flex; gap: 2rem; justify-content: space-between; margin-top: 1.25rem; padding: clamp(1.4rem, 4vw, 2.2rem); }
 .dashboard-next h2 { margin: 0.2rem 0 0.55rem; }
 .dashboard-next p:not(.eyebrow) { color: #c7c5d3; margin: 0; max-width: 45rem; }
@@ -1264,6 +1265,19 @@ textarea:focus-visible {
 .crm-management-form label > span { font-size: 0.8rem; font-weight: 800; }
 .crm-management-form select, .crm-management-form textarea { width: 100%; }
 .crm-note-form textarea { resize: vertical; }
+.crm-management-form input[type="datetime-local"] { width: 100%; }
+.crm-follow-up-panel { border-left: 0.35rem solid var(--accent-secondary); }
+.crm-follow-up-panel > p { margin: 1rem 0 0; }
+.crm-follow-up-panel time { color: var(--muted); font-size: 0.82rem; font-weight: 800; }
+.crm-follow-up-panel.follow-up-overdue { background: linear-gradient(135deg, #fff2f2, rgb(255 255 255 / 94%)); border-left-color: #b52f3c; }
+.crm-follow-up-panel.follow-up-today { background: linear-gradient(135deg, #fff6dc, rgb(255 255 255 / 94%)); border-left-color: #d08b16; }
+.crm-follow-up-summary { border: 1px solid var(--line); border-radius: 0.75rem; display: grid; gap: 0.2rem; padding: 0.7rem; }
+.crm-follow-up-summary strong { font-size: 0.76rem; }
+.crm-follow-up-summary time, .crm-follow-up-summary span { color: var(--muted); font-size: 0.72rem; }
+.crm-follow-up-summary.follow-up-overdue { background: #fff0f1; border-color: #efb8bd; color: #8f2330; }
+.crm-follow-up-summary.follow-up-today { background: #fff5d9; border-color: #e7ca80; color: #79540e; }
+.crm-follow-up-summary.follow-up-upcoming { background: #eef0ff; border-color: #c9cef8; color: #313d9d; }
+.crm-follow-up-summary.follow-up-unscheduled { background: var(--surface-soft); }
 
 .financial-settings-panel { margin-top: 2rem; }
 .financial-settings-form small { color: var(--muted); display: block; margin-top: 0.35rem; }

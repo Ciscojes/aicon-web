@@ -5,10 +5,12 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { requireCrmAccess } from "../authorization";
+import { toCostaRicaDateTimeLocal } from "@/modules/crm/domain/follow-up";
 import {
   addOpportunityNote,
   assignOpportunityAdvisor,
   changeOpportunityStage,
+  setOpportunityNextAction,
 } from "@/modules/crm/infrastructure/opportunity-repository";
 
 const idSchema = z.uuid();
@@ -22,6 +24,8 @@ const stageSchema = z.enum([
   "sold",
   "discarded",
 ]);
+const localDateTimeSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/);
+const followUpDescriptionSchema = z.string().trim().min(1).max(500);
 
 function destination(id: string, kind: "error" | "notice", message: string) {
   const query = new URLSearchParams({ [kind]: message });
@@ -85,4 +89,41 @@ export async function updateOpportunityAdvisor(id: string, formData: FormData) {
   revalidatePath("/panel/crm");
   revalidatePath(`/panel/crm/${id}`);
   redirect(destination(id, "notice", advisorId === null ? "Asignación retirada." : "Asesor asignado."));
+}
+
+export async function updateOpportunityFollowUp(id: string, formData: FormData) {
+  await requireCrmAccess();
+  if (!idSchema.safeParse(id).success) redirect("/panel/crm");
+
+  if (formData.get("intent") === "clear") {
+    if (!(await setOpportunityNextAction(id, null, null))) {
+      redirect(destination(id, "error", "No fue posible retirar la próxima acción."));
+    }
+    revalidatePath("/panel");
+    revalidatePath("/panel/crm");
+    revalidatePath(`/panel/crm/${id}`);
+    redirect(destination(id, "notice", "Próxima acción marcada como atendida."));
+  }
+
+  const dateTime = localDateTimeSchema.safeParse(formData.get("nextActionAt"));
+  const description = followUpDescriptionSchema.safeParse(formData.get("description"));
+  if (!dateTime.success || !description.success) {
+    redirect(destination(id, "error", "Indica una fecha futura y una descripción de hasta 500 caracteres."));
+  }
+
+  const parsedDate = new Date(`${dateTime.data}:00-06:00`);
+  if (Number.isNaN(parsedDate.getTime())
+    || toCostaRicaDateTimeLocal(parsedDate.toISOString()) !== dateTime.data
+    || parsedDate.getTime() <= Date.now()) {
+    redirect(destination(id, "error", "La próxima acción debe programarse para una fecha futura."));
+  }
+
+  if (!(await setOpportunityNextAction(id, parsedDate.toISOString(), description.data))) {
+    redirect(destination(id, "error", "No fue posible guardar la próxima acción."));
+  }
+
+  revalidatePath("/panel");
+  revalidatePath("/panel/crm");
+  revalidatePath(`/panel/crm/${id}`);
+  redirect(destination(id, "notice", "Próxima acción actualizada."));
 }

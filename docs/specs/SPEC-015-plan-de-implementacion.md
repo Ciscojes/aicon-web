@@ -130,6 +130,8 @@ Ordenar la construcción del MVP en entregas pequeñas, demostrables y verificab
 - Filtros por etapa, asesor, condominio, casa y fecha.
 - Resumen para el dueño con los indicadores aprobados.
 - Registro de auditoría para cambios importantes.
+- Programación de próxima acción y señalización de seguimientos que vencen hoy
+  o están atrasados.
 
 ### Especificaciones relacionadas
 

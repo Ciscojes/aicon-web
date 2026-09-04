@@ -80,6 +80,13 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
 - Cambiar a `Vendido` o `Descartado` cerrará la oportunidad; cambiarla nuevamente
   a una etapa activa la reabrirá sin eliminar su historial.
 - Cada nota y cambio de etapa se registrará transaccionalmente con autor y fecha.
+- Administradores y asesores activos podrán programar una próxima acción con fecha,
+  hora y descripción, o retirarla cuando ya fue atendida.
+- Programar, reprogramar o retirar la próxima acción quedará registrado como
+  actividad con autor y fecha; cerrar la oportunidad retirará cualquier seguimiento
+  pendiente sin borrar su historial.
+- El embudo permitirá filtrar acciones que vencen hoy y seguimientos atrasados, y
+  mostrará su estado sin abrir cada oportunidad.
 
 ## Criterios de aceptación
 
@@ -89,6 +96,8 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
 - Los cambios de etapa y las notas conservan autor y fecha.
 - Un usuario sin permiso no puede acceder al CRM.
 - Los filtros permiten encontrar oportunidades sin recorrer toda la lista.
+- El asesor identifica seguimientos atrasados y los que vencen hoy desde el embudo.
+- Cada cambio de próxima acción conserva responsable, fecha y descripción en el historial.
 - Después del registro, el cliente puede elegir una fecha y hora disponible para visitar la casa de interés.
 - Una cita confirmada aparece en el CRM vinculada al cliente y a la casa.
 - El horario reservado deja de ofrecerse cuando produciría un conflicto.
@@ -118,3 +127,5 @@ La distribución inicial de las pantallas internas se define en [SPEC-012 — Bo
   provisionales antes de implementar asignación de asesores.
 - 2026-09-02: se aprobó la asignación manual por administradores como primera
   versión, conservando la asignación automática como decisión pendiente.
+- 2026-09-03: se definieron la programación auditable de la próxima acción, su
+  retiro al cerrar y los filtros de vencimientos de hoy y atrasados.

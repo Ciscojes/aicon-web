@@ -14,6 +14,8 @@ export type OpportunitySummary = {
     monthlyPaymentUsd: number;
     termMonths: number;
   } | null;
+  nextActionAt: string | null;
+  nextActionDescription: string | null;
   status: "closed" | "open";
   stage: "contacted" | "discarded" | "negotiation" | "new" | "quote" | "sold" | "visit_scheduled";
   unitCode: string | null;
@@ -24,7 +26,7 @@ export type OpportunityActivity = {
   content: string;
   id: string;
   occurredAt: string;
-  type: "assignment" | "call" | "email" | "inquiry" | "note" | "quote" | "stage_change" | "visit" | "whatsapp";
+  type: "assignment" | "call" | "email" | "follow_up" | "inquiry" | "note" | "quote" | "stage_change" | "visit" | "whatsapp";
 };
 
 export type CrmAdvisorOption = { id: string; name: string };
@@ -34,6 +36,7 @@ export type OpportunityFilters = {
   condominiumId?: string;
   dateFrom?: string;
   dateTo?: string;
+  followUp?: "overdue" | "today" | "upcoming" | "unscheduled";
   stage?: OpportunitySummary["stage"];
   status?: OpportunitySummary["status"] | "all";
 };

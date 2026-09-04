@@ -7,6 +7,7 @@ import type {
   OpportunityFilters,
   OpportunitySummary,
 } from "../domain/opportunity";
+import { getCostaRicaDayRange } from "../domain/follow-up";
 
 type OpportunityRow = {
   advisor_id: string | null;
@@ -15,6 +16,8 @@ type OpportunityRow = {
   created_at: string;
   id: string;
   interest_kind: OpportunitySummary["interestKind"];
+  next_action_at: string | null;
+  next_action_description: string | null;
   stage: OpportunitySummary["stage"];
   status: OpportunitySummary["status"];
   unit_id: string | null;
@@ -24,7 +27,7 @@ export async function listOpportunities(filters: OpportunityFilters = {}): Promi
   const supabase = await createClient();
   let query = supabase
     .from("opportunities")
-    .select("id, contact_id, unit_id, condominium_id, advisor_id, interest_kind, stage, status, created_at")
+    .select("id, contact_id, unit_id, condominium_id, advisor_id, interest_kind, stage, status, next_action_at, next_action_description, created_at")
     .order("created_at", { ascending: false });
   if (filters.status && filters.status !== "all") query = query.eq("status", filters.status);
   if (filters.stage) query = query.eq("stage", filters.stage);
@@ -36,6 +39,13 @@ export async function listOpportunities(filters: OpportunityFilters = {}): Promi
     exclusiveEnd.setDate(exclusiveEnd.getDate() + 1);
     query = query.lt("created_at", exclusiveEnd.toISOString().slice(0, 10));
   }
+  if (filters.followUp === "overdue") query = query.lt("next_action_at", new Date().toISOString());
+  if (filters.followUp === "today") {
+    const today = getCostaRicaDayRange();
+    query = query.gte("next_action_at", today.start).lt("next_action_at", today.end);
+  }
+  if (filters.followUp === "upcoming") query = query.gte("next_action_at", new Date().toISOString());
+  if (filters.followUp === "unscheduled") query = query.is("next_action_at", null);
   const { data, error } = await query;
   if (error) throw new Error("No fue posible cargar las oportunidades.");
 
@@ -98,6 +108,8 @@ export async function listOpportunities(filters: OpportunityFilters = {}): Promi
         monthlyPaymentUsd: Number(quoteMap.get(row.id)?.estimated_monthly_payment_usd),
         termMonths: Number(quoteMap.get(row.id)?.term_months),
       } : null,
+      nextActionAt: row.next_action_at,
+      nextActionDescription: row.next_action_description,
       stage: row.stage,
       status: row.status,
       unitCode: unit?.code ?? null,
@@ -109,7 +121,7 @@ export async function getOpportunity(id: string): Promise<OpportunityDetails | n
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("opportunities")
-    .select("id, contact_id, unit_id, condominium_id, advisor_id, interest_kind, stage, status, source, created_at")
+    .select("id, contact_id, unit_id, condominium_id, advisor_id, interest_kind, stage, status, source, next_action_at, next_action_description, created_at")
     .eq("id", id)
     .maybeSingle();
   if (error) throw new Error("No fue posible cargar la oportunidad.");
@@ -160,6 +172,8 @@ export async function getOpportunity(id: string): Promise<OpportunityDetails | n
       monthlyPaymentUsd: Number(latestQuote.estimated_monthly_payment_usd),
       termMonths: Number(latestQuote.term_months),
     } : null,
+    nextActionAt: data.next_action_at,
+    nextActionDescription: data.next_action_description,
     quotes: (quoteResult.data ?? []).map((quote) => ({
       annualRatePct: Number(quote.annual_rate),
       createdAt: quote.created_at,
@@ -198,6 +212,21 @@ export async function assignOpportunityAdvisor(id: string, advisorId: string | n
     p_opportunity_id: id,
   });
   if (error) console.error(JSON.stringify({ code: error.code, event: "opportunity_assignment_failed", level: "error" }));
+  return !error;
+}
+
+export async function setOpportunityNextAction(
+  id: string,
+  nextActionAt: string | null,
+  description: string | null,
+): Promise<boolean> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_opportunity_next_action", {
+    p_description: description,
+    p_next_action_at: nextActionAt,
+    p_opportunity_id: id,
+  });
+  if (error) console.error(JSON.stringify({ code: error.code, event: "opportunity_follow_up_failed", level: "error" }));
   return !error;
 }
 

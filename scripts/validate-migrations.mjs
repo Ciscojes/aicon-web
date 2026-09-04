@@ -275,6 +275,58 @@ async function validateFreshDatabase(migrations) {
       throw new Error("La gestión de oportunidades no conservó la nota y el cambio de etapa.");
     }
 
+    await database.query(
+      `select public.set_opportunity_next_action(
+        $1,
+        now() + interval '2 days',
+        'Llamar para confirmar la documentación.'
+      )`,
+      [opportunity.id],
+    );
+    const [scheduledFollowUp] = (await database.query(
+      `select
+        opportunities.next_action_at is not null as scheduled,
+        opportunities.next_action_description,
+        count(activities.id) filter (where activities.type = 'follow_up')::integer as follow_up_activities
+       from public.opportunities
+       left join public.activities on activities.opportunity_id = opportunities.id
+       where opportunities.id = $1
+       group by opportunities.id`,
+      [opportunity.id],
+    )).rows;
+    if (!scheduledFollowUp.scheduled
+      || scheduledFollowUp.next_action_description !== "Llamar para confirmar la documentación."
+      || scheduledFollowUp.follow_up_activities !== 1) {
+      throw new Error("La próxima acción no quedó programada con su auditoría.");
+    }
+
+    await database.query(
+      `select public.change_opportunity_stage($1, 'discarded')`,
+      [opportunity.id],
+    );
+    const [closedFollowUp] = (await database.query(
+      `select
+        status,
+        next_action_at,
+        next_action_description,
+        (select count(*)::integer from public.activities
+         where opportunity_id = $1 and type = 'follow_up') as follow_up_activities
+       from public.opportunities
+       where id = $1`,
+      [opportunity.id],
+    )).rows;
+    if (closedFollowUp.status !== "closed"
+      || closedFollowUp.next_action_at !== null
+      || closedFollowUp.next_action_description !== null
+      || closedFollowUp.follow_up_activities !== 2) {
+      throw new Error("Cerrar la oportunidad no retiró el seguimiento con auditoría.");
+    }
+
+    await database.query(
+      `select public.change_opportunity_stage($1, 'contacted')`,
+      [opportunity.id],
+    );
+
     const advisorAuthId = "44444444-4444-4444-8444-444444444444";
     await database.query(
       `insert into auth.users (id, email, raw_user_meta_data)

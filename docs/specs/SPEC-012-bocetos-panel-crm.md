@@ -63,6 +63,8 @@ Definir la estructura de las pantallas internas que utilizarán el dueño, los a
 - Vista por etapas del proceso comercial.
 - Filtros por asesor, condominio, casa, fecha y etapa.
 - Tarjetas con nombre, propiedad de interés, responsable y próxima actividad.
+- La próxima actividad indicará si está programada, vence hoy o está atrasada.
+- Filtros rápidos para seguimientos que vencen hoy, atrasados, próximos o sin programar.
 - Cambio de etapa mediante una acción explícita y accesible; arrastrar será opcional, no obligatorio.
 
 ## Detalle del cliente
@@ -76,6 +78,8 @@ Definir la estructura de las pantallas internas que utilizarán el dueño, los a
   desasignación manual quedarán en el historial.
 - La primera versión priorizará cambio explícito de etapa y notas; agenda,
   asignación y acciones de proveedores se incorporarán en incrementos posteriores.
+- La próxima acción se programa mediante fecha, hora y una descripción breve; cada
+  cambio queda visible en el historial y puede marcarse como atendido.
 
 ## Agenda de visitas
 
@@ -111,3 +115,4 @@ Definir la estructura de las pantallas internas que utilizarán el dueño, los a
 - 2026-08-28: creación del primer conjunto de bocetos internos.
 - 2026-08-28: se aprobaron los indicadores iniciales del resumen administrativo.
 - 2026-09-01: se delimitó la primera pantalla funcional de detalle de oportunidad.
+- 2026-09-03: se incorporó la próxima acción auditable y su señalización en el embudo.

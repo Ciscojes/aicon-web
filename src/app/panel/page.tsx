@@ -30,10 +30,11 @@ export default async function PanelPage() {
         <Link className="dashboard-metric" href="/panel/catalogo/unidades"><span>Casas vendidas</span><strong>{summary.soldUnits}</strong><small>Revisar inventario →</small></Link>
         {showCrm ? <Link className="dashboard-metric dashboard-metric-accent" href="/panel/crm?status=open&amp;stage=new"><span>Oportunidades nuevas</span><strong>{summary.newOpportunities}</strong><small>Atender consultas →</small></Link> : null}
         {showCrm ? <Link className="dashboard-metric dashboard-metric-warning" href="/panel/crm?status=open&amp;advisor=unassigned"><span>Sin asesor asignado</span><strong>{summary.unassignedOpportunities}</strong><small>Asignar responsables →</small></Link> : null}
+        {showCrm ? <Link className="dashboard-metric dashboard-metric-danger" href="/panel/crm?status=open&amp;followUp=overdue"><span>Seguimientos atrasados</span><strong>{summary.overdueFollowUps}</strong><small>Atender ahora →</small></Link> : null}
       </section>
 
       <section className="dashboard-next">
-        <div><p className="eyebrow">Próxima entrega</p><h2>Agenda y seguimiento</h2><p>Las próximas visitas, seguimientos atrasados y fallos de notificación aparecerán aquí cuando sus módulos estén implementados.</p></div>
+        <div><p className="eyebrow">Próxima entrega</p><h2>Agenda de visitas</h2><p>Los seguimientos comerciales ya están activos. El próximo bloque añadirá visitas y el estado de sus notificaciones.</p></div>
         {showCrm ? <Link className="button button-secondary" href="/panel/crm">Abrir CRM</Link> : null}
       </section>
     </main>
