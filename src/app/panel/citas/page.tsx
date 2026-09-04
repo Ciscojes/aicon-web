@@ -5,7 +5,9 @@ import {
   createAdvisorBlock,
   createAdvisorSchedule,
   removeAdvisorBlock,
+  rescheduleAppointment,
   toggleAdvisorSchedule,
+  updateAppointmentStatus,
   updateVisitDuration,
 } from "./actions";
 import { requireCrmAccess } from "../crm/authorization";
@@ -13,43 +15,63 @@ import {
   getVisitDurationMinutes,
   listAdvisorSchedules,
   listFutureAvailabilityBlocks,
-  listUpcomingAppointments,
+  listAppointments,
 } from "@/modules/appointments/infrastructure/appointment-repository";
+import { appointmentStatusLabels, type AppointmentHistoryEntry } from "@/modules/appointments/domain/appointment";
+import { toCostaRicaDateTimeLocal } from "@/modules/crm/domain/follow-up";
 import { listActiveAdvisors } from "@/modules/crm/infrastructure/opportunity-repository";
 
 export const metadata: Metadata = { title: "Citas | Panel Aicon" };
 const weekdays = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const dateTime = new Intl.DateTimeFormat("es-CR", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Costa_Rica" });
+const historyActionLabels = { created: "Cita creada", rescheduled: "Cita reprogramada", status_changed: "Estado actualizado" } as const;
+
+function historyDescription(entry: AppointmentHistoryEntry) {
+  if (entry.action === "rescheduled" && entry.previousStartsAt && entry.newStartsAt) {
+    return `${dateTime.format(new Date(entry.previousStartsAt))} → ${dateTime.format(new Date(entry.newStartsAt))}`;
+  }
+  if (entry.newStatus) return appointmentStatusLabels[entry.newStatus];
+  return "Cambio registrado";
+}
 
 export default async function AppointmentsPage({
   searchParams,
 }: Readonly<{ searchParams: Promise<{ error?: string; notice?: string }> }>) {
   const profile = await requireCrmAccess();
   const [appointments, schedules, blocks, durationMinutes, advisors, messages] = await Promise.all([
-    listUpcomingAppointments(),
+    listAppointments(),
     listAdvisorSchedules(),
     listFutureAvailabilityBlocks(),
     getVisitDurationMinutes(),
     profile.role === "administrator" ? listActiveAdvisors() : Promise.resolve([]),
     searchParams,
   ]);
+  const scheduledCount = appointments.filter((appointment) => appointment.status === "scheduled" && new Date(appointment.startsAt) >= new Date()).length;
 
   return (
     <main className="panel-content appointments-page">
-      <div className="page-heading"><div><p className="eyebrow">Agenda</p><h1>Visitas a propiedades</h1><p className="lede">Consulta próximas citas y administra la disponibilidad que se muestra al público.</p></div><span className="count-badge">{appointments.length} próximas</span></div>
+      <div className="page-heading"><div><p className="eyebrow">Agenda</p><h1>Visitas a propiedades</h1><p className="lede">Consulta, reprograma y registra el resultado de las citas, con su historial auditable.</p></div><span className="count-badge">{scheduledCount} próximas</span></div>
       {messages.notice ? <output className="form-success page-notice">{messages.notice}</output> : null}
       {messages.error ? <p className="form-message page-notice" role="alert">{messages.error}</p> : null}
 
       <section className="appointment-admin-grid">
         <div className="crm-detail-panel">
-          <div className="crm-section-heading"><div><p className="eyebrow">Calendario</p><h2>Próximas visitas</h2></div><span>Hora de Costa Rica</span></div>
-          {appointments.length === 0 ? <div className="empty-state compact-empty"><p>No hay visitas programadas.</p><span>Las reservas públicas aparecerán aquí.</span></div> : (
+          <div className="crm-section-heading"><div><p className="eyebrow">Calendario</p><h2>Citas y resultados</h2></div><span>Hora de Costa Rica</span></div>
+          {appointments.length === 0 ? <div className="empty-state compact-empty"><p>No hay visitas registradas.</p><span>Las reservas públicas aparecerán aquí.</span></div> : (
             <div className="appointment-list">
               {appointments.map((appointment) => (
                 <article key={appointment.id}>
-                  <time dateTime={appointment.startsAt}>{dateTime.format(new Date(appointment.startsAt))}</time>
-                  <div><h3>{appointment.contactName}</h3><p>{appointment.condominiumName} · Unidad {appointment.unitCode}</p><span>{appointment.advisorName} · {appointment.contactPhone}{appointment.contactEmail ? ` · ${appointment.contactEmail}` : ""}</span></div>
-                  <Link className="text-link" href={`/panel/crm/${appointment.opportunityId}`}>Abrir oportunidad →</Link>
+                  <div className="appointment-summary">
+                    <div className="appointment-date"><time dateTime={appointment.startsAt}>{dateTime.format(new Date(appointment.startsAt))}</time><span className={`appointment-status appointment-status-${appointment.status}`}>{appointmentStatusLabels[appointment.status]}</span></div>
+                    <div><h3>{appointment.contactName}</h3><p>{appointment.condominiumName} · Unidad {appointment.unitCode}</p><span>{appointment.advisorName} · {appointment.contactPhone}{appointment.contactEmail ? ` · ${appointment.contactEmail}` : ""}</span></div>
+                    <Link className="text-link" href={`/panel/crm/${appointment.opportunityId}`}>Abrir oportunidad →</Link>
+                  </div>
+                  {appointment.status === "scheduled" ? <div className="appointment-actions">
+                    <details><summary>Reprogramar</summary><form action={rescheduleAppointment} className="appointment-inline-form"><input name="appointmentId" type="hidden" value={appointment.id} /><label><span>Nueva fecha y hora</span><input defaultValue={toCostaRicaDateTimeLocal(appointment.startsAt)} name="startsAt" required type="datetime-local" /></label><button className="button button-secondary" type="submit">Confirmar reprogramación</button></form></details>
+                    <details><summary>Cancelar</summary><form action={updateAppointmentStatus} className="appointment-inline-form"><input name="appointmentId" type="hidden" value={appointment.id} /><input name="status" type="hidden" value="cancelled" /><label><span>Motivo opcional</span><textarea maxLength={500} name="cancellationReason" rows={2} /></label><button className="button button-danger" type="submit">Confirmar cancelación</button></form></details>
+                    <details><summary>Registrar resultado</summary><div className="appointment-result-actions"><form action={updateAppointmentStatus}><input name="appointmentId" type="hidden" value={appointment.id} /><button className="button button-secondary" name="status" type="submit" value="completed">Marcar realizada</button></form><form action={updateAppointmentStatus}><input name="appointmentId" type="hidden" value={appointment.id} /><button className="button button-secondary" name="status" type="submit" value="no_show">Marcar no asistió</button></form></div></details>
+                  </div> : null}
+                  <details className="appointment-history"><summary>Historial ({appointment.history.length})</summary><ol>{appointment.history.map((entry) => <li key={entry.id}><div><strong>{historyActionLabels[entry.action]}</strong><span>{historyDescription(entry)}</span>{entry.cancellationReason ? <span>Motivo: {entry.cancellationReason}</span> : null}</div><small>{entry.actorName ?? "Reserva pública"} · {dateTime.format(new Date(entry.occurredAt))}</small></li>)}</ol></details>
                 </article>
               ))}
             </div>

@@ -240,3 +240,6 @@ Una funcionalidad solamente se considerará terminada cuando:
 
 - 2026-08-28: creación del plan inicial de implementación por entregas.
 - 2026-08-28: plan de implementación aprobado.
+- 2026-09-03: la Entrega 4 incorporó disponibilidad, reserva pública y prevención de
+  superposiciones; se inició la gestión auditable de reprogramación, cancelación y
+  resultado, manteniendo pendientes las integraciones de avisos.

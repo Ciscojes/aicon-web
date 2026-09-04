@@ -88,6 +88,10 @@ Definir la estructura de las pantallas internas que utilizarán el dueño, los a
 - Bloqueo de períodos no disponibles.
 - Reprogramación o cancelación con confirmación.
 - Visibilidad del estado de los recordatorios por correo y WhatsApp.
+- Cada cita mostrará acciones adaptables para reprogramar, cancelar o registrar su
+  resultado, únicamente mientras continúe programada y según los permisos del usuario.
+- El historial auditable se podrá desplegar dentro de la misma tarjeta sin perder el
+  contexto de cliente, propiedad y asesor.
 
 ## Criterios de aceptación
 
@@ -116,3 +120,4 @@ Definir la estructura de las pantallas internas que utilizarán el dueño, los a
 - 2026-08-28: se aprobaron los indicadores iniciales del resumen administrativo.
 - 2026-09-01: se delimitó la primera pantalla funcional de detalle de oportunidad.
 - 2026-09-03: se incorporó la próxima acción auditable y su señalización en el embudo.
+- 2026-09-03: se detalló la gestión adaptable y el historial de cada cita.

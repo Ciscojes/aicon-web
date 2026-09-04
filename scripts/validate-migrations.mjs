@@ -84,7 +84,7 @@ async function validateFreshDatabase(migrations) {
       where schemaname in ('public', 'storage')
     `)).rows;
 
-    if (tableCount !== 17 || rlsCount !== 17 || policyCount < 35) {
+    if (tableCount !== 18 || rlsCount !== 18 || policyCount < 36) {
       throw new Error(
         `Esquema incompleto: ${tableCount} tablas, ${rlsCount} con RLS, ${policyCount} políticas.`,
       );
@@ -406,6 +406,7 @@ async function validateFreshDatabase(migrations) {
     );
     const [appointment] = (await database.query(
       `select
+        appointments.id,
         appointments.advisor_id,
         appointments.status,
         opportunities.stage,
@@ -437,6 +438,135 @@ async function validateFreshDatabase(migrations) {
     }
     if (!duplicateAppointmentRejected) {
       throw new Error("Una cita incompatible fue confirmada para el mismo asesor.");
+    }
+
+    const [rescheduleSlot] = (await database.query(
+      `select starts_at, ends_at from public.get_available_visit_slots($1, $2::date)
+       where starts_at <> $3
+       order by starts_at limit 1`,
+      [unit.id, visitDate.visit_date, availableSlot.starts_at],
+    )).rows;
+    if (!rescheduleSlot?.starts_at) {
+      throw new Error("No se encontró un segundo horario para probar la reprogramación.");
+    }
+    await database.query(
+      `select public.reschedule_appointment($1, $2)`,
+      [appointment.id, rescheduleSlot.starts_at],
+    );
+    const [rescheduledAppointment] = (await database.query(
+      `select
+        appointments.starts_at,
+        appointments.ends_at,
+        opportunities.next_action_at,
+        (select count(*)::integer from public.appointment_history
+         where appointment_id = appointments.id) as history_count,
+        exists (
+          select 1 from public.get_available_visit_slots(appointments.unit_id, $2::date)
+          where starts_at = $3
+        ) as previous_slot_released,
+        exists (
+          select 1 from public.get_available_visit_slots(appointments.unit_id, $2::date)
+          where starts_at = $4
+        ) as new_slot_still_available
+       from public.appointments
+       join public.opportunities on opportunities.id = appointments.opportunity_id
+       where appointments.id = $1`,
+      [appointment.id, visitDate.visit_date, availableSlot.starts_at, rescheduleSlot.starts_at],
+    )).rows;
+    if (new Date(rescheduledAppointment.starts_at).getTime() !== new Date(rescheduleSlot.starts_at).getTime()
+      || new Date(rescheduledAppointment.next_action_at).getTime() !== new Date(rescheduleSlot.starts_at).getTime()
+      || rescheduledAppointment.history_count !== 2
+      || !rescheduledAppointment.previous_slot_released
+      || rescheduledAppointment.new_slot_still_available) {
+      throw new Error("Reprogramar no conservó el historial, seguimiento o disponibilidad correctos.");
+    }
+
+    const secondAdvisorAuthId = "55555555-5555-4555-8555-555555555555";
+    await database.query(
+      `insert into auth.users (id, email, raw_user_meta_data)
+       values ($1, $2, $3::jsonb)`,
+      [secondAdvisorAuthId, "otro-asesor@example.com", JSON.stringify({ name: "Otro Asesor" })],
+    );
+    await database.query(
+      `update public.user_profiles set active = true where auth_user_id = $1`,
+      [secondAdvisorAuthId],
+    );
+    await database.query(`select set_config('request.jwt.claim.sub', $1, false)`, [secondAdvisorAuthId]);
+    let unrelatedAdvisorRejected = false;
+    try {
+      await database.query(
+        `select public.set_appointment_status($1, 'completed', null)`,
+        [appointment.id],
+      );
+    } catch {
+      unrelatedAdvisorRejected = true;
+    }
+    if (!unrelatedAdvisorRejected) {
+      throw new Error("Un asesor modificó una cita que no tenía asignada.");
+    }
+
+    await database.query(`select set_config('request.jwt.claim.sub', $1, false)`, [authUserId]);
+    await database.query(
+      `select public.set_appointment_status($1, 'completed', null)`,
+      [appointment.id],
+    );
+    const [completedAppointment] = (await database.query(
+      `select
+        appointments.status,
+        opportunities.next_action_at,
+        (select count(*)::integer from public.appointment_history
+         where appointment_id = appointments.id) as history_count
+       from public.appointments
+       join public.opportunities on opportunities.id = appointments.opportunity_id
+       where appointments.id = $1`,
+      [appointment.id],
+    )).rows;
+    if (completedAppointment.status !== "completed"
+      || completedAppointment.next_action_at !== null
+      || completedAppointment.history_count !== 3) {
+      throw new Error("El resultado realizado no cerró la acción y su historial correctamente.");
+    }
+    let finalStatusRejected = false;
+    try {
+      await database.query(
+        `select public.set_appointment_status($1, 'no_show', null)`,
+        [appointment.id],
+      );
+    } catch {
+      finalStatusRejected = true;
+    }
+    if (!finalStatusRejected) {
+      throw new Error("Un estado final de cita fue sobrescrito.");
+    }
+
+    const [cancelledAppointment] = (await database.query(
+      `select public.submit_visit_appointment(
+        'Persona Cancelación', '+50683334444', 'cancelacion@example.com', $1, $2, true
+      ) as id`,
+      [unit.id, availableSlot.starts_at],
+    )).rows;
+    await database.query(
+      `select public.set_appointment_status($1, 'cancelled', 'Solicitud del cliente.')`,
+      [cancelledAppointment.id],
+    );
+    const [cancelledResult] = (await database.query(
+      `select
+        appointments.status,
+        appointments.cancellation_reason,
+        (select count(*)::integer from public.appointment_history
+         where appointment_id = appointments.id) as history_count,
+        exists (
+          select 1 from public.get_available_visit_slots(appointments.unit_id, $2::date)
+          where starts_at = $3
+        ) as slot_released
+       from public.appointments where appointments.id = $1`,
+      [cancelledAppointment.id, visitDate.visit_date, availableSlot.starts_at],
+    )).rows;
+    if (cancelledResult.status !== "cancelled"
+      || cancelledResult.cancellation_reason !== "Solicitud del cliente."
+      || cancelledResult.history_count !== 2
+      || !cancelledResult.slot_released) {
+      throw new Error("Cancelar no conservó el motivo, historial o liberación del horario.");
     }
 
     await database.query(

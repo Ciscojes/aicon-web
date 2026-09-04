@@ -10,8 +10,10 @@ import {
   availableAdvisorId,
   cancelAvailabilityBlock,
   createAvailabilityBlock,
+  rescheduleManagedAppointment,
   saveAdvisorSchedule,
   saveVisitDurationMinutes,
+  setManagedAppointmentStatus,
   setAdvisorScheduleActive,
 } from "@/modules/appointments/infrastructure/appointment-repository";
 
@@ -75,4 +77,33 @@ export async function removeAdvisorBlock(formData: FormData) {
   if (!id.success || !(await cancelAvailabilityBlock(id.data))) redirect(destination("error", "No fue posible retirar el bloqueo."));
   revalidatePath("/panel/citas");
   redirect(destination("notice", "Bloqueo retirado."));
+}
+
+export async function rescheduleAppointment(formData: FormData) {
+  await requireCrmAccess();
+  const id = uuid.safeParse(formData.get("appointmentId"));
+  const startsAt = localDateTime.safeParse(formData.get("startsAt"));
+  if (!id.success || !startsAt.success) redirect(destination("error", "Selecciona una fecha y hora válidas para reprogramar."));
+  const start = new Date(`${startsAt.data}:00-06:00`);
+  if (toCostaRicaDateTimeLocal(start.toISOString()) !== startsAt.data || start <= new Date()) {
+    redirect(destination("error", "La nueva fecha debe ser futura y usar la hora de Costa Rica."));
+  }
+  if (!(await rescheduleManagedAppointment(id.data, start.toISOString()))) {
+    redirect(destination("error", "No fue posible reprogramar. Revisa el horario, los bloqueos y otras citas del asesor."));
+  }
+  revalidatePath("/panel/citas");
+  redirect(destination("notice", "Cita reprogramada y registrada en el historial."));
+}
+
+export async function updateAppointmentStatus(formData: FormData) {
+  await requireCrmAccess();
+  const id = uuid.safeParse(formData.get("appointmentId"));
+  const status = z.enum(["cancelled", "completed", "no_show"]).safeParse(formData.get("status"));
+  const reason = z.string().trim().max(500).safeParse(formData.get("cancellationReason") ?? "");
+  if (!id.success || !status.success || !reason.success) redirect(destination("error", "No fue posible validar el resultado de la cita."));
+  if (!(await setManagedAppointmentStatus(id.data, status.data, reason.data || null))) {
+    redirect(destination("error", "No fue posible cambiar la cita. Confirma que siga programada y que tengas permiso."));
+  }
+  revalidatePath("/panel/citas");
+  redirect(destination("notice", status.data === "cancelled" ? "Cita cancelada; el horario quedó liberado." : "Resultado de la visita registrado."));
 }

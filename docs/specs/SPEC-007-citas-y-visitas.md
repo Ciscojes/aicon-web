@@ -56,6 +56,22 @@ Permitir que una persona interesada reserve una visita a una casa en un horario 
 - Permitir al asesor registrar la cita como realizada, cancelada o no asistida.
 - Conservar un historial básico de cambios de fecha, estado y responsable.
 
+### Gestión interna de una cita
+
+- El administrador podrá reprogramar, cancelar y registrar el resultado de cualquier
+  cita; un asesor solamente podrá hacerlo en las citas que tenga asignadas.
+- Solamente una cita `Programada` podrá reprogramarse o pasar a `Realizada`,
+  `Cancelada` o `No asistió`. Los estados finales no se sobrescribirán desde el panel.
+- La reprogramación conservará el asesor y la duración de la cita, exigirá una fecha
+  futura y volverá a validar su horario recurrente, bloqueos y otras citas antes de
+  confirmar el cambio.
+- La cancelación admitirá un motivo breve opcional y liberará inmediatamente el
+  período para una nueva reserva compatible.
+- Cada creación, reprogramación y cambio de estado conservará en un historial
+  inmutable el usuario, la fecha del cambio y los valores anteriores y nuevos.
+- El historial de la cita será visible en la agenda para los mismos usuarios que
+  tienen permiso de consultar la cita.
+
 ## Estados de una cita
 
 `Programada → Realizada | Cancelada | No asistió`
@@ -68,6 +84,8 @@ Una cita reprogramada conservará el historial de su horario anterior y volverá
 - El administrador podrá modificar la duración, los horarios y la anticipación de los recordatorios.
 - Una cita confirmada cambiará la oportunidad relacionada a `Visita programada`.
 - El horario se liberará cuando una cita sea cancelada.
+- Los estados finales dejarán de bloquear disponibilidad; una cita reprogramada
+  bloqueará solamente su horario nuevo.
 - El sistema volverá a comprobar la disponibilidad antes de confirmar la reserva.
 - El cliente deberá proporcionar nombre, teléfono con código de país y correo electrónico para agendar.
 - Los avisos requerirán autorización expresa del cliente.
@@ -115,3 +133,5 @@ Una cita reprogramada conservará el historial de su horario anterior y volverá
 - 2026-08-28: se confirmó que el cliente puede agendar directamente o después de cotizar.
 - 2026-09-03: se definió la asignación provisional por disponibilidad y se evitó
   asumir días u horas de atención sin configuración administrativa.
+- 2026-09-03: se definieron las transiciones, permisos e historial auditable para la
+  reprogramación, cancelación y resultado de las citas.

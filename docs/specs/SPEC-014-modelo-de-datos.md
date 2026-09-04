@@ -116,6 +116,19 @@ Campos principales: `id`, `opportunity_id`, `unit_id`, `advisor_id`, `starts_at`
 
 Estados iniciales: `scheduled`, `completed`, `cancelled` y `no_show`.
 
+### `appointment_history`
+
+Conserva cada creación, reprogramación y cambio de estado sin depender del valor
+actual de la cita.
+
+Campos principales: `id`, `appointment_id`, `actor_user_id` opcional para reservas
+públicas, `action`, horarios y estados anterior y nuevo, `cancellation_reason`,
+`occurred_at`.
+
+El historial no se editará ni eliminará mediante las operaciones normales. Los
+administradores podrán consultar todo el historial y cada asesor solamente el de
+sus citas asignadas.
+
 ### `advisor_schedules` y `availability_blocks`
 
 Definen horarios recurrentes y excepciones de disponibilidad.
@@ -166,6 +179,7 @@ No almacenará secretos ni datos completos innecesarios.
 - Un asesor puede gestionar muchas oportunidades y citas.
 - Una oportunidad puede tener muchas cotizaciones, actividades y citas.
 - Una cita puede producir varias notificaciones programadas.
+- Una cita conserva muchos eventos ordenados en su historial auditable.
 - Los medios pueden asociarse y ordenarse para condominios, modelos y unidades.
 
 ## Restricciones importantes
@@ -176,6 +190,7 @@ No almacenará secretos ni datos completos innecesarios.
 - Una oportunidad deberá relacionarse al menos con una unidad, un condominio o un interés general explícito.
 - `ends_at` siempre será posterior a `starts_at`.
 - No podrán existir citas incompatibles para el mismo asesor en períodos superpuestos.
+- Solamente una cita programada podrá reprogramarse o pasar a un estado final.
 - Una unidad vendida o archivada no aceptará nuevas citas.
 - Publicar una unidad exigirá los campos mínimos definidos por catálogo.
 - Las cotizaciones y actividades comerciales no se eliminarán mediante las operaciones normales del panel.
@@ -210,3 +225,5 @@ No almacenará secretos ni datos completos innecesarios.
   de contactos por teléfono normalizado.
 - 2026-08-31: se concretó la configuración financiera versionada y su relación con
   las fotografías históricas de cotización.
+- 2026-09-03: se añadió el historial inmutable de citas y las transiciones de estado
+  administradas según el asesor asignado.
