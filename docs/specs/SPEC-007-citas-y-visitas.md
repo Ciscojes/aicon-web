@@ -73,6 +73,11 @@ Una cita reprogramada conservará el historial de su horario anterior y volverá
 - Los avisos requerirán autorización expresa del cliente.
 - WhatsApp deberá utilizar una integración empresarial oficial aprobada.
 - Si un canal autorizado falla, el sistema intentará el otro y registrará el resultado.
+- La primera versión no publicará horarios hasta que un administrador configure
+  explícitamente la disponibilidad recurrente de al menos un asesor.
+- Al reservar se priorizará el asesor ya asignado a la oportunidad si continúa
+  disponible; de lo contrario se elegirá un asesor activo disponible y quedará
+  asignado a la oportunidad.
 
 ## Casos alternativos y errores
 
@@ -108,3 +113,5 @@ Una cita reprogramada conservará el historial de su horario anterior y volverá
 
 - 2026-08-28: creación de la especificación inicial con duración de 60 minutos y recordatorios 24 y 2 horas antes.
 - 2026-08-28: se confirmó que el cliente puede agendar directamente o después de cotizar.
+- 2026-09-03: se definió la asignación provisional por disponibilidad y se evitó
+  asumir días u horas de atención sin configuración administrativa.

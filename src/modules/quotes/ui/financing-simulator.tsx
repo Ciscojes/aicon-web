@@ -20,7 +20,7 @@ export function FinancingSimulator({ priceUsd, settings, unitId }: Readonly<{ pr
   const estimate = calculateFinancingEstimate({ annualRatePct: settings.annualRatePct, downPaymentPct, priceUsd, termYears });
 
   if (state.success) {
-    return <div className="quote-success" role="status"><p className="eyebrow">Solicitud registrada</p><h2>Tu simulación llegó a Aicon.</h2><p>{state.message}</p><Link className="button button-secondary" href="/catalogo">Seguir explorando</Link></div>;
+    return <div className="quote-success" role="status"><p className="eyebrow">Solicitud registrada</p><h2>Tu simulación llegó a Aicon.</h2><p>{state.message}</p><div className="hero-actions"><Link className="button button-primary" href={`/agendar-visita?unidad=${unitId}`}>Agendar una visita</Link><Link className="button button-secondary" href="/catalogo">Seguir explorando</Link></div></div>;
   }
 
   return (

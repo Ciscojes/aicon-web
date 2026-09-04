@@ -36,6 +36,12 @@ const sources = {
   manual: "Registro manual",
   quote_request: "Solicitud de cotización",
 } as const;
+const appointmentStatuses = {
+  cancelled: "Cancelada",
+  completed: "Realizada",
+  no_show: "No asistió",
+  scheduled: "Programada",
+} as const;
 const date = new Intl.DateTimeFormat("es-CR", {
   dateStyle: "medium",
   timeStyle: "short",
@@ -145,6 +151,21 @@ export default async function OpportunityPage({
                     <div><strong>{usd.format(quote.estimatedMonthlyPaymentUsd)} / mes</strong><time dateTime={quote.createdAt}>{date.format(new Date(quote.createdAt))}</time></div>
                     <p>Precio {usd.format(quote.priceSnapshotUsd)} · Prima {usd.format(quote.downPaymentUsd)} · Financia {usd.format(quote.financedAmountUsd)}</p>
                     <span>{quote.termMonths / 12} años · tasa anual {quote.annualRatePct}%</span>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {opportunity.appointments.length > 0 ? (
+            <section className="crm-detail-panel" aria-labelledby="appointments-title">
+              <div className="crm-section-heading"><div><p className="eyebrow">Agenda</p><h2 id="appointments-title">Visitas</h2></div><span>{opportunity.appointments.length} registradas</span></div>
+              <div className="crm-quotes">
+                {opportunity.appointments.map((appointment) => (
+                  <article key={appointment.id}>
+                    <div><strong>{appointmentStatuses[appointment.status]}</strong><time dateTime={appointment.startsAt}>{date.format(new Date(appointment.startsAt))}</time></div>
+                    <p>Asesor: {appointment.advisorName}</p>
+                    <span>Finaliza {date.format(new Date(appointment.endsAt))}</span>
                   </article>
                 ))}
               </div>

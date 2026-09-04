@@ -5,4 +5,5 @@ export type PanelSummary = {
   reservedUnits: number;
   soldUnits: number;
   unassignedOpportunities: number | null;
+  upcomingAppointments: number | null;
 };

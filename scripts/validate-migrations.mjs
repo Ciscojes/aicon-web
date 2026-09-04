@@ -84,7 +84,7 @@ async function validateFreshDatabase(migrations) {
       where schemaname in ('public', 'storage')
     `)).rows;
 
-    if (tableCount !== 14 || rlsCount !== 14 || policyCount < 31) {
+    if (tableCount !== 17 || rlsCount !== 17 || policyCount < 35) {
       throw new Error(
         `Esquema incompleto: ${tableCount} tablas, ${rlsCount} con RLS, ${policyCount} políticas.`,
       );
@@ -381,6 +381,63 @@ async function validateFreshDatabase(migrations) {
       `update public.house_units set availability_status = 'available' where id = $1`,
       [unit.id],
     );
+
+    const [visitDate] = (await database.query(`
+      select
+        ((now() at time zone 'America/Costa_Rica')::date + 7) as visit_date,
+        extract(dow from ((now() at time zone 'America/Costa_Rica')::date + 7))::integer as weekday
+    `)).rows;
+    await database.query(
+      `select public.save_advisor_schedule($1, $2, '09:00'::time, '17:00'::time)`,
+      [advisor.id, visitDate.weekday],
+    );
+    const [availableSlot] = (await database.query(
+      `select starts_at, ends_at from public.get_available_visit_slots($1, $2::date) limit 1`,
+      [unit.id, visitDate.visit_date],
+    )).rows;
+    if (!availableSlot?.starts_at || !availableSlot?.ends_at) {
+      throw new Error("La disponibilidad configurada no produjo horarios públicos.");
+    }
+    await database.query(
+      `select public.submit_visit_appointment(
+        'Persona Prueba', '+50688887777', 'persona@example.com', $1, $2, true
+      )`,
+      [unit.id, availableSlot.starts_at],
+    );
+    const [appointment] = (await database.query(
+      `select
+        appointments.advisor_id,
+        appointments.status,
+        opportunities.stage,
+        opportunities.next_action_at,
+        count(activities.id) filter (where activities.type = 'visit')::integer as visit_activities
+       from public.appointments
+       join public.opportunities on opportunities.id = appointments.opportunity_id
+       left join public.activities on activities.opportunity_id = opportunities.id
+       where appointments.unit_id = $1
+       group by appointments.id, opportunities.id`,
+      [unit.id],
+    )).rows;
+    if (appointment.advisor_id !== advisor.id || appointment.status !== "scheduled"
+      || appointment.stage !== "visit_scheduled" || !appointment.next_action_at
+      || appointment.visit_activities !== 1) {
+      throw new Error("La cita no quedó vinculada al asesor, CRM y próxima acción.");
+    }
+
+    let duplicateAppointmentRejected = false;
+    try {
+      await database.query(
+        `select public.submit_visit_appointment(
+          'Otra Persona', '+50681112222', 'otra@example.com', $1, $2, true
+        )`,
+        [unit.id, availableSlot.starts_at],
+      );
+    } catch {
+      duplicateAppointmentRejected = true;
+    }
+    if (!duplicateAppointmentRejected) {
+      throw new Error("Una cita incompatible fue confirmada para el mismo asesor.");
+    }
 
     await database.query(
       `select public.submit_quote_request(

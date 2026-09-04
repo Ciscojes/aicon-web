@@ -102,7 +102,27 @@ Implementado:
 
 Siguiente sección vertical:
 
-- Agenda de visitas y recordatorios/notificaciones.
+## Entrega 4 — Citas y recordatorios
+
+En progreso.
+
+Implementado:
+
+- Configuración administrativa de duración y horarios recurrentes por asesor,
+  sin publicar disponibilidad hasta que exista una configuración explícita.
+- Bloqueos futuros de disponibilidad creados por el asesor o un administrador.
+- Calendario público por fecha para casas publicadas y disponibles.
+- Confirmación transaccional de visitas con nueva comprobación del horario y
+  prevención de superposiciones por asesor.
+- Reutilización del contacto y de la oportunidad abierta, asignación provisional
+  por disponibilidad y cambio automático a `Visita programada`.
+- Agenda interna de próximas visitas y relación visible dentro del CRM.
+- Contador de próximas visitas en el resumen administrativo.
+
+Siguiente sección vertical:
+
+- Reprogramación, cancelación y resultado de visitas.
+- Cola de confirmaciones y recordatorios, pendiente de proveedores aprobados.
 
 ## Verificación
 

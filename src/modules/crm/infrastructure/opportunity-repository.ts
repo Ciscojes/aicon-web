@@ -127,16 +127,20 @@ export async function getOpportunity(id: string): Promise<OpportunityDetails | n
   if (error) throw new Error("No fue posible cargar la oportunidad.");
   if (!data) return null;
 
-  const [contactResult, activityResult, quoteResult, unitResult] = await Promise.all([
+  const [contactResult, activityResult, quoteResult, unitResult, appointmentResult] = await Promise.all([
     supabase.from("contacts").select("name, phone, email, email_consent, whatsapp_consent").eq("id", data.contact_id).single(),
     supabase.from("activities").select("id, actor_user_id, type, content, occurred_at").eq("opportunity_id", id).order("occurred_at", { ascending: false }),
     supabase.from("quotes").select("id, price_snapshot_usd, down_payment_usd, financed_amount_usd, annual_rate, term_months, estimated_monthly_payment_usd, created_at").eq("opportunity_id", id).order("created_at", { ascending: false }),
     data.unit_id ? supabase.from("house_units").select("code, condominium_id").eq("id", data.unit_id).maybeSingle() : Promise.resolve({ data: null, error: null }),
+    supabase.from("appointments").select("id, advisor_id, starts_at, ends_at, status").eq("opportunity_id", id).order("starts_at", { ascending: false }),
   ]);
-  if (contactResult.error || activityResult.error || quoteResult.error || unitResult.error) throw new Error("No fue posible cargar el detalle comercial.");
+  if (contactResult.error || activityResult.error || quoteResult.error || unitResult.error || appointmentResult.error) throw new Error("No fue posible cargar el detalle comercial.");
 
   const condominiumId = data.condominium_id ?? unitResult.data?.condominium_id ?? null;
-  const actorIds = [...new Set((activityResult.data ?? []).flatMap((activity) => activity.actor_user_id ? [activity.actor_user_id] : []))];
+  const actorIds = [...new Set([
+    ...(activityResult.data ?? []).flatMap((activity) => activity.actor_user_id ? [activity.actor_user_id] : []),
+    ...(appointmentResult.data ?? []).map((appointment) => appointment.advisor_id),
+  ])];
   const [condominiumResult, profileResult] = await Promise.all([
     condominiumId ? supabase.from("condominiums").select("name").eq("id", condominiumId).maybeSingle() : Promise.resolve({ data: null, error: null }),
     data.advisor_id || actorIds.length > 0
@@ -154,6 +158,13 @@ export async function getOpportunity(id: string): Promise<OpportunityDetails | n
       id: activity.id,
       occurredAt: activity.occurred_at,
       type: activity.type,
+    })),
+    appointments: (appointmentResult.data ?? []).map((appointment) => ({
+      advisorName: profileMap.get(appointment.advisor_id) ?? "Asesor",
+      endsAt: appointment.ends_at,
+      id: appointment.id,
+      startsAt: appointment.starts_at,
+      status: appointment.status,
     })),
     advisorId: data.advisor_id,
     advisorName: data.advisor_id ? profileMap.get(data.advisor_id) ?? "Asesor" : null,

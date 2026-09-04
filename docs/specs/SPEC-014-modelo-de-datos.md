@@ -124,6 +124,10 @@ Campos principales de horario: `advisor_id`, `weekday`, `starts_at_local`, `ends
 
 Campos principales de bloqueo: `advisor_id`, `starts_at`, `ends_at`, `reason`, `created_by`.
 
+Los horarios se interpretarán en `America/Costa_Rica`. Toda reserva se volverá a
+validar dentro de la transacción y bloqueará temporalmente al asesor seleccionado
+para impedir confirmaciones concurrentes incompatibles.
+
 ### `notifications`
 
 Actúa como cola e historial de confirmaciones y recordatorios.

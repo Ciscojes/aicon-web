@@ -31,11 +31,12 @@ export default async function PanelPage() {
         {showCrm ? <Link className="dashboard-metric dashboard-metric-accent" href="/panel/crm?status=open&amp;stage=new"><span>Oportunidades nuevas</span><strong>{summary.newOpportunities}</strong><small>Atender consultas →</small></Link> : null}
         {showCrm ? <Link className="dashboard-metric dashboard-metric-warning" href="/panel/crm?status=open&amp;advisor=unassigned"><span>Sin asesor asignado</span><strong>{summary.unassignedOpportunities}</strong><small>Asignar responsables →</small></Link> : null}
         {showCrm ? <Link className="dashboard-metric dashboard-metric-danger" href="/panel/crm?status=open&amp;followUp=overdue"><span>Seguimientos atrasados</span><strong>{summary.overdueFollowUps}</strong><small>Atender ahora →</small></Link> : null}
+        {showCrm ? <Link className="dashboard-metric dashboard-metric-accent" href="/panel/citas"><span>Próximas visitas</span><strong>{summary.upcomingAppointments}</strong><small>Abrir agenda →</small></Link> : null}
       </section>
 
       <section className="dashboard-next">
-        <div><p className="eyebrow">Próxima entrega</p><h2>Agenda de visitas</h2><p>Los seguimientos comerciales ya están activos. El próximo bloque añadirá visitas y el estado de sus notificaciones.</p></div>
-        {showCrm ? <Link className="button button-secondary" href="/panel/crm">Abrir CRM</Link> : null}
+        <div><p className="eyebrow">Agenda activa</p><h2>Visitas y disponibilidad</h2><p>Configura los horarios de los asesores y revisa las reservas confirmadas desde la web.</p></div>
+        {showCrm ? <Link className="button button-secondary" href="/panel/citas">Abrir citas</Link> : null}
       </section>
     </main>
   );

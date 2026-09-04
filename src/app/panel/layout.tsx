@@ -27,6 +27,7 @@ export default async function PanelLayout({
         </div>
         <div className="panel-actions">
           {canAccessCrm(access.profile.role) ? <Link className="text-link" href="/panel/crm">CRM</Link> : null}
+          {canAccessCrm(access.profile.role) ? <Link className="text-link" href="/panel/citas">Citas</Link> : null}
           {canManageUsers(access.profile.role) ? <Link className="text-link" href="/panel/configuracion/financiamiento">Configuración</Link> : null}
           {canManageCatalog(access.profile.role) ? (
             <nav aria-label="Administración del catálogo" className="panel-catalog-nav">

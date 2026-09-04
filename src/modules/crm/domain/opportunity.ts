@@ -52,8 +52,17 @@ export type OpportunityQuote = {
   termMonths: number;
 };
 
+export type OpportunityAppointment = {
+  advisorName: string;
+  endsAt: string;
+  id: string;
+  startsAt: string;
+  status: "cancelled" | "completed" | "no_show" | "scheduled";
+};
+
 export type OpportunityDetails = OpportunitySummary & {
   activities: OpportunityActivity[];
+  appointments: OpportunityAppointment[];
   advisorName: string | null;
   contactEmailConsent: boolean;
   contactWhatsappConsent: boolean;
