@@ -4,8 +4,10 @@ import Link from "next/link";
 import {
   createAdvisorBlock,
   createAdvisorSchedule,
+  createAppointmentAccessLink,
   removeAdvisorBlock,
   retryNotification,
+  resolveChangeRequest,
   rescheduleAppointment,
   toggleAdvisorSchedule,
   updateAppointmentStatus,
@@ -46,7 +48,7 @@ function historyDescription(entry: AppointmentHistoryEntry) {
 
 export default async function AppointmentsPage({
   searchParams,
-}: Readonly<{ searchParams: Promise<{ error?: string; notice?: string }> }>) {
+}: Readonly<{ searchParams: Promise<{ accessLink?: string; error?: string; notice?: string }> }>) {
   const profile = await requireCrmAccess();
   const [appointments, schedules, blocks, durationMinutes, advisors, messages] = await Promise.all([
     listAppointments(),
@@ -63,6 +65,7 @@ export default async function AppointmentsPage({
       <div className="page-heading"><div><p className="eyebrow">Agenda</p><h1>Visitas a propiedades</h1><p className="lede">Consulta, reprograma y registra el resultado de las citas, con su historial auditable.</p></div><span className="count-badge">{scheduledCount} próximas</span></div>
       {messages.notice ? <output className="form-success page-notice">{messages.notice}</output> : null}
       {messages.error ? <p className="form-message page-notice" role="alert">{messages.error}</p> : null}
+      {messages.accessLink?.match(/^\/gestionar-cita\/[0-9a-f]{64}$/) ? <aside className="appointment-access-link" aria-label="Enlace temporal de la cita"><strong>Enlace temporal de autoservicio</strong><a href={messages.accessLink}>{messages.accessLink}</a><span>Vence al comenzar la visita y el enlace anterior quedó invalidado.</span></aside> : null}
 
       <section className="appointment-admin-grid">
         <div className="crm-detail-panel">
@@ -77,10 +80,12 @@ export default async function AppointmentsPage({
                     <Link className="text-link" href={`/panel/crm/${appointment.opportunityId}`}>Abrir oportunidad →</Link>
                   </div>
                   {appointment.status === "scheduled" ? <div className="appointment-actions">
+                    <details><summary>Enlace del cliente</summary><form action={createAppointmentAccessLink} className="appointment-inline-form"><input name="appointmentId" type="hidden" value={appointment.id} /><p className="muted">Crear uno nuevo invalida cualquier enlace anterior.</p><button className="button button-secondary" type="submit">Generar enlace temporal</button></form></details>
                     <details><summary>Reprogramar</summary><form action={rescheduleAppointment} className="appointment-inline-form"><input name="appointmentId" type="hidden" value={appointment.id} /><label><span>Nueva fecha y hora</span><input defaultValue={toCostaRicaDateTimeLocal(appointment.startsAt)} name="startsAt" required type="datetime-local" /></label><button className="button button-secondary" type="submit">Confirmar reprogramación</button></form></details>
                     <details><summary>Cancelar</summary><form action={updateAppointmentStatus} className="appointment-inline-form"><input name="appointmentId" type="hidden" value={appointment.id} /><input name="status" type="hidden" value="cancelled" /><label><span>Motivo opcional</span><textarea maxLength={500} name="cancellationReason" rows={2} /></label><button className="button button-danger" type="submit">Confirmar cancelación</button></form></details>
                     <details><summary>Registrar resultado</summary><div className="appointment-result-actions"><form action={updateAppointmentStatus}><input name="appointmentId" type="hidden" value={appointment.id} /><button className="button button-secondary" name="status" type="submit" value="completed">Marcar realizada</button></form><form action={updateAppointmentStatus}><input name="appointmentId" type="hidden" value={appointment.id} /><button className="button button-secondary" name="status" type="submit" value="no_show">Marcar no asistió</button></form></div></details>
                   </div> : null}
+                  {appointment.changeRequests.length > 0 ? <details className="appointment-history appointment-change-requests" open={appointment.changeRequests.some((request) => request.status === "pending")}><summary>Solicitudes de cambio ({appointment.changeRequests.length})</summary><ol>{appointment.changeRequests.map((request) => <li key={request.id}><div><strong>{request.status === "pending" ? "Reprogramación pendiente" : request.status === "approved" ? "Reprogramación aprobada" : "Reprogramación rechazada"}</strong><span>Horario solicitado: {dateTime.format(new Date(request.requestedStartsAt))}</span>{request.message ? <span>{request.message}</span> : null}</div><small>Recibida {dateTime.format(new Date(request.createdAt))}</small>{request.status === "pending" ? <form action={resolveChangeRequest} className="appointment-request-actions"><input name="requestId" type="hidden" value={request.id} /><button className="text-link" name="decision" type="submit" value="approved">Aprobar</button><button className="text-link text-link-danger" name="decision" type="submit" value="rejected">Rechazar</button></form> : null}</li>)}</ol></details> : null}
                   <details className="appointment-history"><summary>Historial ({appointment.history.length})</summary><ol>{appointment.history.map((entry) => <li key={entry.id}><div><strong>{historyActionLabels[entry.action]}</strong><span>{historyDescription(entry)}</span>{entry.cancellationReason ? <span>Motivo: {entry.cancellationReason}</span> : null}</div><small>{entry.actorName ?? "Reserva pública"} · {dateTime.format(new Date(entry.occurredAt))}</small></li>)}</ol></details>
                   <details className="appointment-history appointment-notifications"><summary>Avisos ({appointment.notifications.length})</summary>
                     {appointment.notifications.length === 0 ? <p className="muted">Esta cita no tiene avisos programados.</p> : <ol>{appointment.notifications.map((notification) => <li key={notification.id}>

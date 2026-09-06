@@ -3,6 +3,7 @@ export type PanelSummary = {
   failedNotifications: number | null;
   newOpportunities: number | null;
   overdueFollowUps: number | null;
+  pendingAppointmentRequests: number | null;
   reservedUnits: number;
   soldUnits: number;
   unassignedOpportunities: number | null;

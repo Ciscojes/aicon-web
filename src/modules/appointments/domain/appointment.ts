@@ -16,6 +16,26 @@ export type AppointmentSummary = {
   unitCode: string;
   history: AppointmentHistoryEntry[];
   notifications: AppointmentNotification[];
+  changeRequests: AppointmentChangeRequest[];
+};
+
+export type AppointmentChangeRequest = {
+  createdAt: string;
+  id: string;
+  message: string | null;
+  requestedStartsAt: string;
+  status: "approved" | "pending" | "rejected";
+};
+
+export type PublicAppointmentAccess = {
+  appointmentId: string;
+  condominiumName: string;
+  contactName: string;
+  endsAt: string;
+  expiresAt: string;
+  startsAt: string;
+  status: AppointmentStatus;
+  unitCode: string;
 };
 
 export const appointmentStatusLabels = {

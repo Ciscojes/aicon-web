@@ -1325,6 +1325,24 @@ textarea:focus-visible {
 .appointment-notifications li { align-items: center; }
 .appointment-notifications li > form { flex: 0 0 auto; }
 .appointment-notifications .notification-error { color: #a52f35; font-weight: 700; }
+.appointment-access-link { background: linear-gradient(135deg, #eef0ff, #fff4ee); border: 1px solid var(--line); border-radius: 0.9rem; display: grid; gap: 0.35rem; margin-top: 1rem; overflow-wrap: anywhere; padding: 1rem; }
+.appointment-access-link a { color: var(--accent-secondary); font-weight: 800; }
+.appointment-access-link span { color: var(--muted); font-size: 0.8rem; }
+.appointment-change-requests li { align-items: center; }
+.appointment-request-actions { display: flex; flex: 0 0 auto; gap: 0.75rem; }
+.text-link-danger { color: #a52f35; }
+.appointment-access-page { display: grid; gap: clamp(2rem, 5vw, 4rem); margin: 0 auto; max-width: 72rem; padding: clamp(4rem, 9vw, 7rem) 0; }
+.appointment-access-intro, .appointment-access-card { margin: 0 auto; max-width: 48rem; text-align: center; }
+.appointment-access-intro h1, .appointment-access-card h1 { font-family: Georgia, serif; font-size: clamp(2.6rem, 6vw, 4.8rem); line-height: 1; margin: 0; }
+.appointment-access-intro > p:not(.eyebrow), .appointment-access-card > p:not(.eyebrow) { color: var(--muted); font-size: 1.05rem; }
+.appointment-access-intro .contact-promise { margin: 1.5rem auto 0; text-align: left; }
+.appointment-access-actions { align-items: start; display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr); }
+.appointment-access-actions h2 { font-family: Georgia, serif; font-size: 2rem; margin: 0.2rem 0 0.5rem; }
+.appointment-access-form { display: grid; gap: 0.8rem; margin-top: 1rem; }
+.appointment-access-form > label { display: grid; gap: 0.4rem; }
+.appointment-access-form textarea { width: 100%; }
+.appointment-cancel-panel { border-color: rgb(165 47 53 / 25%); }
+.appointment-access-expired { background: rgb(255 255 255 / 75%); border: 1px solid var(--line); border-radius: 1.2rem; padding: clamp(1.5rem, 5vw, 3rem); }
 .availability-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr 1fr; margin-top: 1.25rem; }
 .availability-list article { align-items: center; background: var(--surface-soft); border-radius: 0.75rem; display: flex; gap: 1rem; justify-content: space-between; padding: 0.9rem; }
 .availability-list article > div { display: grid; gap: 0.2rem; }
@@ -1454,7 +1472,7 @@ textarea:focus-visible {
   .crm-section-heading, .crm-quotes article > div { align-items: start; flex-direction: column; }
   .financing-heading { align-items: flex-start; flex-direction: column; }
   .financing-layout, .estimate-grid { grid-template-columns: 1fr; }
-  .appointment-page, .appointment-admin-grid, .availability-grid { grid-template-columns: 1fr; }
+  .appointment-page, .appointment-admin-grid, .availability-grid, .appointment-access-actions { grid-template-columns: 1fr; }
   .appointment-date-picker, .appointment-summary, .appointment-time-row { grid-template-columns: 1fr; }
   .appointment-history li { display: grid; gap: 0.25rem; }
   .appointment-history small { text-align: left; }

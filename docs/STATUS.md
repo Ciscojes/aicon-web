@@ -124,12 +124,18 @@ Implementado:
 - Retiro automático de avisos obsoletos al reprogramar, cancelar o finalizar una visita.
 - Estado de cada aviso, errores, cantidad de intentos y reintento manual desde la agenda.
 - Contador de avisos fallidos en el resumen administrativo.
+- Enlaces temporales de un solo uso para que el cliente consulte y cancele su cita o
+  solicite otro horario sin iniciar sesión.
+- Solicitudes de reprogramación pendientes en la agenda, con aprobación o rechazo por
+  el asesor asignado o un administrador y conservación del horario original hasta aprobar.
+- Contador administrativo de solicitudes de cambio pendientes.
 
 Siguiente sección vertical:
 
 - Procesador programado y adaptadores de envío, pendientes de proveedores aprobados
   de correo y WhatsApp.
-- Enlace seguro para que el cliente solicite cancelar o reprogramar.
+- Inclusión automática del enlace seguro en las plantillas cuando se conecten los
+  proveedores aprobados.
 
 ## Verificación
 

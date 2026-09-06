@@ -10,7 +10,7 @@ export async function getPanelSummary(includeCrm: boolean): Promise<PanelSummary
     .is("archived_at", null)
     .eq("availability_status", status);
   const skippedCrm = Promise.resolve({ count: null, error: null });
-  const [available, reserved, sold, newOpportunities, unassigned, overdueFollowUps, upcomingAppointments, failedNotifications] = await Promise.all([
+  const [available, reserved, sold, newOpportunities, unassigned, overdueFollowUps, upcomingAppointments, failedNotifications, pendingAppointmentRequests] = await Promise.all([
     unitCount("available"),
     unitCount("reserved"),
     unitCount("sold"),
@@ -29,8 +29,11 @@ export async function getPanelSummary(includeCrm: boolean): Promise<PanelSummary
     includeCrm
       ? supabase.from("notifications").select("id", { count: "exact", head: true }).eq("status", "failed")
       : skippedCrm,
+    includeCrm
+      ? supabase.from("appointment_change_requests").select("id", { count: "exact", head: true }).eq("status", "pending")
+      : skippedCrm,
   ]);
-  if (available.error || reserved.error || sold.error || newOpportunities.error || unassigned.error || overdueFollowUps.error || upcomingAppointments.error || failedNotifications.error) {
+  if (available.error || reserved.error || sold.error || newOpportunities.error || unassigned.error || overdueFollowUps.error || upcomingAppointments.error || failedNotifications.error || pendingAppointmentRequests.error) {
     throw new Error("No fue posible cargar el resumen administrativo.");
   }
 
@@ -39,6 +42,7 @@ export async function getPanelSummary(includeCrm: boolean): Promise<PanelSummary
     failedNotifications: includeCrm ? failedNotifications.count ?? 0 : null,
     newOpportunities: includeCrm ? newOpportunities.count ?? 0 : null,
     overdueFollowUps: includeCrm ? overdueFollowUps.count ?? 0 : null,
+    pendingAppointmentRequests: includeCrm ? pendingAppointmentRequests.count ?? 0 : null,
     reservedUnits: reserved.count ?? 0,
     soldUnits: sold.count ?? 0,
     unassignedOpportunities: includeCrm ? unassigned.count ?? 0 : null,

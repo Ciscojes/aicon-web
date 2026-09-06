@@ -161,6 +161,7 @@ Ordenar la construcción del MVP en entregas pequeñas, demostrables y verificab
 - Envío por correo electrónico y WhatsApp mediante proveedores aprobados.
 - Registro de intentos, fallos y reintentos.
 - Resultado de la visita: realizada, cancelada o no asistió.
+- Enlace temporal de autoservicio para cancelar o solicitar reprogramación.
 
 ### Especificaciones relacionadas
 
@@ -177,6 +178,8 @@ Ordenar la construcción del MVP en entregas pequeñas, demostrables y verificab
 - Reprogramar conserva el historial.
 - Los recordatorios se generan una sola vez por canal y horario configurado.
 - Los fallos de proveedor no eliminan ni invalidan la cita.
+- Una solicitud pública de reprogramación no cambia el horario hasta aprobarse y el
+  enlace no puede reutilizarse.
 
 ## Entrega 5 — Preparación del lanzamiento
 

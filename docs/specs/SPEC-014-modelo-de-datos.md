@@ -155,6 +155,13 @@ Estados iniciales: programada, procesando, enviada, fallida y retirada. La cola 
 guardará el cuerpo completo del mensaje; resolverá los datos vigentes del destinatario
 al procesarlo y conservará solamente el identificador devuelto por el proveedor.
 
+### `appointment_access_links` y `appointment_change_requests`
+
+Los enlaces permiten al cliente gestionar una cita sin crear una cuenta. Se almacena
+únicamente la huella del token, su vencimiento, uso y creador; emitir otro invalida el
+anterior. Las solicitudes de reprogramación conservan horario solicitado, comentario,
+estado pendiente o resuelto, responsable y fecha de resolución.
+
 ## Configuración y auditoría
 
 ### `app_settings`
@@ -231,6 +238,8 @@ No almacenará secretos ni datos completos innecesarios.
   de contactos por teléfono normalizado.
 - 2026-09-05: se concretaron destinatarios, estados e información mínima de auditoría
   de la cola de notificaciones.
+- 2026-09-05: se añadieron enlaces temporales protegidos y solicitudes auditables de
+  reprogramación sin modificar anticipadamente la cita.
 - 2026-08-31: se concretó la configuración financiera versionada y su relación con
   las fotografías históricas de cotización.
 - 2026-09-03: se añadió el historial inmutable de citas y las transiciones de estado

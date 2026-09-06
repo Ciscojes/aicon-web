@@ -1,6 +1,6 @@
 import { createClient } from "@/infrastructure/supabase/server";
 import type { InternalProfile } from "@/modules/users/domain/role";
-import type { AdvisorSchedule, AppointmentHistoryEntry, AppointmentSummary, AvailabilityBlock } from "../domain/appointment";
+import type { AdvisorSchedule, AppointmentChangeRequest, AppointmentHistoryEntry, AppointmentSummary, AvailabilityBlock } from "../domain/appointment";
 import type { AppointmentNotification } from "@/modules/notifications/domain/notification";
 
 export async function getVisitDurationMinutes(): Promise<number> {
@@ -29,7 +29,7 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
   const rows = data ?? [];
   if (rows.length === 0) return [];
 
-  const [opportunities, units, advisors, history, notifications] = await Promise.all([
+  const [opportunities, units, advisors, history, notifications, changeRequests] = await Promise.all([
     supabase.from("opportunities").select("id, contact_id").in("id", rows.map((row) => row.opportunity_id)),
     supabase.from("house_units").select("id, code, condominium_id").in("id", rows.map((row) => row.unit_id)),
     supabase.from("user_profiles").select("id, name").in("id", rows.map((row) => row.advisor_id)),
@@ -39,8 +39,11 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
     supabase.from("notifications")
       .select("id, appointment_id, recipient_kind, channel, template, scheduled_for, status, attempt_count, sent_at, last_error")
       .in("appointment_id", rows.map((row) => row.id)).order("scheduled_for"),
+    supabase.from("appointment_change_requests")
+      .select("id, appointment_id, requested_starts_at, message, status, created_at")
+      .in("appointment_id", rows.map((row) => row.id)).order("created_at", { ascending: false }),
   ]);
-  if (opportunities.error || units.error || advisors.error || history.error || notifications.error) throw new Error("No fue posible cargar el detalle de las visitas.");
+  if (opportunities.error || units.error || advisors.error || history.error || notifications.error || changeRequests.error) throw new Error("No fue posible cargar el detalle de las visitas.");
   const contactIds = (opportunities.data ?? []).map((row) => row.contact_id);
   const condominiumIds = (units.data ?? []).map((row) => row.condominium_id);
   const actorIds = [...new Set((history.data ?? []).flatMap((entry) => entry.actor_user_id ? [entry.actor_user_id] : []))];
@@ -61,6 +64,7 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
   const actorMap = new Map((actors.data ?? []).map((row) => [row.id, row.name]));
   const historyMap = new Map<string, AppointmentHistoryEntry[]>();
   const notificationMap = new Map<string, AppointmentNotification[]>();
+  const changeRequestMap = new Map<string, AppointmentChangeRequest[]>();
   for (const entry of history.data ?? []) {
     const appointmentHistory = historyMap.get(entry.appointment_id) ?? [];
     appointmentHistory.push({
@@ -93,6 +97,17 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
     });
     notificationMap.set(notification.appointment_id, appointmentNotifications);
   }
+  for (const request of changeRequests.data ?? []) {
+    const appointmentRequests = changeRequestMap.get(request.appointment_id) ?? [];
+    appointmentRequests.push({
+      createdAt: request.created_at,
+      id: request.id,
+      message: request.message,
+      requestedStartsAt: request.requested_starts_at,
+      status: request.status,
+    });
+    changeRequestMap.set(request.appointment_id, appointmentRequests);
+  }
   return rows.flatMap((row) => {
     const opportunity = opportunityMap.get(row.opportunity_id);
     const unit = unitMap.get(row.unit_id);
@@ -100,6 +115,7 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
     if (!unit || !contact) return [];
     return [{
       advisorName: advisorMap.get(row.advisor_id) ?? "Asesor",
+      changeRequests: changeRequestMap.get(row.id) ?? [],
       condominiumName: condominiumMap.get(unit.condominium_id) ?? "Condominio",
       contactEmail: contact.email,
       contactName: contact.name,
@@ -114,6 +130,23 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
       unitCode: unit.code,
     }];
   });
+}
+
+export async function issueAppointmentAccessLink(id: string): Promise<string | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("issue_appointment_access_link", { p_appointment_id: id });
+  if (error) console.error(JSON.stringify({ code: error.code, event: "appointment_access_link_failed", level: "error" }));
+  return error ? null : data;
+}
+
+export async function resolveAppointmentChangeRequest(id: string, decision: "approved" | "rejected"): Promise<boolean> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("resolve_appointment_change_request", {
+    p_decision: decision,
+    p_request_id: id,
+  });
+  if (error) console.error(JSON.stringify({ code: error.code, event: "appointment_change_request_failed", level: "error" }));
+  return !error;
 }
 
 export async function retryAppointmentNotification(id: string): Promise<boolean> {

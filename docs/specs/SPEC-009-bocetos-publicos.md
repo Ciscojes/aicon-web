@@ -16,6 +16,7 @@ Definir la jerarquía de contenido y las acciones principales de las pantallas p
 4. Simulación y solicitud de cotización.
 5. Registro del interesado.
 6. Calendario y confirmación de visita.
+7. Autoservicio temporal de una cita.
 
 ## Decisiones representadas
 
@@ -25,6 +26,8 @@ Definir la jerarquía de contenido y las acciones principales de las pantallas p
 - La cotización es opcional y no bloquea la agenda.
 - El registro solicita nombre y teléfono; el correo se solicita para la agenda y los recordatorios.
 - El calendario resume la propiedad antes de confirmar la cita.
+- El autoservicio resume la cita vigente y separa claramente solicitar otro horario
+  de cancelarla de inmediato.
 
 ## Criterios de aceptación
 
@@ -58,3 +61,5 @@ Definir la jerarquía de contenido y las acciones principales de las pantallas p
 - 2026-08-28: creación del primer conjunto de bocetos públicos.
 - 2026-08-28: la adaptación para celulares pasó a SPEC-010.
 - 2026-08-31: se incorporó la jerarquía del detalle de condominio.
+- 2026-09-05: se añadió la estructura pública para cancelar o solicitar una
+  reprogramación mediante un enlace temporal.

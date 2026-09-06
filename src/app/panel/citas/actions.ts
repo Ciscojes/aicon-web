@@ -10,8 +10,10 @@ import {
   availableAdvisorId,
   cancelAvailabilityBlock,
   createAvailabilityBlock,
+  issueAppointmentAccessLink,
   rescheduleManagedAppointment,
   retryAppointmentNotification,
+  resolveAppointmentChangeRequest,
   saveAdvisorSchedule,
   saveVisitDurationMinutes,
   setManagedAppointmentStatus,
@@ -117,4 +119,24 @@ export async function retryNotification(formData: FormData) {
   }
   revalidatePath("/panel/citas");
   redirect(destination("notice", "Aviso devuelto a la cola para un nuevo intento."));
+}
+
+export async function createAppointmentAccessLink(formData: FormData) {
+  await requireCrmAccess();
+  const id = uuid.safeParse(formData.get("appointmentId"));
+  const token = id.success ? await issueAppointmentAccessLink(id.data) : null;
+  if (!token) redirect(destination("error", "No fue posible crear el enlace. Confirma que la cita siga programada y futura."));
+  const accessLink = `/gestionar-cita/${token}`;
+  redirect(`/panel/citas?${new URLSearchParams({ accessLink, notice: "Enlace temporal creado. Copia y envíalo solamente al cliente de esta cita." })}`);
+}
+
+export async function resolveChangeRequest(formData: FormData) {
+  await requireCrmAccess();
+  const id = uuid.safeParse(formData.get("requestId"));
+  const decision = z.enum(["approved", "rejected"]).safeParse(formData.get("decision"));
+  if (!id.success || !decision.success || !(await resolveAppointmentChangeRequest(id.data, decision.data))) {
+    redirect(destination("error", "No fue posible resolver la solicitud. El horario puede haber dejado de estar disponible."));
+  }
+  revalidatePath("/panel/citas");
+  redirect(destination("notice", decision.data === "approved" ? "Reprogramación aprobada y cita actualizada." : "Solicitud de reprogramación rechazada."));
 }

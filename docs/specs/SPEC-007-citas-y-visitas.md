@@ -108,6 +108,11 @@ Una cita reprogramada conservará el historial de su horario anterior y volverá
 - Si no existen horarios, se ofrecerá contactar a un asesor.
 - Si falla el envío de un aviso, la cita seguirá confirmada y el fallo quedará visible para el personal autorizado.
 - Si el cliente solicita reprogramación, el horario actual no cambiará hasta que se confirme uno nuevo.
+- El enlace de autoservicio será aleatorio, temporal y de un solo uso. La base de
+  datos conservará solamente su huella y un enlace nuevo invalidará el anterior.
+- El enlace vencerá al comenzar la visita. Una cancelación será inmediata; una
+  solicitud de reprogramación conservará la cita vigente hasta que el asesor o un
+  administrador apruebe un horario que continúe disponible.
 - Si una casa deja de estar disponible, las citas futuras deberán revisarse y los responsables recibirán una alerta interna.
 
 ## Criterios de aceptación
@@ -142,3 +147,5 @@ Una cita reprogramada conservará el historial de su horario anterior y volverá
   reprogramación, cancelación y resultado de las citas.
 - 2026-09-05: se definió la cola auditable, el retiro de avisos obsoletos y el reintento
   manual de entregas fallidas sin acoplarla a un proveedor todavía no aprobado.
+- 2026-09-05: se concretó el autoservicio mediante enlace aleatorio de un solo uso,
+  cancelación directa y reprogramación sujeta a aprobación interna.

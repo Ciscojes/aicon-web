@@ -84,7 +84,7 @@ async function validateFreshDatabase(migrations) {
       where schemaname in ('public', 'storage')
     `)).rows;
 
-    if (tableCount !== 19 || rlsCount !== 19 || policyCount < 37) {
+    if (tableCount !== 21 || rlsCount !== 21 || policyCount < 38) {
       throw new Error(
         `Esquema incompleto: ${tableCount} tablas, ${rlsCount} con RLS, ${policyCount} políticas.`,
       );
@@ -592,9 +592,102 @@ async function validateFreshDatabase(migrations) {
       ) as id`,
       [unit.id, availableSlot.starts_at],
     )).rows;
-    await database.query(
-      `select public.set_appointment_status($1, 'cancelled', 'Solicitud del cliente.')`,
+    const [issuedAccess] = (await database.query(
+      `select public.issue_appointment_access_link($1) as token`,
       [cancelledAppointment.id],
+    )).rows;
+    if (!issuedAccess.token?.match(/^[0-9a-f]{64}$/)) {
+      throw new Error("El enlace de autoservicio no generó un token aleatorio válido.");
+    }
+    const [publicAccess] = (await database.query(
+      `select appointment_id, contact_name, unit_code
+       from public.get_public_appointment_access($1)`,
+      [issuedAccess.token],
+    )).rows;
+    const [storedAccess] = (await database.query(
+      `select token_hash = md5($2) as hash_matches, token_hash = $2 as raw_stored
+       from public.appointment_access_links where appointment_id = $1 and used_at is null`,
+      [cancelledAppointment.id, issuedAccess.token],
+    )).rows;
+    if (publicAccess.appointment_id !== cancelledAppointment.id
+      || publicAccess.contact_name !== "Persona Cancelación"
+      || publicAccess.unit_code !== "A-01"
+      || !storedAccess.hash_matches || storedAccess.raw_stored) {
+      throw new Error("El enlace público expuso datos incorrectos o almacenó el token sin protección.");
+    }
+
+    const [requestedSlot] = (await database.query(
+      `select starts_at from public.get_public_appointment_reschedule_slots($1, $2::date)
+       order by starts_at limit 1`,
+      [issuedAccess.token, visitDate.visit_date],
+    )).rows;
+    if (!requestedSlot?.starts_at) {
+      throw new Error("El enlace válido no mostró alternativas para solicitar reprogramación.");
+    }
+    await database.query(
+      `select public.request_appointment_reschedule_with_access_link(
+        $1, $2, 'Preferimos este nuevo horario.'
+      )`,
+      [issuedAccess.token, requestedSlot.starts_at],
+    );
+    const [pendingRequest] = (await database.query(
+      `select request.id, request.status, request.message, appointment.starts_at,
+        access_link.used_at is not null as link_used
+       from public.appointment_change_requests request
+       join public.appointments appointment on appointment.id = request.appointment_id
+       join public.appointment_access_links access_link on access_link.id = request.access_link_id
+       where request.appointment_id = $1`,
+      [cancelledAppointment.id],
+    )).rows;
+    if (pendingRequest.status !== "pending"
+      || pendingRequest.message !== "Preferimos este nuevo horario."
+      || new Date(pendingRequest.starts_at).getTime() !== new Date(availableSlot.starts_at).getTime()
+      || !pendingRequest.link_used) {
+      throw new Error("La solicitud pública cambió la cita antes de ser aprobada o no invalidó su enlace.");
+    }
+    await database.query(
+      `select public.resolve_appointment_change_request($1, 'approved')`,
+      [pendingRequest.id],
+    );
+    const [approvedRequest] = (await database.query(
+      `select request.status, request.resolved_by is not null as has_resolver,
+        request.resolved_at is not null as resolved, appointment.starts_at
+       from public.appointment_change_requests request
+       join public.appointments appointment on appointment.id = request.appointment_id
+       where request.id = $1`,
+      [pendingRequest.id],
+    )).rows;
+    if (approvedRequest.status !== "approved"
+      || !approvedRequest.has_resolver || !approvedRequest.resolved
+      || new Date(approvedRequest.starts_at).getTime() !== new Date(requestedSlot.starts_at).getTime()) {
+      throw new Error("Aprobar la solicitud no reprogramó la cita ni conservó su resolución.");
+    }
+
+    const [expiredAccess] = (await database.query(
+      `select public.issue_appointment_access_link($1) as token`,
+      [cancelledAppointment.id],
+    )).rows;
+    await database.query(
+      `update public.appointment_access_links
+       set created_at = now() - interval '2 days', expires_at = now() - interval '1 day'
+       where appointment_id = $1 and used_at is null`,
+      [cancelledAppointment.id],
+    );
+    const [expiredResult] = (await database.query(
+      `select count(*)::integer as total from public.get_public_appointment_access($1)`,
+      [expiredAccess.token],
+    )).rows;
+    if (expiredResult.total !== 0) {
+      throw new Error("Un enlace vencido continuó permitiendo gestionar la cita.");
+    }
+
+    const [cancellationAccess] = (await database.query(
+      `select public.issue_appointment_access_link($1) as token`,
+      [cancelledAppointment.id],
+    )).rows;
+    await database.query(
+      `select public.cancel_appointment_with_access_link($1, 'Solicitud del cliente.')`,
+      [cancellationAccess.token],
     );
     const [cancelledResult] = (await database.query(
       `select
@@ -611,7 +704,7 @@ async function validateFreshDatabase(migrations) {
     )).rows;
     if (cancelledResult.status !== "cancelled"
       || cancelledResult.cancellation_reason !== "Solicitud del cliente."
-      || cancelledResult.history_count !== 2
+      || cancelledResult.history_count !== 3
       || !cancelledResult.slot_released) {
       throw new Error("Cancelar no conservó el motivo, historial o liberación del horario.");
     }
@@ -622,7 +715,7 @@ async function validateFreshDatabase(migrations) {
        from public.notifications where appointment_id = $1`,
       [cancelledAppointment.id],
     )).rows;
-    if (cancelledNotifications.cancelled !== 9 || cancelledNotifications.cancellation_notices !== 3) {
+    if (cancelledNotifications.cancelled !== 18 || cancelledNotifications.cancellation_notices !== 3) {
       throw new Error("Cancelar no retiró recordatorios ni programó los avisos de cancelación.");
     }
 
