@@ -1,3 +1,5 @@
+import type { AppointmentNotification } from "@/modules/notifications/domain/notification";
+
 export type VisitSlot = { endsAt: string; startsAt: string };
 
 export type AppointmentSummary = {
@@ -13,6 +15,7 @@ export type AppointmentSummary = {
   status: "cancelled" | "completed" | "no_show" | "scheduled";
   unitCode: string;
   history: AppointmentHistoryEntry[];
+  notifications: AppointmentNotification[];
 };
 
 export const appointmentStatusLabels = {

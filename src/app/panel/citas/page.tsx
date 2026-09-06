@@ -5,6 +5,7 @@ import {
   createAdvisorBlock,
   createAdvisorSchedule,
   removeAdvisorBlock,
+  retryNotification,
   rescheduleAppointment,
   toggleAdvisorSchedule,
   updateAppointmentStatus,
@@ -17,7 +18,16 @@ import {
   listFutureAvailabilityBlocks,
   listAppointments,
 } from "@/modules/appointments/infrastructure/appointment-repository";
-import { appointmentStatusLabels, type AppointmentHistoryEntry } from "@/modules/appointments/domain/appointment";
+import {
+  appointmentStatusLabels,
+  type AppointmentHistoryEntry,
+} from "@/modules/appointments/domain/appointment";
+import {
+  canRetryNotification,
+  notificationChannelLabels,
+  notificationStatusLabels,
+  notificationTemplateLabels,
+} from "@/modules/notifications/domain/notification";
 import { toCostaRicaDateTimeLocal } from "@/modules/crm/domain/follow-up";
 import { listActiveAdvisors } from "@/modules/crm/infrastructure/opportunity-repository";
 
@@ -72,6 +82,13 @@ export default async function AppointmentsPage({
                     <details><summary>Registrar resultado</summary><div className="appointment-result-actions"><form action={updateAppointmentStatus}><input name="appointmentId" type="hidden" value={appointment.id} /><button className="button button-secondary" name="status" type="submit" value="completed">Marcar realizada</button></form><form action={updateAppointmentStatus}><input name="appointmentId" type="hidden" value={appointment.id} /><button className="button button-secondary" name="status" type="submit" value="no_show">Marcar no asistió</button></form></div></details>
                   </div> : null}
                   <details className="appointment-history"><summary>Historial ({appointment.history.length})</summary><ol>{appointment.history.map((entry) => <li key={entry.id}><div><strong>{historyActionLabels[entry.action]}</strong><span>{historyDescription(entry)}</span>{entry.cancellationReason ? <span>Motivo: {entry.cancellationReason}</span> : null}</div><small>{entry.actorName ?? "Reserva pública"} · {dateTime.format(new Date(entry.occurredAt))}</small></li>)}</ol></details>
+                  <details className="appointment-history appointment-notifications"><summary>Avisos ({appointment.notifications.length})</summary>
+                    {appointment.notifications.length === 0 ? <p className="muted">Esta cita no tiene avisos programados.</p> : <ol>{appointment.notifications.map((notification) => <li key={notification.id}>
+                      <div><strong>{notificationTemplateLabels[notification.template]} · {notificationChannelLabels[notification.channel]}</strong><span>{notification.recipientKind === "contact" ? "Cliente" : "Asesor"} · {notificationStatusLabels[notification.status]}</span>{notification.lastError ? <span className="notification-error">{notification.lastError}</span> : null}</div>
+                      <small>{notification.sentAt ? `Enviado ${dateTime.format(new Date(notification.sentAt))}` : `Programado ${dateTime.format(new Date(notification.scheduledFor))}`} · {notification.attemptCount} intento(s)</small>
+                      {canRetryNotification(notification.status) ? <form action={retryNotification}><input name="notificationId" type="hidden" value={notification.id} /><button className="text-link" type="submit">Reintentar</button></form> : null}
+                    </li>)}</ol>}
+                  </details>
                 </article>
               ))}
             </div>

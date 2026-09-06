@@ -10,7 +10,7 @@ export async function getPanelSummary(includeCrm: boolean): Promise<PanelSummary
     .is("archived_at", null)
     .eq("availability_status", status);
   const skippedCrm = Promise.resolve({ count: null, error: null });
-  const [available, reserved, sold, newOpportunities, unassigned, overdueFollowUps, upcomingAppointments] = await Promise.all([
+  const [available, reserved, sold, newOpportunities, unassigned, overdueFollowUps, upcomingAppointments, failedNotifications] = await Promise.all([
     unitCount("available"),
     unitCount("reserved"),
     unitCount("sold"),
@@ -26,13 +26,17 @@ export async function getPanelSummary(includeCrm: boolean): Promise<PanelSummary
     includeCrm
       ? supabase.from("appointments").select("id", { count: "exact", head: true }).eq("status", "scheduled").gte("starts_at", new Date().toISOString())
       : skippedCrm,
+    includeCrm
+      ? supabase.from("notifications").select("id", { count: "exact", head: true }).eq("status", "failed")
+      : skippedCrm,
   ]);
-  if (available.error || reserved.error || sold.error || newOpportunities.error || unassigned.error || overdueFollowUps.error || upcomingAppointments.error) {
+  if (available.error || reserved.error || sold.error || newOpportunities.error || unassigned.error || overdueFollowUps.error || upcomingAppointments.error || failedNotifications.error) {
     throw new Error("No fue posible cargar el resumen administrativo.");
   }
 
   return {
     availableUnits: available.count ?? 0,
+    failedNotifications: includeCrm ? failedNotifications.count ?? 0 : null,
     newOpportunities: includeCrm ? newOpportunities.count ?? 0 : null,
     overdueFollowUps: includeCrm ? overdueFollowUps.count ?? 0 : null,
     reservedUnits: reserved.count ?? 0,

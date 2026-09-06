@@ -84,7 +84,7 @@ async function validateFreshDatabase(migrations) {
       where schemaname in ('public', 'storage')
     `)).rows;
 
-    if (tableCount !== 18 || rlsCount !== 18 || policyCount < 36) {
+    if (tableCount !== 19 || rlsCount !== 19 || policyCount < 37) {
       throw new Error(
         `Esquema incompleto: ${tableCount} tablas, ${rlsCount} con RLS, ${policyCount} políticas.`,
       );
@@ -424,6 +424,32 @@ async function validateFreshDatabase(migrations) {
       || appointment.visit_activities !== 1) {
       throw new Error("La cita no quedó vinculada al asesor, CRM y próxima acción.");
     }
+    const [appointmentNotifications] = (await database.query(
+      `select
+        count(*)::integer as total,
+        count(*) filter (where template = 'appointment_confirmation')::integer as confirmations,
+        count(*) filter (where template in ('appointment_reminder_24h', 'appointment_reminder_2h'))::integer as reminders,
+        count(*) filter (where status = 'queued')::integer as queued
+       from public.notifications where appointment_id = $1`,
+      [appointment.id],
+    )).rows;
+    if (appointmentNotifications.total !== 9
+      || appointmentNotifications.confirmations !== 3
+      || appointmentNotifications.reminders !== 6
+      || appointmentNotifications.queued !== 9) {
+      throw new Error("La cita no generó una sola confirmación y sus recordatorios por cada canal autorizado.");
+    }
+    await database.query(
+      `select public.enqueue_appointment_notifications($1, 'appointment_confirmation', true)`,
+      [appointment.id],
+    );
+    const [idempotentNotifications] = (await database.query(
+      `select count(*)::integer as total from public.notifications where appointment_id = $1`,
+      [appointment.id],
+    )).rows;
+    if (idempotentNotifications.total !== 9) {
+      throw new Error("La cola generó avisos duplicados para la misma cita, canal y horario.");
+    }
 
     let duplicateAppointmentRejected = false;
     try {
@@ -480,6 +506,19 @@ async function validateFreshDatabase(migrations) {
       || rescheduledAppointment.new_slot_still_available) {
       throw new Error("Reprogramar no conservó el historial, seguimiento o disponibilidad correctos.");
     }
+    const [rescheduledNotifications] = (await database.query(
+      `select
+        count(*) filter (where status = 'cancelled')::integer as cancelled,
+        count(*) filter (where status = 'queued')::integer as queued,
+        count(*) filter (where status = 'queued' and template = 'appointment_rescheduled')::integer as rescheduled
+       from public.notifications where appointment_id = $1`,
+      [appointment.id],
+    )).rows;
+    if (rescheduledNotifications.cancelled !== 9
+      || rescheduledNotifications.queued !== 9
+      || rescheduledNotifications.rescheduled !== 3) {
+      throw new Error("Reprogramar no retiró los avisos anteriores ni creó los nuevos una sola vez.");
+    }
 
     const secondAdvisorAuthId = "55555555-5555-4555-8555-555555555555";
     await database.query(
@@ -526,6 +565,14 @@ async function validateFreshDatabase(migrations) {
       || completedAppointment.history_count !== 3) {
       throw new Error("El resultado realizado no cerró la acción y su historial correctamente.");
     }
+    const [completedNotifications] = (await database.query(
+      `select count(*) filter (where status = 'queued')::integer as queued
+       from public.notifications where appointment_id = $1`,
+      [appointment.id],
+    )).rows;
+    if (completedNotifications.queued !== 0) {
+      throw new Error("Una visita realizada conservó avisos pendientes.");
+    }
     let finalStatusRejected = false;
     try {
       await database.query(
@@ -567,6 +614,40 @@ async function validateFreshDatabase(migrations) {
       || cancelledResult.history_count !== 2
       || !cancelledResult.slot_released) {
       throw new Error("Cancelar no conservó el motivo, historial o liberación del horario.");
+    }
+    const [cancelledNotifications] = (await database.query(
+      `select
+        count(*) filter (where status = 'cancelled')::integer as cancelled,
+        count(*) filter (where status = 'queued' and template = 'appointment_cancelled')::integer as cancellation_notices
+       from public.notifications where appointment_id = $1`,
+      [cancelledAppointment.id],
+    )).rows;
+    if (cancelledNotifications.cancelled !== 9 || cancelledNotifications.cancellation_notices !== 3) {
+      throw new Error("Cancelar no retiró recordatorios ni programó los avisos de cancelación.");
+    }
+
+    const [claimedNotification] = (await database.query(
+      `select id from public.claim_due_appointment_notifications(1)`,
+    )).rows;
+    if (!claimedNotification?.id) {
+      throw new Error("El procesador no reclamó un aviso vencido de la cola.");
+    }
+    await database.query(
+      `select public.record_appointment_notification_delivery($1, false, null, 'Proveedor temporalmente no disponible.')`,
+      [claimedNotification.id],
+    );
+    await database.query(
+      `select public.retry_appointment_notification($1)`,
+      [claimedNotification.id],
+    );
+    const [retriedNotification] = (await database.query(
+      `select status, attempt_count, last_error from public.notifications where id = $1`,
+      [claimedNotification.id],
+    )).rows;
+    if (retriedNotification.status !== "queued"
+      || retriedNotification.attempt_count !== 1
+      || retriedNotification.last_error !== null) {
+      throw new Error("El fallo y reintento de un aviso no conservaron su conteo correctamente.");
     }
 
     await database.query(

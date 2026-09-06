@@ -21,4 +21,5 @@ describe("appointment management", () => {
     expect(canTransitionAppointment("no_show", "completed")).toBe(false);
     expect(canTransitionAppointment("scheduled", "scheduled")).toBe(false);
   });
+
 });

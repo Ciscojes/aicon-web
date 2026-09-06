@@ -91,6 +91,11 @@ Una cita reprogramada conservará el historial de su horario anterior y volverá
 - Los avisos requerirán autorización expresa del cliente.
 - WhatsApp deberá utilizar una integración empresarial oficial aprobada.
 - Si un canal autorizado falla, el sistema intentará el otro y registrará el resultado.
+- La cola conservará por separado destinatario, canal, plantilla, horario, cantidad de
+  intentos y último error; un fallo nunca modificará ni eliminará la cita.
+- Al reprogramar se retirarán los recordatorios pendientes del horario anterior y se
+  generarán una sola vez para el horario nuevo. Al cancelar o finalizar una visita se
+  retirarán los recordatorios que todavía no hayan sido enviados.
 - La primera versión no publicará horarios hasta que un administrador configure
   explícitamente la disponibilidad recurrente de al menos un asesor.
 - Al reservar se priorizará el asesor ya asignado a la oportunidad si continúa
@@ -135,3 +140,5 @@ Una cita reprogramada conservará el historial de su horario anterior y volverá
   asumir días u horas de atención sin configuración administrativa.
 - 2026-09-03: se definieron las transiciones, permisos e historial auditable para la
   reprogramación, cancelación y resultado de las citas.
+- 2026-09-05: se definió la cola auditable, el retiro de avisos obsoletos y el reintento
+  manual de entregas fallidas sin acoplarla a un proveedor todavía no aprobado.

@@ -1322,6 +1322,9 @@ textarea:focus-visible {
 .appointment-history li { align-items: start; border-left: 2px solid var(--line); display: flex; gap: 1rem; justify-content: space-between; padding-left: 0.7rem; }
 .appointment-history li > div { display: grid; gap: 0.15rem; }
 .appointment-history small { color: var(--muted); text-align: right; }
+.appointment-notifications li { align-items: center; }
+.appointment-notifications li > form { flex: 0 0 auto; }
+.appointment-notifications .notification-error { color: #a52f35; font-weight: 700; }
 .availability-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr 1fr; margin-top: 1.25rem; }
 .availability-list article { align-items: center; background: var(--surface-soft); border-radius: 0.75rem; display: flex; gap: 1rem; justify-content: space-between; padding: 0.9rem; }
 .availability-list article > div { display: grid; gap: 0.2rem; }

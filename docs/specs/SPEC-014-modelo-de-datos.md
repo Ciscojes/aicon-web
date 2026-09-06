@@ -145,9 +145,15 @@ para impedir confirmaciones concurrentes incompatibles.
 
 Actúa como cola e historial de confirmaciones y recordatorios.
 
-Campos principales: `id`, `appointment_id`, `contact_id`, `channel`, `template`, `scheduled_for`, `status`, `attempt_count`, `provider_message_id`, `sent_at`, `last_error`, `created_at`.
+Campos principales: `id`, `appointment_id`, `contact_id`, `advisor_id`,
+`recipient_kind`, `channel`, `template`, `scheduled_for`, `status`,
+`attempt_count`, `provider_message_id`, `sent_at`, `last_error`, `created_at`.
 
 Canales iniciales: correo electrónico y WhatsApp.
+
+Estados iniciales: programada, procesando, enviada, fallida y retirada. La cola no
+guardará el cuerpo completo del mensaje; resolverá los datos vigentes del destinatario
+al procesarlo y conservará solamente el identificador devuelto por el proveedor.
 
 ## Configuración y auditoría
 
@@ -223,6 +229,8 @@ No almacenará secretos ni datos completos innecesarios.
 - 2026-09-03: se agregó la descripción de próxima acción y su integridad con el estado de la oportunidad.
 - 2026-08-31: se añadió la actividad de consulta pública y la reutilización inicial
   de contactos por teléfono normalizado.
+- 2026-09-05: se concretaron destinatarios, estados e información mínima de auditoría
+  de la cola de notificaciones.
 - 2026-08-31: se concretó la configuración financiera versionada y su relación con
   las fotografías históricas de cotización.
 - 2026-09-03: se añadió el historial inmutable de citas y las transiciones de estado

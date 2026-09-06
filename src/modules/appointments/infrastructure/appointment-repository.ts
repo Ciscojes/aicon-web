@@ -1,6 +1,7 @@
 import { createClient } from "@/infrastructure/supabase/server";
 import type { InternalProfile } from "@/modules/users/domain/role";
 import type { AdvisorSchedule, AppointmentHistoryEntry, AppointmentSummary, AvailabilityBlock } from "../domain/appointment";
+import type { AppointmentNotification } from "@/modules/notifications/domain/notification";
 
 export async function getVisitDurationMinutes(): Promise<number> {
   const supabase = await createClient();
@@ -28,15 +29,18 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
   const rows = data ?? [];
   if (rows.length === 0) return [];
 
-  const [opportunities, units, advisors, history] = await Promise.all([
+  const [opportunities, units, advisors, history, notifications] = await Promise.all([
     supabase.from("opportunities").select("id, contact_id").in("id", rows.map((row) => row.opportunity_id)),
     supabase.from("house_units").select("id, code, condominium_id").in("id", rows.map((row) => row.unit_id)),
     supabase.from("user_profiles").select("id, name").in("id", rows.map((row) => row.advisor_id)),
     supabase.from("appointment_history")
       .select("id, appointment_id, actor_user_id, action, previous_starts_at, previous_ends_at, previous_status, new_starts_at, new_ends_at, new_status, cancellation_reason, occurred_at")
       .in("appointment_id", rows.map((row) => row.id)).order("occurred_at", { ascending: false }),
+    supabase.from("notifications")
+      .select("id, appointment_id, recipient_kind, channel, template, scheduled_for, status, attempt_count, sent_at, last_error")
+      .in("appointment_id", rows.map((row) => row.id)).order("scheduled_for"),
   ]);
-  if (opportunities.error || units.error || advisors.error || history.error) throw new Error("No fue posible cargar el detalle de las visitas.");
+  if (opportunities.error || units.error || advisors.error || history.error || notifications.error) throw new Error("No fue posible cargar el detalle de las visitas.");
   const contactIds = (opportunities.data ?? []).map((row) => row.contact_id);
   const condominiumIds = (units.data ?? []).map((row) => row.condominium_id);
   const actorIds = [...new Set((history.data ?? []).flatMap((entry) => entry.actor_user_id ? [entry.actor_user_id] : []))];
@@ -56,6 +60,7 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
   const condominiumMap = new Map((condominiums.data ?? []).map((row) => [row.id, row.name]));
   const actorMap = new Map((actors.data ?? []).map((row) => [row.id, row.name]));
   const historyMap = new Map<string, AppointmentHistoryEntry[]>();
+  const notificationMap = new Map<string, AppointmentNotification[]>();
   for (const entry of history.data ?? []) {
     const appointmentHistory = historyMap.get(entry.appointment_id) ?? [];
     appointmentHistory.push({
@@ -73,6 +78,21 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
     });
     historyMap.set(entry.appointment_id, appointmentHistory);
   }
+  for (const notification of notifications.data ?? []) {
+    const appointmentNotifications = notificationMap.get(notification.appointment_id) ?? [];
+    appointmentNotifications.push({
+      attemptCount: notification.attempt_count,
+      channel: notification.channel,
+      id: notification.id,
+      lastError: notification.last_error,
+      recipientKind: notification.recipient_kind,
+      scheduledFor: notification.scheduled_for,
+      sentAt: notification.sent_at,
+      status: notification.status,
+      template: notification.template,
+    });
+    notificationMap.set(notification.appointment_id, appointmentNotifications);
+  }
   return rows.flatMap((row) => {
     const opportunity = opportunityMap.get(row.opportunity_id);
     const unit = unitMap.get(row.unit_id);
@@ -87,12 +107,20 @@ export async function listAppointments(): Promise<AppointmentSummary[]> {
       endsAt: row.ends_at,
       id: row.id,
       history: historyMap.get(row.id) ?? [],
+      notifications: notificationMap.get(row.id) ?? [],
       opportunityId: row.opportunity_id,
       startsAt: row.starts_at,
       status: row.status,
       unitCode: unit.code,
     }];
   });
+}
+
+export async function retryAppointmentNotification(id: string): Promise<boolean> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("retry_appointment_notification", { p_notification_id: id });
+  if (error) console.error(JSON.stringify({ code: error.code, event: "appointment_notification_retry_failed", level: "error" }));
+  return !error;
 }
 
 export async function rescheduleManagedAppointment(id: string, startsAt: string): Promise<boolean> {

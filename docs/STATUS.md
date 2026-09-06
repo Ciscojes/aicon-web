@@ -118,11 +118,18 @@ Implementado:
   por disponibilidad y cambio automático a `Visita programada`.
 - Agenda interna de próximas visitas y relación visible dentro del CRM.
 - Contador de próximas visitas en el resumen administrativo.
+- Reprogramación, cancelación, resultados e historial auditable de cada visita.
+- Cola idempotente de confirmaciones y recordatorios para cliente y asesor por cada
+  canal autorizado, con avisos de 24 y 2 horas.
+- Retiro automático de avisos obsoletos al reprogramar, cancelar o finalizar una visita.
+- Estado de cada aviso, errores, cantidad de intentos y reintento manual desde la agenda.
+- Contador de avisos fallidos en el resumen administrativo.
 
 Siguiente sección vertical:
 
-- Reprogramación, cancelación y resultado de visitas.
-- Cola de confirmaciones y recordatorios, pendiente de proveedores aprobados.
+- Procesador programado y adaptadores de envío, pendientes de proveedores aprobados
+  de correo y WhatsApp.
+- Enlace seguro para que el cliente solicite cancelar o reprogramar.
 
 ## Verificación
 

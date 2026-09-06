@@ -11,6 +11,7 @@ import {
   cancelAvailabilityBlock,
   createAvailabilityBlock,
   rescheduleManagedAppointment,
+  retryAppointmentNotification,
   saveAdvisorSchedule,
   saveVisitDurationMinutes,
   setManagedAppointmentStatus,
@@ -106,4 +107,14 @@ export async function updateAppointmentStatus(formData: FormData) {
   }
   revalidatePath("/panel/citas");
   redirect(destination("notice", status.data === "cancelled" ? "Cita cancelada; el horario quedó liberado." : "Resultado de la visita registrado."));
+}
+
+export async function retryNotification(formData: FormData) {
+  await requireCrmAccess();
+  const id = uuid.safeParse(formData.get("notificationId"));
+  if (!id.success || !(await retryAppointmentNotification(id.data))) {
+    redirect(destination("error", "No fue posible reintentar el aviso. Confirma que siga fallido y que tengas permiso."));
+  }
+  revalidatePath("/panel/citas");
+  redirect(destination("notice", "Aviso devuelto a la cola para un nuevo intento."));
 }

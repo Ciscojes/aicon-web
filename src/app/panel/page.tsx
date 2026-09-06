@@ -32,6 +32,7 @@ export default async function PanelPage() {
         {showCrm ? <Link className="dashboard-metric dashboard-metric-warning" href="/panel/crm?status=open&amp;advisor=unassigned"><span>Sin asesor asignado</span><strong>{summary.unassignedOpportunities}</strong><small>Asignar responsables →</small></Link> : null}
         {showCrm ? <Link className="dashboard-metric dashboard-metric-danger" href="/panel/crm?status=open&amp;followUp=overdue"><span>Seguimientos atrasados</span><strong>{summary.overdueFollowUps}</strong><small>Atender ahora →</small></Link> : null}
         {showCrm ? <Link className="dashboard-metric dashboard-metric-accent" href="/panel/citas"><span>Próximas visitas</span><strong>{summary.upcomingAppointments}</strong><small>Abrir agenda →</small></Link> : null}
+        {showCrm ? <Link className="dashboard-metric dashboard-metric-danger" href="/panel/citas"><span>Avisos fallidos</span><strong>{summary.failedNotifications}</strong><small>Revisar y reintentar →</small></Link> : null}
       </section>
 
       <section className="dashboard-next">
