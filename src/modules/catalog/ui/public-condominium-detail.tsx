@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import type { PublicCondominiumDetail } from "../domain/public-property";
+import { formatPublicDisplayText } from "./public-display-text";
 import { PublicPropertyCard } from "./public-property-card";
 
 type PublicCondominiumDetailProps = PublicCondominiumDetail & {
@@ -30,8 +31,8 @@ export function PublicCondominiumDetail({
         </div>
         <div className="property-detail-summary">
           <p className="eyebrow">Proyecto residencial</p>
-          <h1>{condominium.name}</h1>
-          <p className="property-code">{condominium.address || "Ubicación por confirmar"}</p>
+          <h1>{formatPublicDisplayText(condominium.name)}</h1>
+          <p className="property-code">{condominium.address ? formatPublicDisplayText(condominium.address) : "Ubicación por confirmar"}</p>
           <p>{condominium.description || "La información detallada de este proyecto estará disponible próximamente."}</p>
           <div className="detail-actions">
             <a className="button button-primary" href="#casas">Ver casas del proyecto</a>
@@ -51,7 +52,7 @@ export function PublicCondominiumDetail({
 
       <section className="condominium-inventory" id="casas">
         <div className="public-section-heading">
-          <div><p className="eyebrow">Inventario del proyecto</p><h2>Casas en {condominium.name}.</h2></div>
+          <div><p className="eyebrow">Inventario del proyecto</p><h2>Casas en {formatPublicDisplayText(condominium.name)}.</h2></div>
           <span className="section-note">Precios en dólares estadounidenses</span>
         </div>
         {properties.length === 0 ? (

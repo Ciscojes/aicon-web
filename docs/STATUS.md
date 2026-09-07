@@ -1,6 +1,6 @@
 # Estado de implementación
 
-Actualizado: 2026-09-02.
+Actualizado: 2026-09-06.
 
 ## Entrega 0 — Fundamentos técnicos
 
@@ -43,6 +43,8 @@ Implementado:
   modelo y finalmente las del condominio.
 - Diseño público adaptable a celulares, con ilustraciones conceptuales
   identificadas como tales mientras se obtienen fotografías reales.
+- Rediseño visual público de portada, catálogo, condominios y casas, con jerarquía
+  editorial, navegación renovada, tarjetas adaptables y acceso móvil a la agenda.
 - Generación y validación de la URL pública.
 - Autorización para administradores y editores tanto en la página como en la
   Server Action.

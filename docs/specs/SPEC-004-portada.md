@@ -2,7 +2,7 @@
 
 ## Estado
 
-Aprobada como borrador visual y funcional.
+Aprobada como base visual y funcional provisional.
 
 ## Objetivo
 
@@ -30,11 +30,13 @@ Presentar Aicon, generar confianza y guiar al comprador hacia los condominios, l
 
 ## Dirección visual provisional
 
-- Azul medianoche, marfil cálido y acentos coral/cobre y azul eléctrico.
+- Verde petróleo nocturno, marfil cálido y acentos terracota.
 - Gradientes sutiles, profundidad ligera y superficies limpias.
 - Fotografías amplias.
 - Tipografía elegante y legible.
 - Apariencia propia de una constructora, no de una agencia inmobiliaria genérica.
+- La portada priorizará un proyecto publicado sin atribuirle cualidades comerciales
+  no registradas en el catálogo.
 
 ## Criterios de aceptación
 
@@ -57,3 +59,6 @@ Presentar Aicon, generar confianza y guiar al comprador hacia los condominios, l
 - 2026-08-28: se definieron WhatsApp y formulario como canales de contacto con asesores.
 - 2026-08-30: se reemplazó la dirección verde por una identidad más llamativa,
   moderna y elegante a solicitud del dueño.
+- 2026-09-06: se aprobó como base provisional el rediseño público en verde petróleo,
+  marfil y terracota, con portada editorial, proyecto publicado destacado y tarjetas
+  renovadas; la identidad definitiva continúa pendiente de los recursos de marca.

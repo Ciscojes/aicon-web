@@ -73,6 +73,8 @@ Adaptar el recorrido público del comprador a celulares para que explorar, cotiz
 - La barra inferior del detalle no cubre información.
 - El panel de filtros puede aplicarse, limpiarse y cerrarse.
 - Los estados de carga, vacío y error ofrecen una acción para continuar.
+- En páginas con una casa disponible, la acción fija para agendar deja espacio al
+  contenido y respeta el área segura del dispositivo.
 
 ## Artefacto visual
 
@@ -87,3 +89,5 @@ Adaptar el recorrido público del comprador a celulares para que explorar, cotiz
 
 - 2026-08-28: creación de la especificación y primer conjunto de bocetos móviles.
 - 2026-08-28: se aprobó ofrecer WhatsApp directo y formulario al seleccionar `Hablar con un asesor`.
+- 2026-09-06: se incorporó una acción fija adaptable para agendar desde las páginas
+  públicas que cuentan con una casa disponible.
