@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -6,6 +7,10 @@ import { logout } from "@/app/iniciar-sesion/actions";
 import { authorizeInternalAccess } from "@/modules/users/application/authorize-internal-access";
 import { canAccessCrm, canManageCatalog, canManageUsers } from "@/modules/users/domain/role";
 import { getCurrentProfile } from "@/modules/users/infrastructure/get-current-profile";
+
+export const metadata: Metadata = {
+  robots: { follow: false, index: false },
+};
 
 export default async function PanelLayout({
   children,
@@ -42,6 +47,7 @@ export default async function PanelLayout({
               </Link>
             </nav>
           ) : null}
+          <Link className="text-link" href="/panel/ayuda">Ayuda</Link>
           <form action={logout}>
             <button className="button button-secondary" type="submit">
               Cerrar sesión

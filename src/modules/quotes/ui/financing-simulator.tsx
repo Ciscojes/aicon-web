@@ -8,8 +8,8 @@ import { calculateFinancingEstimate, type FinancialSettings } from "../domain/fi
 
 const usd = new Intl.NumberFormat("es-CR", { currency: "USD", maximumFractionDigits: 2, style: "currency" });
 
-function ErrorText({ errors }: Readonly<{ errors?: string[] }>) {
-  return errors?.[0] ? <span className="field-error">{errors[0]}</span> : null;
+function ErrorText({ errors, id }: Readonly<{ errors?: string[]; id: string }>) {
+  return errors?.[0] ? <span className="field-error" id={id}>{errors[0]}</span> : null;
 }
 
 export function FinancingSimulator({ priceUsd, settings, unitId }: Readonly<{ priceUsd: number; settings: FinancialSettings; unitId: string }>) {
@@ -35,12 +35,12 @@ export function FinancingSimulator({ priceUsd, settings, unitId }: Readonly<{ pr
         </div>
         <div className="quote-contact-fields">
           <h3>Solicitar cotización formal</h3>
-          <label><span>Nombre completo</span><input autoComplete="name" defaultValue={state.values?.name} name="name" required /></label><ErrorText errors={state.errors?.name} />
-          <label><span>Teléfono con código de país</span><input autoComplete="tel" defaultValue={state.values?.phone} name="phone" placeholder="+50688887777" required /></label><ErrorText errors={state.errors?.phone} />
-          <label><span>Correo electrónico <small>Opcional</small></span><input autoComplete="email" defaultValue={state.values?.email} name="email" type="email" /></label><ErrorText errors={state.errors?.email} />
+          <label><span>Nombre completo</span><input aria-describedby={state.errors?.name ? "quote-name-error" : undefined} aria-invalid={state.errors?.name ? true : undefined} autoComplete="name" defaultValue={state.values?.name} name="name" required /></label><ErrorText errors={state.errors?.name} id="quote-name-error" />
+          <label><span>Teléfono con código de país</span><input aria-describedby={state.errors?.phone ? "quote-phone-error" : undefined} aria-invalid={state.errors?.phone ? true : undefined} autoComplete="tel" defaultValue={state.values?.phone} inputMode="tel" name="phone" placeholder="+50688887777" required /></label><ErrorText errors={state.errors?.phone} id="quote-phone-error" />
+          <label><span>Correo electrónico <small>Opcional</small></span><input aria-describedby={state.errors?.email ? "quote-email-error" : undefined} aria-invalid={state.errors?.email ? true : undefined} autoComplete="email" defaultValue={state.values?.email} name="email" type="email" /></label><ErrorText errors={state.errors?.email} id="quote-email-error" />
           <input name="message" type="hidden" value="" />
           <label aria-hidden="true" className="form-trap"><span>Sitio web</span><input autoComplete="off" name="website" tabIndex={-1} /></label>
-          <label className="contact-consent"><input name="consent" required type="checkbox" value="yes" /><span>Autorizo a Aicon a responder por llamada o WhatsApp y, si lo proporcioné, por correo.</span></label><ErrorText errors={state.errors?.consent} />
+          <label className="contact-consent"><input aria-describedby={state.errors?.consent ? "quote-consent-error" : undefined} aria-invalid={state.errors?.consent ? true : undefined} name="consent" required type="checkbox" value="yes" /><span>Autorizo a Aicon a responder por llamada o WhatsApp y, si lo proporcioné, por correo.</span></label><ErrorText errors={state.errors?.consent} id="quote-consent-error" />
           {state.message ? <p className="form-message" role="alert">{state.message}</p> : null}
           <button className="button button-primary" disabled={pending} type="submit">{pending ? "Enviando…" : "Solicitar cotización"}</button>
         </div>

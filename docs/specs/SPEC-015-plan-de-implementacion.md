@@ -209,6 +209,23 @@ Ordenar la construcción del MVP en entregas pequeñas, demostrables y verificab
 - El panel incluye instrucciones mínimas para las tareas frecuentes.
 - El sistema de producción se supervisa después del lanzamiento.
 
+### Primer incremento interno de preparación
+
+- La aplicación enviará cabeceras defensivas comunes para impedir incrustación en
+  otros sitios, limitar capacidades innecesarias del navegador, evitar detección
+  MIME y reducir la información expuesta sobre el framework.
+- Las rutas internas, de autenticación y de autoservicio con token indicarán a los
+  buscadores que no deben indexarlas; `robots.txt` reforzará esa exclusión sin
+  utilizarla como mecanismo de autorización.
+- La validación de migraciones comprobará la lista exacta de funciones públicas
+  ejecutables por visitantes y rechazará nuevas funciones expuestas por omisión.
+- Un checklist versionado conservará el resultado de cada revisión, la evidencia
+  disponible y los bloqueos que requieren infraestructura o decisiones del dueño.
+- Una guía breve dentro del panel y un manual operativo versionado describirán
+  tareas frecuentes, arranque, verificación, recuperación reproducible del esquema
+  y respuesta inicial ante incidentes, sin presentar como probado un respaldo de
+  producción todavía no configurado.
+
 ## Definición de terminado para cada funcionalidad
 
 Una funcionalidad solamente se considerará terminada cuando:
@@ -246,3 +263,6 @@ Una funcionalidad solamente se considerará terminada cuando:
 - 2026-09-03: la Entrega 4 incorporó disponibilidad, reserva pública y prevención de
   superposiciones; se inició la gestión auditable de reprogramación, cancelación y
   resultado, manteniendo pendientes las integraciones de avisos.
+- 2026-09-06: se delimitó el primer incremento interno de preparación del lanzamiento:
+  cabeceras defensivas, control de indexación, contrato de funciones públicas,
+  checklist auditable y manual operativo sin asumir proveedores ni respaldos pendientes.

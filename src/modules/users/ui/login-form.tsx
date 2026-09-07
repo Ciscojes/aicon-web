@@ -16,6 +16,8 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
       <div className="field">
         <label htmlFor="email">Correo electrónico</label>
         <input
+          aria-describedby={state.errors?.email ? "email-error" : undefined}
+          aria-invalid={state.errors?.email ? true : undefined}
           autoComplete="email"
           id="email"
           name="email"
@@ -23,13 +25,15 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
           type="email"
         />
         {state.errors?.email ? (
-          <p className="field-error">{state.errors.email[0]}</p>
+          <p className="field-error" id="email-error">{state.errors.email[0]}</p>
         ) : null}
       </div>
 
       <div className="field">
         <label htmlFor="password">Contraseña</label>
         <input
+          aria-describedby={state.errors?.password ? "password-error" : undefined}
+          aria-invalid={state.errors?.password ? true : undefined}
           autoComplete="current-password"
           id="password"
           minLength={8}
@@ -38,7 +42,7 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
           type="password"
         />
         {state.errors?.password ? (
-          <p className="field-error">{state.errors.password[0]}</p>
+          <p className="field-error" id="password-error">{state.errors.password[0]}</p>
         ) : null}
       </div>
 

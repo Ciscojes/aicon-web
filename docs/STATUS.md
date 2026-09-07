@@ -144,3 +144,24 @@ Siguiente sección vertical:
 `npm run check` valida lint, tipos, pruebas y migraciones. `npm run build`
 comprueba la compilación de producción. La interacción completa con datos exige
 un proyecto Supabase configurado o Supabase local activo.
+
+## Entrega 5 — Preparación del lanzamiento
+
+Iniciada.
+
+Implementado:
+
+- Cabeceras HTTP defensivas y retiro de la identificación de Next.js.
+- Exclusión de indexación para panel, inicio de sesión y autoservicio con token.
+- Contrato automatizado de la superficie RPC disponible para visitantes.
+- Guía rápida dentro del panel, manual operativo y checklist de lanzamiento.
+- Migración de endurecimiento aplicada en Supabase local y `db lint` sin errores.
+- Revisión responsive en 320 px y escritorio, con Lighthouse de producción local en
+  86 rendimiento, 100 accesibilidad automatizada, 100 buenas prácticas y 100 SEO.
+
+Pendiente de entorno y decisiones:
+
+- Recorridos integrales autenticados y revisión manual con teclado y lector de pantalla.
+- Auditoría final de rendimiento con las fotografías definitivas del inventario.
+- Respaldo y restauración probados en preproducción.
+- Alojamiento, dominio, monitoreo, datos empresariales y proveedores aprobados.

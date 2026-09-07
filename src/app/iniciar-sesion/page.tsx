@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LoginForm } from "@/modules/users/ui/login-form";
 
 export const metadata: Metadata = {
+  robots: { follow: false, index: false },
   title: "Iniciar sesión | Aicon",
 };
 

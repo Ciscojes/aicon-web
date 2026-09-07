@@ -116,3 +116,7 @@ internos, el bucket `property-media`, índices, restricciones y políticas RLS.
 Consulta [las convenciones de arquitectura](docs/ARCHITECTURE.md) y el
 [plan aprobado](docs/specs/SPEC-015-plan-de-implementacion.md) antes de abrir una
 nueva entrega.
+
+Para preparar una publicación consulta también el
+[manual operativo](docs/OPERATIONS.md) y el
+[checklist de lanzamiento](docs/LAUNCH-READINESS.md).

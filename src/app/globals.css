@@ -1039,12 +1039,12 @@ textarea:focus-visible {
 .public-nav > a:not(.button):focus-visible::after { transform: scaleX(1); }
 
 .public-shell .button-primary {
-  background: var(--public-terracotta);
+  background: var(--public-terracotta-dark);
   box-shadow: 0 10px 26px rgb(152 68 47 / 22%);
 }
 
 .public-shell .button-primary:hover:not(:disabled) {
-  background: var(--public-terracotta-dark);
+  background: #793224;
   box-shadow: 0 14px 34px rgb(152 68 47 / 28%);
 }
 
@@ -1133,6 +1133,7 @@ textarea:focus-visible {
 .featured-project-copy { align-self: center; padding: clamp(2rem, 5vw, 4rem); }
 .featured-project-copy h2 { font-family: Georgia, serif; font-size: clamp(2.8rem, 5vw, 4.8rem); font-weight: 500; letter-spacing: -0.045em; line-height: 1; margin: 0; }
 .featured-project-copy > p:not(.eyebrow, .featured-project-location) { color: rgb(255 250 240 / 68%); }
+.featured-project-copy .eyebrow { color: #f2b9a6; }
 .featured-project-location { color: #e6a28c; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
 .featured-project-copy .button { margin-top: 1rem; }
 
@@ -1291,7 +1292,7 @@ textarea:focus-visible {
   .public-filter-actions .button { width: 100%; }
   .property-detail-art { min-height: 27rem; }
   .public-footer { margin-bottom: 0; }
-  .mobile-appointment-cta { align-items: center; background: var(--public-terracotta); border-radius: 999px; bottom: calc(0.75rem + env(safe-area-inset-bottom)); box-shadow: 0 14px 34px rgb(11 37 39 / 28%); color: white !important; display: flex; font-size: 0.86rem !important; font-weight: 800; justify-content: center; left: 50%; min-height: 48px; padding: 0.65rem 1.5rem; position: fixed; text-decoration: none; transform: translateX(-50%); white-space: nowrap; z-index: 20; }
+  .mobile-appointment-cta { align-items: center; background: var(--public-terracotta-dark); border-radius: 999px; bottom: calc(0.75rem + env(safe-area-inset-bottom)); box-shadow: 0 14px 34px rgb(11 37 39 / 28%); color: white !important; display: flex; font-size: 0.86rem !important; font-weight: 800; justify-content: center; left: 50%; min-height: 48px; padding: 0.65rem 1.5rem; position: fixed; text-decoration: none; transform: translateX(-50%); white-space: nowrap; z-index: 20; }
 }
 
 @media (prefers-reduced-motion: reduce) {

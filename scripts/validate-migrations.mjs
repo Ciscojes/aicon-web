@@ -90,6 +90,32 @@ async function validateFreshDatabase(migrations) {
       );
     }
 
+    const expectedAnonymousFunctions = [
+      "cancel_appointment_with_access_link(text,text)",
+      "get_active_financial_settings()",
+      "get_available_visit_slots(uuid,date)",
+      "get_public_appointment_access(text)",
+      "get_public_appointment_reschedule_slots(text,date)",
+      "get_visit_duration_minutes()",
+      "request_appointment_reschedule_with_access_link(text,timestamp with time zone,text)",
+      "submit_public_inquiry(text,text,text,text,text,uuid,uuid)",
+      "submit_quote_request(text,text,text,uuid,numeric,integer)",
+      "submit_visit_appointment(text,text,text,uuid,timestamp with time zone,boolean)",
+    ];
+    const anonymousFunctions = (await database.query(`
+      select procedure.oid::regprocedure::text as signature
+      from pg_proc procedure
+      join pg_namespace namespace on namespace.oid = procedure.pronamespace
+      where namespace.nspname = 'public'
+        and has_function_privilege('anon', procedure.oid, 'execute')
+      order by signature
+    `)).rows.map((row) => row.signature);
+    if (JSON.stringify(anonymousFunctions) !== JSON.stringify(expectedAnonymousFunctions)) {
+      throw new Error(
+        `Superficie RPC anónima inesperada: ${anonymousFunctions.join(", ")}.`,
+      );
+    }
+
     const authUserId = "11111111-1111-4111-8111-111111111111";
     await database.query(
       `insert into auth.users (id, email, raw_user_meta_data)

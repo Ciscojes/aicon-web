@@ -3,7 +3,7 @@ import Link from "next/link";
 export function PublicSiteHeader() {
   return (
     <header className="public-header">
-      <Link aria-label="Aicon Edificadora, inicio" className="public-brand" href="/"><span aria-hidden="true">A</span><strong>AICON</strong><small>Edificadora</small></Link>
+      <Link className="public-brand" href="/"><span aria-hidden="true">A</span><strong>AICON</strong><small>Edificadora</small></Link>
       <nav aria-label="Navegación pública" className="public-nav">
         <Link href="/">Inicio</Link>
         <Link href="/#condominios">Condominios</Link>
