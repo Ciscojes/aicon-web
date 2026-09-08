@@ -12,13 +12,12 @@ export default async function PublicCondominiumPage({ params }: Readonly<{ param
   const { slug } = await params;
   const detail = await getPublicCondominium(slug);
   if (!detail) notFound();
-  const appointmentProperty = detail.properties.find((property) => property.availabilityStatus === "available");
 
   return (
     <div className="public-shell public-inner-shell">
       <PublicSiteHeader />
       <PublicCondominiumDetail {...detail} />
-      <PublicSiteFooter appointmentHref={appointmentProperty ? `/agendar-visita?unidad=${appointmentProperty.id}` : undefined} />
+      <PublicSiteFooter />
     </div>
   );
 }

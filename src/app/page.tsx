@@ -5,12 +5,14 @@ import { PublicPropertyCard } from "@/modules/catalog/ui/public-property-card";
 import { formatPublicDisplayText } from "@/modules/catalog/ui/public-display-text";
 import { PublicSiteFooter } from "@/modules/catalog/ui/public-site-footer";
 import { PublicSiteHeader } from "@/modules/catalog/ui/public-site-header";
+import { getPublicCompanyProfile, whatsappHref } from "@/modules/company/infrastructure/public-company-profile";
 
 export default async function Home() {
   const [properties, condominiums] = await Promise.all([listPublicProperties(), listPublicCondominiums()]);
   const available = properties.filter((property) => property.availabilityStatus === "available");
   const featuredCondominium = condominiums[0];
   const otherCondominiums = featuredCondominium ? condominiums.filter((item) => item.id !== featuredCondominium.id) : condominiums;
+  const company = getPublicCompanyProfile();
   return (
     <div className="public-shell">
       <PublicSiteHeader />
@@ -29,8 +31,9 @@ export default async function Home() {
         <section className="public-section property-section"><div className="public-section-heading"><div><p className="eyebrow">Inventario actual</p><h2>Casas disponibles.</h2></div><span className="section-note">Precios en dólares estadounidenses</span></div>{available.length === 0 ? <div className="public-empty"><h3>Estamos preparando nuevas opciones.</h3><p>Vuelve pronto para conocer el inventario disponible.</p></div> : <div className="property-grid">{available.slice(0, 3).map((property) => <PublicPropertyCard key={property.id} property={property} />)}</div>}</section>
 
         <section className="public-values"><div><p className="eyebrow">Construir con propósito</p><h2>Una base sólida para cada hogar.</h2></div><div className="value-grid"><article><span>01</span><h3>Diseño funcional</h3><p>Espacios pensados alrededor de la vida diaria y sus nuevas etapas.</p></article><article><span>02</span><h3>Información clara</h3><p>Precio, disponibilidad y características reunidos antes de tomar una decisión.</p></article><article><span>03</span><h3>Acompañamiento</h3><p>Un recorrido ordenado desde la exploración hasta el contacto comercial.</p></article></div></section>
+        <section className="public-process" aria-labelledby="buying-process-title"><div><p className="eyebrow">Tu proceso de compra</p><h2 id="buying-process-title">Decide con información y acompañamiento.</h2><p>Explora el inventario publicado, solicita únicamente la información que necesitas y agenda una visita cuando hayas elegido una vivienda concreta.</p></div><ol><li><span>01</span><div><h3>Explora</h3><p>Compara proyectos y viviendas con datos centralizados.</p></div></li><li><span>02</span><div><h3>Confirma</h3><p>Los datos pendientes se identifican claramente y Aicon los confirma contigo.</p></div></li><li><span>03</span><div><h3>Visita</h3><p>Selecciona una casa y reserva un horario disponible.</p></div></li></ol><div className="institutional-proof"><strong>Aicon Edificadora</strong><p>No publicamos testimonios, certificaciones ni cifras sin respaldo.</p>{company.legalName ? <p>{company.legalName}{company.legalRegistration ? ` · ${company.legalRegistration}` : ""}</p> : null}{company.whatsapp ? <a className="text-link" href={whatsappHref(company.whatsapp)} rel="noreferrer" target="_blank">Conversar por WhatsApp</a> : <Link className="text-link" href="/contacto">Enviar una consulta</Link>}</div></section>
       </main>
-      <PublicSiteFooter appointmentHref={available[0] ? `/agendar-visita?unidad=${available[0].id}` : undefined} />
+      <PublicSiteFooter />
     </div>
   );
 }

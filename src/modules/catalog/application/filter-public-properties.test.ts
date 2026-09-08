@@ -18,6 +18,7 @@ const property = (overrides: Partial<PublicProperty> = {}): PublicProperty => ({
   modelName: "Modelo Sol",
   parkingSpaces: 2,
   priceUsd: 185000,
+  verificationStatus: "verified",
   ...overrides,
 });
 

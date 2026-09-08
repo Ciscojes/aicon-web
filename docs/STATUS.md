@@ -1,6 +1,6 @@
 # Estado de implementación
 
-Actualizado: 2026-09-06.
+Actualizado: 2026-09-07.
 
 ## Entrega 0 — Fundamentos técnicos
 
@@ -50,6 +50,12 @@ Implementado:
   Server Action.
 - Mensajes de validación, estado vacío y diseño adaptable.
 - Pruebas de las reglas de URL y validación del borrador.
+- Verificación editorial de precio, distribución y áreas con referencia interna;
+  los datos pendientes aparecen públicamente como `Por confirmar`.
+- Ficha de vivienda ampliada con galería, distribución, características, ubicación,
+  planos y condiciones, utilizando estados explícitos cuando falta información real.
+- Página de condominio ampliada con ubicación, amenidades, entorno, galería e inventario.
+- Estados de carga, error y cero resultados en catálogo y tarjetas con enlace descriptivo.
 
 ## Entrega 2 — Cotizaciones y contacto
 
@@ -70,6 +76,9 @@ Implementado:
 - Validación en PostgreSQL para impedir cotizaciones de casas no disponibles o
   con opciones financieras desactualizadas.
 - Registro de la cotización formal dentro de la oportunidad correspondiente.
+- Configuración empresarial pública centralizada y opcional; teléfono, WhatsApp,
+  correo, dirección y datos legales se ocultan mientras no estén verificados.
+- Formularios públicos con campos, foco, errores y estados de envío perceptibles.
 
 Pendiente externo:
 
@@ -158,6 +167,8 @@ Implementado:
 - Migración de endurecimiento aplicada en Supabase local y `db lint` sin errores.
 - Revisión responsive en 320 px y escritorio, con Lighthouse de producción local en
   86 rendimiento, 100 accesibilidad automatizada, 100 buenas prácticas y 100 SEO.
+- Acción móvil de agenda limitada a la ficha de una vivienda concreta y espacio
+  seguro reservado solamente cuando aparece.
 
 Pendiente de entorno y decisiones:
 

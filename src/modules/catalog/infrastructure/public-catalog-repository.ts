@@ -17,6 +17,7 @@ type UnitRow = {
   model_id: string | null;
   parking_spaces_override: number | null;
   price_usd: number | string;
+  verification_status: "pending" | "verified";
 };
 
 type ModelRow = {
@@ -71,7 +72,7 @@ export async function listPublicCondominiums(): Promise<PublicCondominium[]> {
 export async function listPublicProperties(): Promise<PublicProperty[]> {
   const supabase = await createClient();
   const [{ data: units, error: unitError }, { data: condominiums, error: condominiumError }, { data: models, error: modelError }, { data: unitMedia, error: unitMediaError }, { data: modelMedia, error: modelMediaError }, { data: condominiumMedia, error: condominiumMediaError }] = await Promise.all([
-    supabase.from("house_units").select("id, condominium_id, model_id, code, price_usd, availability_status, description_override, bedrooms_override, bathrooms_override, parking_spaces_override, construction_area_m2_override, land_area_m2_override, features_override").eq("publication_status", "published").is("archived_at", null).order("price_usd"),
+    supabase.from("house_units").select("id, condominium_id, model_id, code, price_usd, availability_status, description_override, bedrooms_override, bathrooms_override, parking_spaces_override, construction_area_m2_override, land_area_m2_override, features_override, verification_status").eq("publication_status", "published").is("archived_at", null).order("price_usd"),
     supabase.from("condominiums").select("id, slug, name, description, address").eq("publication_status", "published").is("archived_at", null),
     supabase.from("house_models").select("id, name, description, bedrooms, bathrooms, parking_spaces, construction_area_m2, land_area_m2, features"),
     supabase.from("unit_media").select("unit_id, display_order, is_cover, media_assets!inner(alt_text, storage_path)").order("display_order"),
@@ -92,21 +93,23 @@ export async function listPublicProperties(): Promise<PublicProperty[]> {
     const condominium = condominiumMap.get(unit.condominium_id);
     if (!condominium) return [];
     const model = unit.model_id ? modelMap.get(unit.model_id) : undefined;
+    const verified = unit.verification_status === "verified";
     return [{
       availabilityStatus: unit.availability_status,
-      bathrooms: numberOrNull(unit.bathrooms_override) ?? numberOrNull(model?.bathrooms ?? null),
-      bedrooms: unit.bedrooms_override ?? model?.bedrooms ?? null,
+      bathrooms: verified ? numberOrNull(unit.bathrooms_override) ?? numberOrNull(model?.bathrooms ?? null) : null,
+      bedrooms: verified ? unit.bedrooms_override ?? model?.bedrooms ?? null : null,
       code: unit.code,
       condominium,
-      constructionAreaM2: numberOrNull(unit.construction_area_m2_override) ?? numberOrNull(model?.construction_area_m2 ?? null),
+      constructionAreaM2: verified ? numberOrNull(unit.construction_area_m2_override) ?? numberOrNull(model?.construction_area_m2 ?? null) : null,
       description: unit.description_override || model?.description || condominium.description,
       features: unit.features_override === null ? strings(model?.features) : strings(unit.features_override),
       id: unit.id,
       images: unitMediaMap.get(unit.id) ?? (unit.model_id ? modelMediaMap.get(unit.model_id) : undefined) ?? condominiumMediaMap.get(unit.condominium_id) ?? [],
-      landAreaM2: numberOrNull(unit.land_area_m2_override) ?? numberOrNull(model?.land_area_m2 ?? null),
+      landAreaM2: verified ? numberOrNull(unit.land_area_m2_override) ?? numberOrNull(model?.land_area_m2 ?? null) : null,
       modelName: model?.name ?? null,
-      parkingSpaces: unit.parking_spaces_override ?? model?.parking_spaces ?? null,
-      priceUsd: Number(unit.price_usd),
+      parkingSpaces: verified ? unit.parking_spaces_override ?? model?.parking_spaces ?? null : null,
+      priceUsd: verified ? Number(unit.price_usd) : null,
+      verificationStatus: unit.verification_status,
     }];
   });
 }

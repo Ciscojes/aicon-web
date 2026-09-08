@@ -74,6 +74,14 @@ Una unidad podrá utilizar un modelo compartido o registrarse como diseño únic
 - Si el proyecto no tiene casas publicadas, la página conservará su información y
   mostrará un estado vacío en lugar de inventario ficticio.
 
+## Verificación y presentación pública de datos
+
+- Cada unidad conservará un estado `pending` o `verified` para sus datos comerciales.
+- Marcar una unidad como verificada exige una referencia interna de la fuente; la referencia no será pública.
+- Mientras la información esté pendiente, precio, distribución y áreas se mostrarán como `Por confirmar` y no alimentarán simulaciones financieras públicas.
+- Portada, catálogo, condominio y ficha individual utilizarán el mismo modelo público centralizado; no duplicarán precios ni características.
+- La ficha distinguirá descripción, galería, distribución, características o acabados, ubicación, planos y condiciones. Los apartados sin datos autorizados tendrán un estado pendiente explícito.
+
 ## Criterios de aceptación
 
 - El visitante puede recorrer condominios y ver sus casas.
@@ -91,6 +99,8 @@ Una unidad podrá utilizar un modelo compartido o registrarse como diseño únic
 - Confirmar si cada unidad tendrá ubicación visible dentro del condominio.
 
 ## Historial de cambios
+
+- 2026-09-07: se añadió el estado de verificación de datos comerciales y la ficha pública con información pendiente explícita.
 
 - 2026-08-28: creación de la especificación inicial.
 - 2026-08-28: se definió que el catálogo abrirá con todas las casas disponibles y filtro por condominio.

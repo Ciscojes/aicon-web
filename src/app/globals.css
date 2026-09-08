@@ -2031,3 +2031,93 @@ textarea:focus-visible {
     width: 9.25rem;
   }
 }
+
+/* Public buyer-experience refinements. */
+.property-card { position: relative; transition: box-shadow 180ms ease, transform 180ms ease; }
+.property-card:hover,
+.property-card:focus-within { box-shadow: 0 24px 52px rgb(18 42 40 / 16%); transform: translateY(-4px); }
+.property-link::after { content: ""; inset: 0; position: absolute; }
+.property-link:focus-visible { border-radius: 0.25rem; }
+.property-price-pending,
+.pending-value { color: var(--public-terracotta-dark) !important; font-size: 1.1rem !important; }
+.verification-notice { background: #fff5e9; border-left: 3px solid var(--public-terracotta); border-radius: 0 0.65rem 0.65rem 0; color: #754332 !important; font-size: 0.82rem; padding: 0.75rem 0.9rem; }
+
+.detail-section { border-top: 1px solid var(--public-line); margin-top: 4rem; padding-top: 3rem; }
+.detail-section-heading h2,
+.condominium-living h2,
+.public-process h2 { color: var(--public-ink); font-family: "Iowan Old Style", Baskerville, Georgia, "Times New Roman", serif; font-size: clamp(2.15rem, 4vw, 3.7rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; margin: 0; }
+.pending-information { background: #fffdf8; border: 1px dashed var(--public-line); border-radius: 1rem; color: var(--public-muted); padding: 1.25rem; }
+.pending-information p { margin-bottom: 0; }
+.fact-pending { grid-column: 1 / -1; }
+.detail-information-grid { border-top: 1px solid var(--public-line); display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin-top: 4rem; padding-top: 3rem; }
+.detail-information-grid article { background: #fffdf8; border: 1px solid var(--public-line); border-radius: 1rem; padding: 1.35rem; }
+.detail-information-grid article > span { color: var(--public-terracotta-dark); font-size: 0.72rem; font-weight: 900; }
+.detail-information-grid h2 { font-family: Georgia, serif; font-size: 1.45rem; margin: 0.45rem 0; }
+.detail-information-grid p { color: var(--public-ink); font-weight: 700; }
+.detail-information-grid small { color: var(--public-muted); }
+.button-light { background: var(--public-cream); color: var(--public-night); margin: 0.5rem 0; }
+
+.condominium-living { align-items: start; border-top: 1px solid var(--public-line); display: grid; gap: clamp(2rem, 6vw, 5rem); grid-template-columns: 0.8fr 1.2fr; margin-top: 4rem; padding-top: 4rem; }
+.condominium-living > div > p:last-child { color: var(--public-muted); }
+.project-facts { display: grid; gap: 0.8rem; grid-template-columns: 1fr 1fr; margin: 0; }
+.project-facts div { background: #fffdf8; border: 1px solid var(--public-line); border-radius: 0.85rem; padding: 1rem; }
+.project-facts dt { color: var(--public-muted); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
+.project-facts dd { color: var(--public-ink); font-weight: 700; margin: 0.3rem 0 0; }
+
+.public-process { align-items: start; border-top: 1px solid var(--public-line); display: grid; gap: 2rem; grid-template-columns: 0.85fr 1fr; margin: 0 auto; max-width: 76rem; padding: clamp(4.5rem, 7vw, 6rem) 0; }
+.public-process > div:first-child > p:last-child { color: var(--public-muted); }
+.public-process ol { display: grid; gap: 0.75rem; list-style: none; margin: 0; padding: 0; }
+.public-process li { align-items: start; background: #fffdf8; border: 1px solid var(--public-line); border-radius: 0.9rem; display: grid; gap: 0.9rem; grid-template-columns: auto 1fr; padding: 1rem; }
+.public-process li > span { color: var(--public-terracotta-dark); font-size: 0.72rem; font-weight: 900; }
+.public-process h3 { margin: 0; }
+.public-process li p { color: var(--public-muted); margin: 0.25rem 0 0; }
+.institutional-proof { background: var(--public-night); border-radius: 1rem; color: #fffaf0; grid-column: 1 / -1; padding: 1.4rem; }
+.institutional-proof p { color: rgb(255 250 240 / 72%); margin: 0.4rem 0; }
+.institutional-proof .text-link { display: inline-block; margin-top: 0.65rem; }
+
+.contact-channels { background: #fffdf8; border: 1px solid var(--public-line); border-radius: 0.85rem; display: grid; gap: 0.45rem; margin-top: 1rem; padding: 1rem; }
+.contact-channels a { color: var(--public-terracotta-dark); font-style: normal; font-weight: 700; }
+.contact-channel-note { background: #fff5e9; border-radius: 0.75rem; font-size: 0.82rem !important; padding: 0.9rem; }
+.contact-form :is(input:not([type="checkbox"]), textarea) { background: #fffdf8; border: 1px solid #9f9a8f; border-radius: 0.65rem; min-height: 46px; padding: 0.75rem 0.8rem; }
+.contact-form textarea { min-height: 8rem; resize: vertical; }
+.contact-form :is(input, textarea)[aria-invalid="true"] { background: #fff6f5; border-color: var(--error); }
+.contact-form .field-error { color: var(--error); font-weight: 700; }
+
+.public-footer-contact { display: flex; flex-wrap: wrap; gap: 1rem; grid-column: 1 / -1; }
+.public-footer-contact a { color: #fffaf0; font-style: normal; font-weight: 700; }
+.public-footer-legal { font-size: 0.75rem; grid-column: 1 / -1; }
+.catalog-loading { min-height: 70vh; }
+.catalog-skeleton { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin-top: 2rem; }
+.catalog-skeleton span { animation: catalog-pulse 1.4s ease-in-out infinite alternate; background: rgb(255 253 248 / 70%); border-radius: 1rem; min-height: 24rem; }
+.empty-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+@keyframes catalog-pulse { to { opacity: 0.45; } }
+
+@media (max-width: 640px) {
+  .public-shell { padding-bottom: 0.6rem; }
+  .public-shell:has(.mobile-appointment-cta) { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+  .public-footer-with-appointment { margin-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+  .public-shell:has(.mobile-appointment-cta) .property-detail-summary .detail-actions .button-primary { display: none; }
+  .public-shell:has(.mobile-appointment-cta) .property-detail-summary .detail-actions { padding-bottom: 4.75rem; }
+  .property-detail-summary .detail-actions { align-items: stretch; flex-direction: column; }
+  .property-detail-summary .detail-actions .text-link { min-height: 44px; padding: 0.7rem; text-align: center; }
+  .public-page,
+  .property-detail-page,
+  .contact-page { padding-block: 2.5rem; }
+  .catalog-page-heading { padding-block: 1.6rem; }
+  .catalog-page-heading h1 { font-size: clamp(2.35rem, 12vw, 3.35rem); }
+  .detail-information-grid,
+  .condominium-living,
+  .public-process { grid-template-columns: 1fr; }
+  .detail-information-grid { gap: 0.75rem; margin-top: 3rem; padding-top: 2rem; }
+  .project-facts { grid-template-columns: 1fr; }
+  .detail-section,
+  .condominium-living { margin-top: 3rem; padding-top: 2rem; }
+  .public-process { padding: 3.25rem 0.4rem; }
+  .institutional-proof { grid-column: auto; }
+  .catalog-skeleton { grid-template-columns: 1fr; }
+  .mobile-appointment-cta { max-width: calc(100vw - 1.6rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalog-skeleton span { animation: none; }
+}

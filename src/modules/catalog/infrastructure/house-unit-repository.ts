@@ -26,6 +26,9 @@ type UnitRow = {
   price_usd: number | string;
   publication_status: UnitPublicationStatus;
   published_at: string | null;
+  verification_note: string | null;
+  verification_status: "pending" | "verified";
+  verified_at: string | null;
 };
 
 type MutationResult = { errorCode?: string; success: boolean };
@@ -65,7 +68,7 @@ export async function listHouseUnits(): Promise<HouseUnitSummary[]> {
 export async function getHouseUnit(id: string): Promise<HouseUnitDetails | null> {
   const supabase = await createClient();
   const [{ data, error }, names] = await Promise.all([
-    supabase.from("house_units").select("id, condominium_id, model_id, code, price_usd, availability_status, publication_status, description_override, bedrooms_override, bathrooms_override, parking_spaces_override, construction_area_m2_override, land_area_m2_override, features_override, published_at").eq("id", id).is("archived_at", null).maybeSingle(),
+    supabase.from("house_units").select("id, condominium_id, model_id, code, price_usd, availability_status, publication_status, description_override, bedrooms_override, bathrooms_override, parking_spaces_override, construction_area_m2_override, land_area_m2_override, features_override, published_at, verification_note, verification_status, verified_at").eq("id", id).is("archived_at", null).maybeSingle(),
     catalogNames(),
   ]);
   if (error) throw new Error("No fue posible cargar la unidad.");
@@ -89,6 +92,9 @@ export async function getHouseUnit(id: string): Promise<HouseUnitDetails | null>
     priceUsd: Number(row.price_usd),
     publicationStatus: row.publication_status,
     publishedAt: row.published_at,
+    verificationNote: row.verification_note ?? "",
+    verificationStatus: row.verification_status,
+    verifiedAt: row.verified_at,
   };
 }
 
@@ -111,7 +117,7 @@ export async function listHouseUnitOptions(): Promise<{ condominiums: UnitCondom
   };
 }
 
-function draftRow(draft: HouseUnitDraft) {
+function draftRow(draft: HouseUnitDraft, verifiedBy?: string) {
   return {
     availability_status: draft.availabilityStatus,
     bathrooms_override: draft.bathroomsOverride,
@@ -125,6 +131,10 @@ function draftRow(draft: HouseUnitDraft) {
     model_id: draft.modelId,
     parking_spaces_override: draft.parkingSpacesOverride,
     price_usd: draft.priceUsd,
+    verification_note: draft.verificationNote || null,
+    verification_status: draft.verificationStatus,
+    verified_at: draft.verificationStatus === "verified" ? new Date().toISOString() : null,
+    verified_by: draft.verificationStatus === "verified" ? verifiedBy : null,
   };
 }
 
@@ -139,19 +149,19 @@ async function assignmentIsActive(draft: HouseUnitDraft, unitId?: string) {
   return !error && Boolean(data);
 }
 
-export async function insertHouseUnit(draft: HouseUnitDraft): Promise<MutationResult & { id?: string }> {
+export async function insertHouseUnit(draft: HouseUnitDraft, verifiedBy: string): Promise<MutationResult & { id?: string }> {
   if (!(await assignmentIsActive(draft))) return { errorCode: "inactive_model_assignment", success: false };
   const supabase = await createClient();
-  const { data, error } = await supabase.from("house_units").insert({ ...draftRow(draft), publication_status: "draft" }).select("id").single();
+  const { data, error } = await supabase.from("house_units").insert({ ...draftRow(draft, verifiedBy), publication_status: "draft" }).select("id").single();
   if (!error) return { id: data.id, success: true };
   console.error(JSON.stringify({ code: error.code, event: "house_unit_insert_failed", level: "error" }));
   return { errorCode: error.code, success: false };
 }
 
-export async function updateHouseUnit(id: string, draft: HouseUnitDraft): Promise<MutationResult> {
+export async function updateHouseUnit(id: string, draft: HouseUnitDraft, verifiedBy: string): Promise<MutationResult> {
   if (!(await assignmentIsActive(draft, id))) return { errorCode: "inactive_model_assignment", success: false };
   const supabase = await createClient();
-  const { error } = await supabase.from("house_units").update(draftRow(draft)).eq("id", id).is("archived_at", null);
+  const { error } = await supabase.from("house_units").update(draftRow(draft, verifiedBy)).eq("id", id).is("archived_at", null);
   if (!error) return { success: true };
   console.error(JSON.stringify({ code: error.code, event: "house_unit_update_failed", level: "error" }));
   return { errorCode: error.code, success: false };

@@ -38,6 +38,12 @@ Presentar Aicon, generar confianza y guiar al comprador hacia los condominios, l
 - La portada priorizará un proyecto publicado sin atribuirle cualidades comerciales
   no registradas en el catálogo.
 
+## Confianza institucional
+
+- La portada explicará el proceso real de exploración, confirmación de datos y visita sin atribuir años, cifras, certificaciones ni testimonios no documentados.
+- Datos legales, dirección y canales empresariales se mostrarán únicamente cuando estén configurados y verificados.
+- La ausencia de canales directos no impedirá usar el formulario web ya habilitado.
+
 ## Criterios de aceptación
 
 - La portada comunica qué vende Aicon y dónde opera.
@@ -54,6 +60,8 @@ Presentar Aicon, generar confianza y guiar al comprador hacia los condominios, l
 - Confirmar teléfono, WhatsApp, correo, dirección y redes sociales.
 
 ## Historial de cambios
+
+- 2026-09-07: se incorporó un proceso de compra verificable y la regla de ocultar señales institucionales no configuradas.
 
 - 2026-08-28: creación de la especificación inicial.
 - 2026-08-28: se definieron WhatsApp y formulario como canales de contacto con asesores.

@@ -15,6 +15,8 @@ const valid: HouseUnitFormValues = {
   modelId: "",
   parkingSpacesOverride: "2",
   priceUsd: "185000.00",
+  verificationNote: "",
+  verificationStatus: "pending",
 };
 
 describe("validateHouseUnit", () => {
@@ -42,5 +44,11 @@ describe("validateHouseUnit", () => {
     const result = validateHouseUnit({ ...valid, bathroomsOverride: "", bedroomsOverride: "", modelId: "33333333-3333-4333-8333-333333333333" });
     expect(result.success).toBe(true);
     if (result.success) expect(result.data.bedroomsOverride).toBeNull();
+  });
+
+  it("exige una fuente interna cuando los datos se marcan como verificados", () => {
+    const result = validateHouseUnit({ ...valid, verificationStatus: "verified" });
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.errors.verificationNote).toBeDefined();
   });
 });

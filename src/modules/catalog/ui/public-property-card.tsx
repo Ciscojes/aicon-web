@@ -23,9 +23,9 @@ export function PublicPropertyCard({ property }: Readonly<{ property: PublicProp
         <div className="property-card-topline"><span>{formatPublicDisplayText(property.condominium.name)}</span><span>Unidad {property.code}</span></div>
         <h3>{property.modelName ?? `Casa ${property.code}`}</h3>
         <p className="property-code">{property.condominium.address ? formatPublicDisplayText(property.condominium.address) : "Ubicación por confirmar"}</p>
-        <p className="property-price">{usd.format(property.priceUsd)}</p>
+        <p className={`property-price${property.priceUsd === null ? " property-price-pending" : ""}`}>{property.priceUsd === null ? "Precio por confirmar" : usd.format(property.priceUsd)}</p>
         <p className="property-facts">{facts.length > 0 ? facts.map((fact) => <span key={fact}>{fact}</span>) : "Características por confirmar"}</p>
-        <Link className="property-link" href={`/casas/${property.id}`}>Ver detalles <span aria-hidden="true">→</span></Link>
+        <Link aria-label={`Ver detalles de ${property.modelName ?? `Casa ${property.code}`} en ${formatPublicDisplayText(property.condominium.name)}`} className="property-link" href={`/casas/${property.id}`}>Ver detalles <span aria-hidden="true">→</span></Link>
       </div>
     </article>
   );

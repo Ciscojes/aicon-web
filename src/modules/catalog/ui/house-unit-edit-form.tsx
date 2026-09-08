@@ -21,6 +21,8 @@ function detailsValues(unit: HouseUnitDetails) {
     modelId: unit.modelId ?? "",
     parkingSpacesOverride: unit.parkingSpacesOverride?.toString() ?? "",
     priceUsd: unit.priceUsd.toFixed(2),
+    verificationNote: unit.verificationNote,
+    verificationStatus: unit.verificationStatus,
   };
 }
 

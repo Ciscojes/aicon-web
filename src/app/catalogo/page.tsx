@@ -13,7 +13,6 @@ export default async function PublicCatalogPage({ searchParams }: Readonly<{ sea
   const query = await searchParams;
   const [allProperties, condominiums] = await Promise.all([listPublicProperties(), listPublicCondominiums()]);
   const properties = filterPublicProperties(allProperties, readPublicPropertyFilters(query));
-  const appointmentProperty = allProperties.find((property) => property.availabilityStatus === "available");
   return (
     <div className="public-shell public-inner-shell">
       <PublicSiteHeader />
@@ -23,7 +22,7 @@ export default async function PublicCatalogPage({ searchParams }: Readonly<{ sea
         <div className="results-heading"><h2>{properties.length} {properties.length === 1 ? "casa encontrada" : "casas encontradas"}</h2><p>Los datos específicos de cada unidad prevalecen sobre su modelo.</p></div>
         {properties.length === 0 ? <div className="public-empty"><h3>No encontramos casas con esos filtros.</h3><p>Prueba ampliando el rango de precio o mostrando otros estados.</p><a className="button button-secondary" href="/catalogo">Limpiar filtros</a></div> : <div className="property-grid">{properties.map((property) => <PublicPropertyCard key={property.id} property={property} />)}</div>}
       </main>
-      <PublicSiteFooter appointmentHref={appointmentProperty ? `/agendar-visita?unidad=${appointmentProperty.id}` : undefined} />
+      <PublicSiteFooter />
     </div>
   );
 }

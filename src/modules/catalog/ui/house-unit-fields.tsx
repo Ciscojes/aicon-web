@@ -78,6 +78,21 @@ export function HouseUnitFields({ condominiums, errors, idPrefix, models, values
       </div>
 
       <fieldset className="assignment-fieldset field-wide">
+        <legend>Verificación de información pública</legend>
+        <p className="field-help">Mientras esté pendiente, el sitio ocultará el precio y las medidas para no presentar datos dudosos como confirmados.</p>
+        <label className="confirmation-field">
+          <input defaultChecked={values?.verificationStatus === "verified"} name="verificationStatus" type="checkbox" value="verified" />
+          <span>Confirmo que precio, distribución y áreas fueron contrastados con una fuente confiable.</span>
+        </label>
+        <div className="field">
+          <label htmlFor={`${idPrefix}-verification-note`}>Fuente o referencia interna</label>
+          <textarea defaultValue={values?.verificationNote} id={`${idPrefix}-verification-note`} maxLength={1000} name="verificationNote" rows={3} />
+          <p className="field-help">Ejemplo: lista de precios aprobada y fecha. Esta nota no se muestra públicamente.</p>
+          {errors?.verificationNote ? <p className="field-error">{errors.verificationNote[0]}</p> : null}
+        </div>
+      </fieldset>
+
+      <fieldset className="assignment-fieldset field-wide">
         <legend>Datos específicos de esta unidad</legend>
         <p className="field-help">Cuando completes un valor, este prevalecerá sobre el modelo seleccionado.</p>
         <div className="numeric-fields unit-override-fields">

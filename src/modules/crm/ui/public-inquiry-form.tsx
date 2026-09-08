@@ -28,7 +28,7 @@ export function PublicInquiryForm({ context }: Readonly<{ context: PublicInquiry
   }
 
   return (
-    <form action={formAction} className="contact-form">
+    <form action={formAction} aria-busy={pending} className="contact-form" noValidate>
       <div className="contact-context"><span>Tu interés</span><strong>{context.label}</strong></div>
 
       <label><span>Nombre completo</span><input aria-describedby={state.errors?.name ? "inquiry-name-error" : undefined} aria-invalid={state.errors?.name ? true : undefined} autoComplete="name" defaultValue={state.values?.name} name="name" required /></label>

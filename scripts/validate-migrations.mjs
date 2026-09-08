@@ -226,6 +226,13 @@ async function validateFreshDatabase(migrations) {
       [condominiumId],
     )).rows;
     await database.query(
+      `update public.house_units
+       set verification_status = 'verified', verification_note = 'Fuente de prueba automatizada',
+           verified_at = now(), verified_by = (select id from public.user_profiles where auth_user_id = $2)
+       where id = $1`,
+      [unit.id, authUserId],
+    );
+    await database.query(
       `select public.submit_public_inquiry(
         'Persona Prueba', '+50688887777', 'persona@example.com',
         'Deseo más información.', 'unit', $1, null

@@ -27,6 +27,12 @@ Adaptar el recorrido público del comprador a celulares para que explorar, cotiz
 - Los formularios utilizarán teclados adecuados para teléfono, correo y cantidades.
 - El foco, las etiquetas y los errores serán accesibles para teclado y tecnologías de asistencia.
 
+### Acción fija contextual
+
+- `Agendar visita` aparecerá de forma fija únicamente cuando la página represente una vivienda concreta disponible.
+- No se mostrará en portada, catálogo, contacto ni páginas generales de condominio.
+- El pie reservará el espacio seguro solamente cuando la acción exista.
+
 ## Portada
 
 - La imagen principal ocupará el ancho disponible sin sacrificar la legibilidad del mensaje.
@@ -86,6 +92,8 @@ Adaptar el recorrido público del comprador a celulares para que explorar, cotiz
 - Confirmar si las fotografías permitirán ampliación a pantalla completa.
 
 ## Historial de cambios
+
+- 2026-09-07: se limitó la acción fija de agenda a fichas de viviendas concretas y se reforzó el espacio seguro del contenido.
 
 - 2026-08-28: creación de la especificación y primer conjunto de bocetos móviles.
 - 2026-08-28: se aprobó ofrecer WhatsApp directo y formulario al seleccionar `Hablar con un asesor`.

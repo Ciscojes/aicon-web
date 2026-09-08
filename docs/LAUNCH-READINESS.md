@@ -1,6 +1,6 @@
 # Preparación del lanzamiento
 
-Última revisión interna: 2026-09-06.
+Última revisión interna: 2026-09-07.
 
 ## Evidencia disponible
 
@@ -22,6 +22,10 @@
   principal restante corresponde a una fotografía JPG de prueba almacenada en
   Supabase y debe repetirse con el inventario definitivo.
 - El panel incluye una guía breve y el repositorio conserva el manual operativo.
+- El inventario público oculta precio, distribución y áreas hasta que un editor
+  registre una fuente interna y marque la unidad como verificada.
+- El formulario de contacto permanece disponible sin presentar teléfono, WhatsApp,
+  correo, dirección ni información legal que el propietario no haya confirmado.
 
 ## Verificaciones pendientes del entorno completo
 
@@ -38,6 +42,8 @@ o infraestructura de preproducción. No se consideran aprobadas por el build ais
 - Alojamiento, dominio y presupuesto operativo.
 - Política de respaldos, retención, monitoreo y responsables de incidentes.
 - Datos empresariales, aviso de privacidad y textos definitivos.
+- Fuente comercial aprobada para Casa 14: precio, habitaciones, baños,
+  estacionamientos, construcción, terreno, descripción, amenidades, planos y cuotas.
 - Identidad visual y autorización de fotografías finales.
 - Proveedores, remitente y plantillas de correo y WhatsApp.
 - Reglas comerciales pendientes registradas en las SPEC.

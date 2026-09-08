@@ -7,8 +7,8 @@ export function filterPublicProperties(
   return properties.filter((property) => {
     if (filters.condominium && property.condominium.slug !== filters.condominium) return false;
     if (filters.availability && filters.availability !== "all" && property.availabilityStatus !== filters.availability) return false;
-    if (filters.minPrice !== undefined && property.priceUsd < filters.minPrice) return false;
-    if (filters.maxPrice !== undefined && property.priceUsd > filters.maxPrice) return false;
+    if (filters.minPrice !== undefined && (property.priceUsd === null || property.priceUsd < filters.minPrice)) return false;
+    if (filters.maxPrice !== undefined && (property.priceUsd === null || property.priceUsd > filters.maxPrice)) return false;
     if (filters.bedrooms !== undefined && (property.bedrooms ?? -1) < filters.bedrooms) return false;
     if (filters.bathrooms !== undefined && (property.bathrooms ?? -1) < filters.bathrooms) return false;
     return true;

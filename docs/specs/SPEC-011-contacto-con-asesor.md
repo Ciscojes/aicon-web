@@ -59,6 +59,12 @@ Permitir que un comprador hable rápidamente con Aicon por WhatsApp o envíe un 
 - WhatsApp directo se habilitará cuando se confirme el número empresarial; hasta
   entonces no se mostrará ningún número inventado.
 
+## Estado de los canales
+
+- El formulario web se identificará como canal activo aunque teléfono, correo o WhatsApp directo estén pendientes.
+- Los canales empresariales se resolverán desde una configuración central; cada dato vacío o inválido se ocultará.
+- Los campos mostrarán borde, foco, error, envío, éxito y fallo de forma perceptible sin perder el contexto de la vivienda o condominio.
+
 ## Mensaje inicial provisional
 
 > Hola, me interesa recibir información sobre [casa o condominio].
@@ -83,6 +89,8 @@ Permitir que un comprador hable rápidamente con Aicon por WhatsApp o envíe un 
 - Confirmar texto de consentimiento y aviso de privacidad.
 
 ## Historial de cambios
+
+- 2026-09-07: se aclaró que el formulario está activo y se centralizó la publicación condicional de canales verificados.
 
 - 2026-08-28: creación de la especificación con WhatsApp directo y formulario alternativo.
 - 2026-08-31: se definió el primer incremento del formulario sin depender de

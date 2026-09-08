@@ -34,7 +34,8 @@ export type PublicProperty = {
   landAreaM2: number | null;
   modelName: string | null;
   parkingSpaces: number | null;
-  priceUsd: number;
+  priceUsd: number | null;
+  verificationStatus: "pending" | "verified";
 };
 
 export type PublicPropertyFilters = {

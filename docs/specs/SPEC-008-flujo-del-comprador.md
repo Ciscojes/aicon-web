@@ -66,6 +66,11 @@ El recorrido tendrá dos caminos según la intención del cliente:
 - Cuando no hay horarios, existe una salida clara para contactar a un asesor.
 - La confirmación identifica la casa, fecha, hora y canales de aviso.
 
+## Transparencia de información
+
+- Los datos no verificados se identifican antes de cotizar o agendar y nunca se presentan como confirmados.
+- La ficha ofrece estados comprensibles para galería, distribución, acabados, ubicación, planos y condiciones todavía pendientes.
+
 ## Artefacto visual
 
 - [Diagrama del flujo público del comprador](../diagrams/flujo-comprador.html)
@@ -75,6 +80,8 @@ El recorrido tendrá dos caminos según la intención del cliente:
 - Confirmar el texto definitivo de cada llamada a la acción.
 
 ## Historial de cambios
+
+- 2026-09-07: se añadió la transparencia de datos pendientes al recorrido del comprador.
 
 - 2026-08-28: creación del flujo inicial del comprador.
 - 2026-08-28: se aprobaron los caminos de agenda directa y cotización previa según la intención del cliente.

@@ -27,6 +27,9 @@ export type HouseUnitDetails = HouseUnitSummary & {
   modelId: string | null;
   parkingSpacesOverride: number | null;
   publishedAt: string | null;
+  verificationNote: string;
+  verificationStatus: "pending" | "verified";
+  verifiedAt: string | null;
 };
 
 export type UnitCondominiumOption = {

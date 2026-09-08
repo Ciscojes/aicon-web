@@ -7,6 +7,7 @@ import { PublicSiteFooter } from "@/modules/catalog/ui/public-site-footer";
 import { PublicSiteHeader } from "@/modules/catalog/ui/public-site-header";
 import type { PublicInquiryContext } from "@/modules/crm/domain/public-inquiry";
 import { PublicInquiryForm } from "@/modules/crm/ui/public-inquiry-form";
+import { getPublicCompanyProfile, whatsappHref } from "@/modules/company/infrastructure/public-company-profile";
 
 export const metadata: Metadata = { title: "Hablar con un asesor | Aicon" };
 
@@ -43,12 +44,13 @@ async function resolveContext(query: Record<string, string | string[] | undefine
 
 export default async function ContactPage({ searchParams }: Readonly<{ searchParams: Promise<Record<string, string | string[] | undefined>> }>) {
   const context = await resolveContext(await searchParams);
+  const company = getPublicCompanyProfile();
 
   return (
     <div className="public-shell public-inner-shell">
       <PublicSiteHeader />
       <main className="contact-page">
-        <section className="contact-intro"><p className="eyebrow">Hablar con un asesor</p><h1>Cuéntanos qué información necesitas.</h1><p>Déjanos tus datos y el interés quedará asociado automáticamente para que el equipo de Aicon pueda responderte con contexto.</p><div className="contact-promise"><strong>Respuesta personal</strong><span>Precio, disponibilidad y condiciones se confirmarán directamente contigo.</span></div></section>
+        <section className="contact-intro"><p className="eyebrow">Hablar con un asesor</p><h1>Cuéntanos qué información necesitas.</h1><p>El formulario está habilitado. Tu interés quedará asociado automáticamente para que el equipo de Aicon pueda responderte con contexto.</p><div className="contact-promise"><strong>Respuesta personal</strong><span>Precio, disponibilidad y condiciones se confirmarán directamente contigo.</span></div>{company.phone || company.email || company.whatsapp ? <address className="contact-channels"><strong>Canales verificados</strong>{company.phone ? <a href={`tel:${company.phone}`}>{company.phone}</a> : null}{company.email ? <a href={`mailto:${company.email}`}>{company.email}</a> : null}{company.whatsapp ? <a href={whatsappHref(company.whatsapp, context.label)} rel="noreferrer" target="_blank">Abrir WhatsApp</a> : null}</address> : <p className="contact-channel-note">Teléfono, WhatsApp y correo directo se mostrarán cuando el propietario confirme los datos empresariales.</p>}</section>
         <section aria-label="Formulario para hablar con un asesor" className="contact-form-panel"><PublicInquiryForm context={context} /></section>
       </main>
       <PublicSiteFooter />

@@ -34,6 +34,12 @@ const schema = z.object({
     (value) => /^\d{1,12}(\.\d{1,2})?$/.test(value),
     "El precio debe ser un monto no negativo con máximo dos decimales.",
   ),
+  verificationNote: z.string().trim().max(1000, "La fuente no puede superar 1000 caracteres."),
+  verificationStatus: z.enum(["pending", "verified"]),
+}).superRefine((value, context) => {
+  if (value.verificationStatus === "verified" && value.verificationNote.length < 5) {
+    context.addIssue({ code: "custom", message: "Indica la fuente utilizada para verificar estos datos.", path: ["verificationNote"] });
+  }
 });
 
 export type HouseUnitFormValues = z.input<typeof schema>;
@@ -51,6 +57,8 @@ export type HouseUnitDraft = {
   modelId: string | null;
   parkingSpacesOverride: number | null;
   priceUsd: string;
+  verificationNote: string;
+  verificationStatus: "pending" | "verified";
 };
 
 function text(formData: FormData, name: string) {
@@ -72,6 +80,8 @@ export function readHouseUnitFormData(formData: FormData): HouseUnitFormValues {
     modelId: text(formData, "modelId"),
     parkingSpacesOverride: text(formData, "parkingSpacesOverride"),
     priceUsd: text(formData, "priceUsd"),
+    verificationNote: text(formData, "verificationNote"),
+    verificationStatus: formData.get("verificationStatus") === "verified" ? "verified" : "pending",
   };
 }
 
@@ -100,6 +110,8 @@ export function validateHouseUnit(input: HouseUnitFormValues) {
       modelId: result.data.modelId || null,
       parkingSpacesOverride: optionalNumber(result.data.parkingSpacesOverride),
       priceUsd: result.data.priceUsd,
+      verificationNote: result.data.verificationNote,
+      verificationStatus: result.data.verificationStatus,
     } satisfies HouseUnitDraft,
     success: true as const,
   };

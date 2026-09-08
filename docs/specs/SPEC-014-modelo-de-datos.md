@@ -49,6 +49,8 @@ Campos principales: `id`, `condominium_id`, `model_id` opcional, `code`, `price_
 
 Los valores específicos de la unidad prevalecen sobre los valores heredados del modelo.
 
+Los campos `verification_status`, `verification_note`, `verified_at` y `verified_by` controlan si precio, distribución y áreas pueden presentarse como confirmados. La nota de fuente es interna y una unidad existente comienza en estado pendiente hasta ser revisada.
+
 ### `media_assets` y relaciones de medios
 
 Almacenan metadatos y referencias de las fotografías guardadas en Supabase Storage.
@@ -230,6 +232,8 @@ No almacenará secretos ni datos completos innecesarios.
 - Confirmar si el rol Editor formará parte del MVP.
 
 ## Historial de cambios
+
+- 2026-09-07: se añadió trazabilidad de verificación para los datos comerciales de unidades.
 
 - 2026-08-28: creación de la propuesta inicial del modelo lógico.
 - 2026-08-28: modelo aprobado; se habilitó la reutilización de modelos entre condominios y una oportunidad por propiedad.

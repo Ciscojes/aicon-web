@@ -50,6 +50,12 @@ Definir la jerarquía de contenido y las acciones principales de las pantallas p
 - Inventario publicado del proyecto con acceso al detalle de cada casa.
 - Acción para regresar al catálogo completo.
 
+## Estados del catálogo
+
+- El catálogo incluye carga, error y cero resultados con una acción clara para continuar.
+- Toda tarjeta ofrece un objetivo de enlace descriptivo y una superficie amplia para abrirla sin perder semántica.
+- El condominio presenta ubicación, amenidades y entorno con estados explícitos cuando no exista información válida.
+
 ## Pendiente para el siguiente conjunto
 
 - Página de contacto y asesor.
@@ -57,6 +63,8 @@ Definir la jerarquía de contenido y las acciones principales de las pantallas p
 - Bocetos del CRM y panel administrativo.
 
 ## Historial de cambios
+
+- 2026-09-07: se completaron los estados públicos de catálogo y las secciones informativas del condominio.
 
 - 2026-08-28: creación del primer conjunto de bocetos públicos.
 - 2026-08-28: la adaptación para celulares pasó a SPEC-010.

@@ -43,12 +43,14 @@ export function PublicCondominiumDetail({
       </section>
 
       {condominium.images.length > 1 ? (
-        <section aria-label={`Galería de ${condominium.name}`} className="public-gallery condominium-gallery">
+        <section aria-labelledby="condominium-gallery-title" className="detail-section"><div className="detail-section-heading"><p className="eyebrow">Galería</p><h2 id="condominium-gallery-title">Conoce el proyecto.</h2></div><div aria-label={`Galería de ${condominium.name}`} className="public-gallery condominium-gallery">
           {condominium.images.slice(1).map((image) => (
             <div aria-label={image.altText} key={image.url} role="img" style={{ backgroundImage: `url("${image.url}")` }} />
           ))}
-        </section>
+        </div></section>
       ) : null}
+
+      <section className="condominium-living" aria-labelledby="condominium-living-title"><div><p className="eyebrow">Vivir aquí</p><h2 id="condominium-living-title">Un proyecto para conocer con calma.</h2><p>{condominium.description || "La propuesta de valor detallada está por confirmar."}</p></div><dl className="project-facts"><div><dt>Ubicación</dt><dd>{condominium.address ? formatPublicDisplayText(condominium.address) : "Por confirmar"}</dd></div><div><dt>Amenidades</dt><dd>Información por confirmar</dd></div><div><dt>Entorno</dt><dd>Información por confirmar</dd></div><div><dt>Mapa</dt><dd>Coordenadas por confirmar</dd></div></dl></section>
 
       <section className="condominium-inventory" id="casas">
         <div className="public-section-heading">

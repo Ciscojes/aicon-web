@@ -12,11 +12,11 @@ const basePath = "/panel/catalogo/unidades";
 function refresh(id: string) { revalidatePath(basePath); revalidatePath(`${basePath}/${id}`); }
 
 export async function updateHouseUnit(id: string, _state: UpdateHouseUnitState, formData: FormData): Promise<UpdateHouseUnitState> {
-  await requireCatalogManagerForId(id, basePath);
+  const profile = await requireCatalogManagerForId(id, basePath);
   const values = readHouseUnitFormData(formData);
   const validation = validateHouseUnit(values);
   if (!validation.success) return { errors: validation.errors, values };
-  const result = await updateRecord(id, validation.data);
+  const result = await updateRecord(id, validation.data, profile.id);
   if (!result.success) {
     const message = result.errorCode === "23505" ? "Ese código ya existe dentro del condominio." : result.errorCode === "inactive_model_assignment" ? "El modelo seleccionado ya no está habilitado para ese condominio." : "No fue posible guardar los cambios.";
     return { message, values };

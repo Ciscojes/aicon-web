@@ -18,8 +18,9 @@ export async function requireCatalogManagerForId(
   id: string,
   fallback = "/panel/catalogo/condominios",
 ) {
-  await requireCatalogManager();
+  const profile = await requireCatalogManager();
   if (!entityIdSchema.safeParse(id).success) redirect(fallback);
+  return profile;
 }
 
 export function isCatalogEntityId(id: string): boolean {

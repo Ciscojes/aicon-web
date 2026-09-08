@@ -59,6 +59,11 @@ Permitir que el dueño administre el catálogo y la información comercial despu
   JPEG, PNG, WebP o AVIF de un máximo de 20 MB cada una.
 - Los cambios importantes registrarán usuario y fecha.
 
+## Verificación editorial
+
+- El editor deberá indicar una fuente interna antes de confirmar públicamente el precio, distribución y áreas de una unidad.
+- Quitar la verificación retirará inmediatamente esos datos de la presentación pública sin eliminar el registro interno.
+
 ## Criterios de aceptación
 
 - Un administrador no técnico puede publicar una casa sin modificar código.
@@ -83,6 +88,8 @@ Permitir que el dueño administre el catálogo y la información comercial despu
 - Determinar qué configuraciones e indicadores aparecerán en el tablero principal.
 
 ## Historial de cambios
+
+- 2026-09-07: se añadió el control editorial de verificación y referencia interna para datos de unidades.
 
 - 2026-08-28: creación de la especificación inicial.
 - 2026-08-28: se añadió la configuración y gestión administrativa de citas.

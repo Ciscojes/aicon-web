@@ -226,6 +226,12 @@ Ordenar la construcción del MVP en entregas pequeñas, demostrables y verificab
   y respuesta inicial ante incidentes, sin presentar como probado un respaldo de
   producción todavía no configurado.
 
+### Controles adicionales de lanzamiento público
+
+- Ningún precio, área o distribución pendiente se presenta como verificado ni habilita una simulación financiera pública.
+- Los canales empresariales solo aparecen después de completar su configuración central con datos reales.
+- Los recorridos públicos incluyen estados de carga, vacío y error, y se verifican en 320, 390, 768 píxeles y escritorio.
+
 ## Definición de terminado para cada funcionalidad
 
 Una funcionalidad solamente se considerará terminada cuando:
@@ -257,6 +263,8 @@ Una funcionalidad solamente se considerará terminada cuando:
 - Microservicios.
 
 ## Historial de cambios
+
+- 2026-09-07: se añadieron controles de verificación de datos, canales empresariales y revisión responsive al lanzamiento.
 
 - 2026-08-28: creación del plan inicial de implementación por entregas.
 - 2026-08-28: plan de implementación aprobado.

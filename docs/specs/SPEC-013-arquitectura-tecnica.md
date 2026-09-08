@@ -98,6 +98,11 @@ No se crearán interfaces para cada archivo ni capas vacías. Las abstracciones 
 - Los formularios públicos tendrán límites de frecuencia y protección contra automatización.
 - Las operaciones importantes conservarán usuario, fecha y acción.
 
+## Configuración pública y entorno
+
+- La configuración empresarial pública se leerá desde un único adaptador del servidor; datos vacíos o con formato inválido no llegarán a la interfaz.
+- Las herramientas de desarrollo de Next.js se conservarán en desarrollo local y no formarán parte del `next build` de producción.
+
 ## Organización modular propuesta
 
 ```text
@@ -166,6 +171,8 @@ Es posible, pero obliga a asumir seguridad, copias de respaldo, monitoreo, actua
 - Confirmar si el mapa será necesario en el MVP.
 
 ## Historial de cambios
+
+- 2026-09-07: se documentó el adaptador central de identidad empresarial y la separación de herramientas de desarrollo.
 
 - 2026-08-28: creación de la propuesta inicial de monolito modular.
 - 2026-08-28: arquitectura aprobada; se incorporaron principios ligeros de Clean Architecture.
