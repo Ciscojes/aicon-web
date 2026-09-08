@@ -2006,3 +2006,28 @@ textarea:focus-visible {
     transform: none;
   }
 }
+
+/* Aicon brand system — proposal 01. */
+.public-brand {
+  display: block;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.public-brand-logo {
+  display: block;
+  height: auto;
+  width: clamp(10rem, 18vw, 12.5rem);
+}
+
+.public-footer-logo {
+  display: block;
+  height: auto;
+  width: min(14rem, 100%);
+}
+
+@media (max-width: 640px) {
+  .public-brand-logo {
+    width: 9.25rem;
+  }
+}

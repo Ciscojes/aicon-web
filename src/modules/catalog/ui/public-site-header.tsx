@@ -1,9 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function PublicSiteHeader() {
   return (
     <header className="public-header">
-      <Link className="public-brand" href="/"><span aria-hidden="true">A</span><strong>AICON</strong><small>Edificadora</small></Link>
+      <Link className="public-brand" href="/">
+        <Image alt="Aicon Edificadora" className="public-brand-logo" height={64} priority src="/brand/aicon-logo.svg" width={260} />
+      </Link>
       <nav aria-label="Navegación pública" className="public-nav">
         <Link href="/">Inicio</Link>
         <Link href="/#condominios">Condominios</Link>
