@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPublicCompanyProfile, whatsappHref } from "@/modules/company/infrastructure/public-company-profile";
 
-export function PublicSiteFooter({ appointmentHref }: Readonly<{ appointmentHref?: string }>) {
+const usd = new Intl.NumberFormat("es-CR", { currency: "USD", maximumFractionDigits: 0, style: "currency" });
+
+export function PublicSiteFooter({ appointmentHref, appointmentPrice }: Readonly<{ appointmentHref?: string; appointmentPrice?: number | null }>) {
   const company = getPublicCompanyProfile();
   const contacts = [
     company.phone ? <a href={`tel:${company.phone}`} key="phone">{company.phone}</a> : null,
@@ -16,7 +18,7 @@ export function PublicSiteFooter({ appointmentHref }: Readonly<{ appointmentHref
       <p className="public-disclaimer">Precios y disponibilidad sujetos a confirmación directa con Aicon Edificadora.</p>
       {contacts.length > 0 ? <address className="public-footer-contact">{contacts}</address> : null}
       {company.legalName ? <p className="public-footer-legal">{company.legalName}{company.legalRegistration ? ` · ${company.legalRegistration}` : ""}{company.address ? ` · ${company.address}` : ""}</p> : null}
-      {appointmentHref ? <Link className="mobile-appointment-cta" href={appointmentHref}>Agendar visita</Link> : null}
+      {appointmentHref ? <div className="mobile-property-bar"><span><small>Precio</small><strong>{appointmentPrice === null || appointmentPrice === undefined ? "Por confirmar" : usd.format(appointmentPrice)}</strong></span><Link href={appointmentHref}>Agendar visita</Link></div> : null}
     </footer>
   );
 }
