@@ -96,6 +96,7 @@ en el repositorio.
 npm run check       # ESLint, TypeScript y pruebas
 npm run build       # compilación de producción
 npm run verify      # contrato completo: check y build
+npm run agent:verify -- --task AEH-002 --attempt 1 # verificación agentic auditable
 npm run doctor      # diagnóstico seguro de Node, npm, entorno, Docker y Supabase
 npm run db:test     # aplica migraciones dos veces en PostgreSQL WASM limpio
 npm run db:lint     # revisión SQL con Supabase local activo

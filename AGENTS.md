@@ -140,6 +140,16 @@ database is part of the change. Run `npm run test:coverage` for changes to
 domain or application logic and record the result. Security-relevant changes
 also require a dependency audit and focused permission tests.
 
+For a controlled task, execute the auditable wrapper after focused checks:
+
+```bash
+npm run agent:verify -- --task <TASK-ID> --attempt 1
+```
+
+Add `--db-lint` only when the task affects SQL and local Supabase connectivity
+has been confirmed. Increment the attempt only after recording a root-cause
+hypothesis and applying one minimal repair. Attempt files are immutable.
+
 No failed gate may be waived silently. A blocked environmental gate is recorded
 as blocked, with evidence and a human-verifiable next step.
 
@@ -158,7 +168,9 @@ step. Never loop on destructive operations or external side effects.
 
 ## Git and Pull Requests
 
-- Start from a clean, up-to-date `main` and create a task branch.
+- Start from a clean, up-to-date `main` and create a task branch. A documented
+  stacked task may branch from an unmerged task branch and must target that
+  branch until its dependency is merged.
 - Never push directly to `main`.
 - Make small, descriptive commits without mandatory Conventional Commit
   prefixes.

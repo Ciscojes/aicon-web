@@ -8,6 +8,6 @@ export default defineConfig({
       reporter: ["text", "html"],
     },
     environment: "node",
-    include: ["src/**/*.test.ts"],
+    include: ["src/**/*.test.ts", "scripts/**/*.test.mjs"],
   },
 });
