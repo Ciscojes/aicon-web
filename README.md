@@ -117,6 +117,11 @@ Consulta [las convenciones de arquitectura](docs/ARCHITECTURE.md) y el
 [plan aprobado](docs/specs/SPEC-015-plan-de-implementacion.md) antes de abrir una
 nueva entrega.
 
+El trabajo asistido por agentes se rige por [AGENTS.md](AGENTS.md) y por la
+[arquitectura del harness agentic](docs/agentic-engineering/architecture.md).
+Cada cambio controlado debe enlazar una especificación, un plan en `.agent/plans/`,
+evidencia de verificación y un Pull Request para revisión humana.
+
 Para preparar una publicación consulta también el
 [manual operativo](docs/OPERATIONS.md) y el
 [checklist de lanzamiento](docs/LAUNCH-READINESS.md).
