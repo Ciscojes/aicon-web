@@ -12,7 +12,8 @@
 
 ## Final status
 
-Ready for review.
+Repair implemented after the first remote quality review. Verification attempt 2
+is pending.
 
 ## Changed files
 
@@ -42,7 +43,12 @@ Machine-readable evidence:
 
 ## Repair attempts
 
-None. Attempt 1 passed every applicable gate.
+| Attempt | Trigger | Root cause | Minimal repair | Local evidence |
+|---|---|---|---|---|
+| 1 | SonarCloud reported two maintainability/security findings after local attempt 1 passed | The CLI resolved Git through the mutable `PATH`, and report selection used a nested ternary | Read Git metadata directly from `.git`, including loose, packed, detached and worktree states; replace the nested ternary with explicit control flow | 8 focused tests, lint and TypeScript passed |
+
+The external failure was not hidden or rewritten: attempt 1 remains immutable.
+Attempt 2 will provide the post-repair verification evidence.
 
 ## Security and privacy
 

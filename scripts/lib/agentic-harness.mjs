@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
 
 export const MAX_REPAIR_ATTEMPTS = 3;
 export const TASK_ID_PATTERN = /^[A-Z][A-Z0-9]{1,9}-\d{3,6}$/u;
@@ -44,6 +44,55 @@ export function findTaskPlan(root, taskId) {
 
 export function reportPath(root, taskId, attempt) {
   return join(root, ".agent", "runs", taskId, `verification-attempt-${attempt}.json`);
+}
+
+function gitDirectories(root) {
+  const dotGit = join(root, ".git");
+  let worktreeDirectory = dotGit;
+
+  if (!statSync(dotGit).isDirectory()) {
+    const pointer = readFileSync(dotGit, "utf8").trim().match(/^gitdir:\s*(.+)$/u);
+    if (!pointer) throw new Error("No se pudo resolver el directorio Git del worktree.");
+    worktreeDirectory = resolve(root, pointer[1]);
+  }
+
+  const commonPointer = join(worktreeDirectory, "commondir");
+  const commonDirectory = existsSync(commonPointer)
+    ? resolve(worktreeDirectory, readFileSync(commonPointer, "utf8").trim())
+    : worktreeDirectory;
+
+  return { commonDirectory, worktreeDirectory };
+}
+
+function readReference(commonDirectory, reference) {
+  const looseReference = join(commonDirectory, ...reference.split("/"));
+  if (existsSync(looseReference)) return readFileSync(looseReference, "utf8").trim();
+
+  const packedReferences = join(commonDirectory, "packed-refs");
+  if (!existsSync(packedReferences)) return null;
+  const match = readFileSync(packedReferences, "utf8")
+    .split(/\r?\n/u)
+    .find((line) => line.endsWith(` ${reference}`));
+  return match?.split(" ")[0] ?? null;
+}
+
+export function readGitState(root) {
+  const { commonDirectory, worktreeDirectory } = gitDirectories(root);
+  const headValue = readFileSync(join(worktreeDirectory, "HEAD"), "utf8").trim();
+
+  if (/^[0-9a-f]{40}$/u.test(headValue)) return { branch: "HEAD", head: headValue };
+  if (!headValue.startsWith("ref: ")) throw new Error("El archivo HEAD de Git no es válido.");
+
+  const reference = headValue.slice(5);
+  const head = readReference(commonDirectory, reference);
+  if (!head || !/^[0-9a-f]{40}$/u.test(head)) {
+    throw new Error(`No se pudo resolver la referencia Git ${reference}.`);
+  }
+
+  return {
+    branch: reference.startsWith("refs/heads/") ? reference.slice("refs/heads/".length) : reference,
+    head,
+  };
 }
 
 export function validateExecutionContext({ attempt, branch, root, taskId }) {
@@ -132,6 +181,13 @@ export function createReport({ attempt, branch, finishedAt, gates, head, started
   }));
   const passed = safeGates.length > 0 && safeGates.every((gate) => gate.status === "passed");
 
+  let nextAction = "Prepare the sanitized task trace and human review.";
+  if (!passed && attempt >= MAX_REPAIR_ATTEMPTS) {
+    nextAction = "Stop. Produce a failure report and request human review.";
+  } else if (!passed) {
+    nextAction = `Analyze the root cause, apply one minimal repair and run attempt ${attempt + 1}.`;
+  }
+
   return {
     schemaVersion: 1,
     taskId,
@@ -141,11 +197,7 @@ export function createReport({ attempt, branch, finishedAt, gates, head, started
     finishedAt,
     repository: { branch, head },
     gates: safeGates,
-    nextAction: passed
-      ? "Prepare the sanitized task trace and human review."
-      : attempt >= MAX_REPAIR_ATTEMPTS
-        ? "Stop. Produce a failure report and request human review."
-        : `Analyze the root cause, apply one minimal repair and run attempt ${attempt + 1}.`,
+    nextAction,
   };
 }
 

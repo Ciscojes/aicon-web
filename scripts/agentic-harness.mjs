@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import {
   createReport,
   parseArguments,
+  readGitState,
   runGates,
   validateExecutionContext,
   verificationGates,
@@ -23,16 +24,6 @@ Options:
   --help       Show this help.`);
 }
 
-function gitOutput(args) {
-  const result = spawnSync("git", args, {
-    cwd: root,
-    encoding: "utf8",
-    shell: false,
-  });
-  if (result.status !== 0) throw new Error(`Git no pudo ejecutar: git ${args.join(" ")}`);
-  return result.stdout.trim();
-}
-
 let options;
 try {
   options = parseArguments(process.argv.slice(2));
@@ -41,8 +32,7 @@ try {
     process.exit(0);
   }
 
-  const branch = gitOutput(["branch", "--show-current"]);
-  const head = gitOutput(["rev-parse", "HEAD"]);
+  const { branch, head } = readGitState(root);
   const { destination, plan } = validateExecutionContext({
     attempt: options.attempt,
     branch,

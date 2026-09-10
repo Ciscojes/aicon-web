@@ -7,6 +7,7 @@ import { describe, expect, it } from "vitest";
 import {
   createReport,
   parseArguments,
+  readGitState,
   reportPath,
   runGates,
   validateExecutionContext,
@@ -19,6 +20,22 @@ function fixture() {
   mkdirSync(join(root, ".agent", "plans"), { recursive: true });
   writeFileSync(join(root, ".agent", "plans", "AEH-002-plan.md"), "# Plan\n");
   return root;
+}
+
+function gitFixture({ detached = false, packed = false } = {}) {
+  const root = mkdtempSync(join(tmpdir(), "aicon-git-"));
+  mkdirSync(join(root, ".git", "refs", "heads", "chore"), { recursive: true });
+  const head = "1234567890abcdef1234567890abcdef12345678";
+
+  if (detached) {
+    writeFileSync(join(root, ".git", "HEAD"), `${head}\n`);
+  } else {
+    writeFileSync(join(root, ".git", "HEAD"), "ref: refs/heads/chore/task\n");
+    if (packed) writeFileSync(join(root, ".git", "packed-refs"), `${head} refs/heads/chore/task\n`);
+    else writeFileSync(join(root, ".git", "refs", "heads", "chore", "task"), `${head}\n`);
+  }
+
+  return { head, root };
 }
 
 describe("agentic harness", () => {
@@ -44,6 +61,17 @@ describe("agentic harness", () => {
       .toThrow("entre 1 y 3");
     expect(() => validateExecutionContext({ attempt: 1, branch: "chore/task", root, taskId: "BAD" }))
       .toThrow("identificador");
+  });
+
+  it("reads loose, packed and detached Git state without executing Git", () => {
+    const loose = gitFixture();
+    expect(readGitState(loose.root)).toEqual({ branch: "chore/task", head: loose.head });
+
+    const packed = gitFixture({ packed: true });
+    expect(readGitState(packed.root)).toEqual({ branch: "chore/task", head: packed.head });
+
+    const detached = gitFixture({ detached: true });
+    expect(readGitState(detached.root)).toEqual({ branch: "HEAD", head: detached.head });
   });
 
   it("refuses to overwrite attempt evidence", () => {
