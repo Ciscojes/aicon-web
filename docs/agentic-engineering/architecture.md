@@ -79,8 +79,19 @@ decisión humana. GitHub Actions conserva la evidencia remota de ejecución.
 | Control | Estado actual |
 |---|---|
 | Lint, tipos, pruebas, migraciones y build | Automatizado |
-| Plan y traza | Plantilla versionada; cumplimiento humano/agente |
-| Repair loop | Regla documentada; automatización futura |
-| Auditoría de dependencias | Manual; integración futura |
+| Plan y traza | Plantilla y evidencia de verificación versionadas |
+| Repair loop | Máximo tres intentos controlado por el CLI; la reparación sigue a cargo del agente y la persona |
+| Auditoría de dependencias | Ejecutada por el wrapper agentic |
 | Aprobación humana | Obligatoria; protección remota pendiente |
 | Despliegue | Fuera de este incremento |
+
+## Runner local
+
+`scripts/agentic-harness.mjs` is an orchestration adapter outside the production
+runtime. It validates task context and invokes `npm run verify` instead of
+reimplementing its gates. It then runs the dependency audit and optionally the
+Supabase SQL lint.
+
+Each explicit attempt creates an immutable JSON record. The runner stores
+timestamps, branch, commit, command name, exit code and duration, but never
+captures stdout, stderr or environment variables.

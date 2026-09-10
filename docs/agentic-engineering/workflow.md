@@ -34,6 +34,16 @@ Gate mínimo:
 npm run verify
 ```
 
+Una tarea controlada conserva evidencia mediante:
+
+```bash
+npm run agent:verify -- --task <TASK-ID> --attempt 1
+```
+
+El wrapper ejecuta el contrato principal y la auditoría de dependencias. La
+opción `--db-lint` incorpora el lint SQL cuando la tarea afecta base de datos y
+Supabase local está realmente disponible.
+
 Gates condicionados:
 
 ```bash
@@ -57,6 +67,10 @@ Ante un fallo:
 El límite es tres intentos por gate. Después se detiene el trabajo y se entrega
 un informe de bloqueo. Operaciones destructivas y efectos externos nunca se
 repiten automáticamente.
+
+Los archivos `verification-attempt-1.json` a
+`verification-attempt-3.json` son inmutables. El agente realiza el diagnóstico
+y la reparación; el CLI controla el límite y registra únicamente el resultado.
 
 ## 6. REVIEW
 

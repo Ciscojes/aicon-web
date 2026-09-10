@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "taskId": "AEH-002",
+  "attempt": 1,
+  "status": "passed",
+  "startedAt": "2026-09-10T01:06:02.400Z",
+  "finishedAt": "2026-09-10T01:06:58.977Z",
+  "repository": {
+    "branch": "chore/agentic-verification-runner",
+    "head": "64554a5da24f5bd8867a2a5ee9d30f3df1134df2"
+  },
+  "gates": [
+    {
+      "command": "npm run verify",
+      "durationMs": 55348,
+      "exitCode": 0,
+      "name": "quality",
+      "status": "passed"
+    },
+    {
+      "command": "npm audit --audit-level=high",
+      "durationMs": 1228,
+      "exitCode": 0,
+      "name": "dependency-security",
+      "status": "passed"
+    }
+  ],
+  "nextAction": "Prepare the sanitized task trace and human review."
+}

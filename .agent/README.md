@@ -13,6 +13,9 @@ does not replace them or contain application runtime code.
 4. Record the sanitized result in `.agent/runs/<TASK-ID>/summary.md`.
 5. Open a Pull Request for human review.
 
+Task specifications that are narrower than the product SPEC live in
+`.agent/specs/` and use `templates/spec-template.md`.
+
 ## Naming
 
 - Task identifiers: `AEH-001`, `CAT-012`, `CRM-004`.
@@ -28,3 +31,20 @@ data, cookies, access links or unbounded logs.
 
 Templates are intentionally Markdown so they remain readable in GitHub and in
 an academic review without proprietary tooling.
+
+## Auditable verification
+
+Run the wrapper from a task branch after focused tests:
+
+```bash
+npm run agent:verify -- --task AEH-002 --attempt 1
+```
+
+Use `--db-lint` for database tasks only after confirming local Supabase is
+reachable. The command invokes the existing `verify` contract, audits high and
+critical dependency findings, stops at the first failed gate and writes an
+immutable JSON result under `.agent/runs/<TASK-ID>/`.
+
+The JSON contains metadata only. Terminal output is deliberately not captured.
+After a failure, add the diagnosis and minimal correction to `summary.md` before
+using the next attempt number. A fourth attempt is invalid.

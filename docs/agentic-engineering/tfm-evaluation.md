@@ -48,15 +48,15 @@ evidencia suficiente para que una persona tome la decisión final.
 
 ## Limitaciones actuales
 
-- El plan y la traza usan plantillas; su automatización se implementará después.
+- La verificación genera evidencia automáticamente, pero la redacción del plan,
+  el diagnóstico y la traza final todavía requieren revisión humana.
 - La protección de rama requiere configuración remota y aprobación del dueño.
 - La auditoría de seguridad automatizada todavía es gradual.
 - Los recorridos E2E y el entorno de preproducción siguen pendientes.
 
 ## Trabajo futuro
 
-- Runner controlado para ejecutar gates y generar resúmenes.
 - Validación estructural de SPEC, plan y trazas.
-- Repair loop asistido con límite verificable.
+- Análisis asistido de fallos sin permitir modificaciones automáticas fuera del plan.
 - Métricas históricas de tareas sin almacenar prompts ni datos sensibles.
 - Integración de seguridad y cobertura en CI según evidencia de valor.
