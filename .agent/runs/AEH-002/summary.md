@@ -7,13 +7,13 @@
 - Branch: `chore/agentic-verification-runner`.
 - Implementation commit: `64554a5da24f5bd8867a2a5ee9d30f3df1134df2`.
 - Evidence commit: `44a675a`.
+- Repair commit: `4fc2c4050e0e002312bbc563f81de08177c857da`.
 - Pull Request: `https://github.com/Ciscojes/aicon-web/pull/11`.
 - Dependency: Pull Request 10.
 
 ## Final status
 
-Repair implemented after the first remote quality review. Verification attempt 2
-is pending.
+Ready for human review after one documented repair cycle.
 
 ## Changed files
 
@@ -32,6 +32,7 @@ configuration changed.
 | Gate | Command | Result | Notes |
 |---|---|---|---|
 | Agentic runner | `npm run agent:verify -- --task AEH-002 --attempt 1` | Passed | Generated immutable JSON evidence |
+| Agentic runner after repair | `npm run agent:verify -- --task AEH-002 --attempt 2` | Passed | Generated a second immutable JSON report tied to the repair commit |
 | Quality | `npm run verify` | Passed | 18 files and 60 tests |
 | Database | Included in `verify` | Passed | Two clean databases; 21 tables with RLS and 38 policies |
 | Build | Included in `verify` | Passed | Next.js production build |
@@ -39,7 +40,9 @@ configuration changed.
 | Evidence review | Sanitized JSON inspection | Passed | No command output or environment values |
 
 Machine-readable evidence:
-`.agent/runs/AEH-002/verification-attempt-1.json`.
+
+- `.agent/runs/AEH-002/verification-attempt-1.json`.
+- `.agent/runs/AEH-002/verification-attempt-2.json`.
 
 ## Repair attempts
 
@@ -48,7 +51,8 @@ Machine-readable evidence:
 | 1 | SonarCloud reported two maintainability/security findings after local attempt 1 passed | The CLI resolved Git through the mutable `PATH`, and report selection used a nested ternary | Read Git metadata directly from `.git`, including loose, packed, detached and worktree states; replace the nested ternary with explicit control flow | 8 focused tests, lint and TypeScript passed |
 
 The external failure was not hidden or rewritten: attempt 1 remains immutable.
-Attempt 2 will provide the post-repair verification evidence.
+Attempt 2 passed the quality and dependency-security gates after the minimal
+repair.
 
 ## Security and privacy
 
