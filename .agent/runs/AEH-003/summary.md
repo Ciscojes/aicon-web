@@ -51,6 +51,11 @@ correctly interpreted it as a real reference. The minimal correction assembled
 the fixture string at runtime; the production rule was not weakened. Focused
 tests and the security gate then passed.
 
+The first remote workflow passed and uploaded its artifact, but GitHub warned
+that `actions/upload-artifact@v4` used the deprecated Node 20 runtime. The latest
+official release was verified as v7 and the workflow was upgraded without
+changing permissions or report contents. A clean rerun is required before review.
+
 ## Security and privacy
 
 - Repository scanning is bounded to eligible text files under 1 MiB.

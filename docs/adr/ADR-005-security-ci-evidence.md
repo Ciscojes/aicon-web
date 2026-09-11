@@ -13,7 +13,7 @@ Implementar validadores sin dependencias nuevas para estructura agentic,
 referencias de entorno y un conjunto acotado de patrones de credenciales de alta
 confianza. `npm run security` coordina esos controles con `npm audit` y puede
 generar un JSON sanitizado. GitHub Actions conserva ese JSON durante 14 días
-mediante `actions/upload-artifact@v4`, manteniendo permisos de solo lectura.
+mediante `actions/upload-artifact@v7`, manteniendo permisos de solo lectura.
 
 El reporte contiene metadatos y conteos, nunca coincidencias, valores de entorno
 o salida de comandos. El escáner es una defensa gradual y no se presenta como

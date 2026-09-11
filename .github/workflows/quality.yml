@@ -24,7 +24,7 @@ jobs:
         run: npm run security -- --report .agent/ci/security-report.json
       - name: Upload sanitized security evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: security-report-${{ github.run_id }}
           path: .agent/ci/security-report.json
