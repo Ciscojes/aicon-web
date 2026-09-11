@@ -11,7 +11,8 @@
 
 ## Final status
 
-Locally verified; remote CI and human review pending.
+Ready for human review. Local gates, GitHub Actions, artifact publication and
+SonarCloud passed.
 
 ## Changed files
 
@@ -37,6 +38,9 @@ production setting changed.
 | Database | Included in `verify` | Passed | 21 tables with RLS and 38 policies in two clean databases |
 | Build | Included in `verify` | Passed | Next.js production build |
 | Dependency audit | Included in `security` | Passed | 0 known high or critical vulnerabilities |
+| Remote CI | [GitHub Actions run 34545432850](https://github.com/Ciscojes/aicon-web/actions/runs/34545432850) | Passed | Quality, build, security and artifact upload |
+| Static analysis | SonarCloud on Pull Request 12 | Passed | No blocking quality finding |
+| CI evidence review | `security-report-34545432850` | Passed | 433-byte metadata-only JSON; expires 2026-09-25 |
 
 Machine-readable evidence:
 `.agent/runs/AEH-003/verification-attempt-1.json`.
@@ -54,7 +58,8 @@ tests and the security gate then passed.
 The first remote workflow passed and uploaded its artifact, but GitHub warned
 that `actions/upload-artifact@v4` used the deprecated Node 20 runtime. The latest
 official release was verified as v7 and the workflow was upgraded without
-changing permissions or report contents. A clean rerun is required before review.
+changing permissions or report contents. The clean rerun passed without the
+deprecation warning.
 
 ## Security and privacy
 
