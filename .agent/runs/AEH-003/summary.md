@@ -7,7 +7,7 @@
 - Branch: `chore/agentic-security-ci-gates`.
 - Planning commit: `9bd3847`.
 - Implementation commit: `0fd866f`.
-- Pull Request: pending.
+- Pull Request: `https://github.com/Ciscojes/aicon-web/pull/12`.
 
 ## Final status
 
