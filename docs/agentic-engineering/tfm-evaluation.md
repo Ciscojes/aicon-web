@@ -61,3 +61,9 @@ evidencia suficiente para que una persona tome la decisión final.
 - Métricas históricas de tareas sin almacenar prompts ni datos sensibles.
 - Evaluar SAST, secret scanning especializado y cobertura obligatoria según
   evidencia de riesgo y coste de mantenimiento.
+
+## Cierre y reproducibilidad
+
+La auditoría consolidada está en [final-audit.md](final-audit.md), el recorrido
+de exposición en [demo-guide.md](demo-guide.md) y el snapshot cuantitativo en
+`evidence/agentic-metrics.json`.

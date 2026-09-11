@@ -98,6 +98,7 @@ npm run build       # compilación de producción
 npm run security    # entorno, secretos acotados, artefactos y dependencias
 npm run verify      # contrato completo: check, build y seguridad
 npm run agent:verify -- --task AEH-002 --attempt 1 # verificación agentic auditable
+npm run agent:metrics # métricas reproducibles de tareas e intentos agentic
 npm run doctor      # diagnóstico seguro de Node, npm, entorno, Docker y Supabase
 npm run db:test     # aplica migraciones dos veces en PostgreSQL WASM limpio
 npm run db:lint     # revisión SQL con Supabase local activo
@@ -124,6 +125,10 @@ El trabajo asistido por agentes se rige por [AGENTS.md](AGENTS.md) y por la
 [arquitectura del harness agentic](docs/agentic-engineering/architecture.md).
 Cada cambio controlado debe enlazar una especificación, un plan en `.agent/plans/`,
 evidencia de verificación y un Pull Request para revisión humana.
+
+El cierre académico se documenta en la
+[auditoría final](docs/agentic-engineering/final-audit.md) y el
+[guion de demostración](docs/agentic-engineering/demo-guide.md).
 
 Para preparar una publicación consulta también el
 [manual operativo](docs/OPERATIONS.md) y el

@@ -18,6 +18,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "agent:artifacts": "node scripts/agent-artifacts.mjs",
+    "agent:metrics": "node scripts/agent-metrics.mjs",
     "agent:verify": "node scripts/agentic-harness.mjs",
     "security": "node scripts/security-harness.mjs",
     "check": "npm run lint && npm run typecheck && npm run test && npm run db:test && npm run agent:artifacts",
