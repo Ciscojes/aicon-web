@@ -128,12 +128,6 @@ export function verificationGates({ includeDbLint = false, npmCommand }) {
       displayCommand: "npm run verify",
       name: "quality",
     },
-    {
-      args: ["audit", "--audit-level=high"],
-      command: npmCommand,
-      displayCommand: "npm audit --audit-level=high",
-      name: "dependency-security",
-    },
   ];
 
   if (includeDbLint) {

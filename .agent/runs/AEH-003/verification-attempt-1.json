@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "taskId": "AEH-003",
+  "attempt": 1,
+  "status": "passed",
+  "startedAt": "2026-09-11T00:08:36.410Z",
+  "finishedAt": "2026-09-11T00:08:53.527Z",
+  "repository": {
+    "branch": "chore/agentic-security-ci-gates",
+    "head": "0fd866f48f5cc5281f298cdc418b1d3f26133013"
+  },
+  "gates": [
+    {
+      "command": "npm run verify",
+      "durationMs": 17117,
+      "exitCode": 0,
+      "name": "quality",
+      "status": "passed"
+    }
+  ],
+  "nextAction": "Prepare the sanitized task trace and human review."
+}

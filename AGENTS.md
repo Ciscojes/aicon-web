@@ -134,8 +134,9 @@ The primary contract is:
 npm run verify
 ```
 
-It must pass lint, TypeScript, unit tests, repeatable migration validation and
-the production build. Run `npm run db:lint` when a reachable local Supabase
+It must pass lint, TypeScript, unit tests, repeatable migration validation,
+agent-artifact validation, the production build and the security harness. Run
+`npm run db:lint` when a reachable local Supabase
 database is part of the change. Run `npm run test:coverage` for changes to
 domain or application logic and record the result. Security-relevant changes
 also require a dependency audit and focused permission tests.
@@ -194,7 +195,7 @@ A controlled task is ready for human review only when:
 - implementation follows the documented architecture;
 - relevant tests were added or the absence is justified;
 - `npm run verify` passes;
-- applicable database and security gates pass;
+- applicable database and security gates pass, including the sanitized CI report;
 - documentation and traceability are updated;
 - no known critical security issue remains;
 - the diff contains only approved scope;

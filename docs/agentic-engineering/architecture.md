@@ -79,9 +79,10 @@ decisión humana. GitHub Actions conserva la evidencia remota de ejecución.
 | Control | Estado actual |
 |---|---|
 | Lint, tipos, pruebas, migraciones y build | Automatizado |
-| Plan y traza | Plantilla y evidencia de verificación versionadas |
+| Plan y traza | Plantilla, validación estructural y evidencia versionada |
 | Repair loop | Máximo tres intentos controlado por el CLI; la reparación sigue a cargo del agente y la persona |
-| Auditoría de dependencias | Ejecutada por el wrapper agentic |
+| Seguridad gradual | Entorno, patrones de secretos, artefactos y dependencias en `verify` y CI |
+| Evidencia remota | Reporte JSON sanitizado conservado 14 días como artefacto de CI |
 | Aprobación humana | Obligatoria; protección remota pendiente |
 | Despliegue | Fuera de este incremento |
 
@@ -95,3 +96,10 @@ Supabase SQL lint.
 Each explicit attempt creates an immutable JSON record. The runner stores
 timestamps, branch, commit, command name, exit code and duration, but never
 captures stdout, stderr or environment variables.
+
+## Security and CI gate
+
+`npm run security` validates the repository without importing application
+runtime code. It checks high-confidence credential patterns, project-owned
+environment references, agent artifacts and high-severity dependency findings.
+CI uploads only its metadata report; diagnostic values remain absent.
