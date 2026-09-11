@@ -20,3 +20,13 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+      - name: Security gates
+        run: npm run security -- --report .agent/ci/security-report.json
+      - name: Upload sanitized security evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report-${{ github.run_id }}
+          path: .agent/ci/security-report.json
+          if-no-files-found: error
+          retention-days: 14

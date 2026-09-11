@@ -41,10 +41,18 @@ npm run agent:verify -- --task AEH-002 --attempt 1
 ```
 
 Use `--db-lint` for database tasks only after confirming local Supabase is
-reachable. The command invokes the existing `verify` contract, audits high and
-critical dependency findings, stops at the first failed gate and writes an
+reachable. The command invokes the existing `verify` contract, which includes
+artifact, environment, repository-secret and dependency checks. It stops at the
+first failed gate and writes an
 immutable JSON result under `.agent/runs/<TASK-ID>/`.
 
 The JSON contains metadata only. Terminal output is deliberately not captured.
 After a failure, add the diagnosis and minimal correction to `summary.md` before
 using the next attempt number. A fourth attempt is invalid.
+
+## CI security evidence
+
+`npm run security -- --report .agent/ci/security-report.json` creates a
+metadata-only report in an ignored local directory. GitHub Actions uploads that
+file for 14 days. It records check names, counts, status, timestamps and commit
+identity; it never stores matched values, environment values or command output.

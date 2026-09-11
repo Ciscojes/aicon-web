@@ -40,6 +40,17 @@ desplegar en producción.
 - Justificar dependencias nuevas y minimizar permisos del workflow.
 - Fijar una estrategia de actualización antes del lanzamiento.
 
+### Gates automatizados actuales
+
+- `npm run agent:artifacts` valida estructura, vínculos y campos permitidos en evidencia.
+- `npm run security` revisa referencias de entorno, patrones de credenciales de
+  alta confianza y dependencias vulnerables.
+- El escáner limita extensiones, tamaño y directorios; informa regla y ruta, no
+  el valor coincidente.
+- GitHub Actions sube un reporte JSON sanitizado con retención de 14 días.
+- Estos controles reducen riesgo, pero no constituyen una certificación ni un
+  análisis exhaustivo de secretos o vulnerabilidades.
+
 ## OWASP aplicable
 
 | Riesgo | Control actual o requerido |

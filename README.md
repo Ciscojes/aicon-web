@@ -93,9 +93,10 @@ en el repositorio.
 ## Verificaciones
 
 ```bash
-npm run check       # ESLint, TypeScript y pruebas
+npm run check       # ESLint, TypeScript, pruebas, migraciones y artefactos agentic
 npm run build       # compilación de producción
-npm run verify      # contrato completo: check y build
+npm run security    # entorno, secretos acotados, artefactos y dependencias
+npm run verify      # contrato completo: check, build y seguridad
 npm run agent:verify -- --task AEH-002 --attempt 1 # verificación agentic auditable
 npm run doctor      # diagnóstico seguro de Node, npm, entorno, Docker y Supabase
 npm run db:test     # aplica migraciones dos veces en PostgreSQL WASM limpio
@@ -104,8 +105,9 @@ npm run db:apply    # aplica únicamente migraciones locales pendientes
 npm run db:reset    # reconstruye la base aplicando migraciones y seed
 ```
 
-GitHub Actions ejecuta `check` y `build` en cada cambio enviado a `main` y en
-cada pull request.
+GitHub Actions ejecuta `check`, `build` y `security` en cada cambio enviado a
+`main` y en cada pull request. Conserva durante 14 días un reporte de seguridad
+sanitizado que contiene resultados y conteos, nunca valores sensibles.
 
 ## Entornos
 

@@ -82,11 +82,11 @@ describe("agentic harness", () => {
       .toThrow("no puede sobrescribirse");
   });
 
-  it("reuses verify, adds security and optionally database lint", () => {
+  it("reuses verify, which includes security, and optionally adds database lint", () => {
     expect(verificationGates({ npmCommand: "node" }).map((gate) => gate.displayCommand))
-      .toEqual(["npm run verify", "npm audit --audit-level=high"]);
+      .toEqual(["npm run verify"]);
     expect(verificationGates({ includeDbLint: true, npmCommand: "node" }).map((gate) => gate.displayCommand))
-      .toEqual(["npm run verify", "npm run db:lint", "npm audit --audit-level=high"]);
+      .toEqual(["npm run verify", "npm run db:lint"]);
   });
 
   it("stops after the first failed gate", () => {

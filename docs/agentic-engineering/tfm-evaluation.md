@@ -51,12 +51,13 @@ evidencia suficiente para que una persona tome la decisión final.
 - La verificación genera evidencia automáticamente, pero la redacción del plan,
   el diagnóstico y la traza final todavía requieren revisión humana.
 - La protección de rama requiere configuración remota y aprobación del dueño.
-- La auditoría de seguridad automatizada todavía es gradual.
+- La auditoría de seguridad automatizada es gradual y deliberadamente acotada;
+  no sustituye SAST ni secret scanning especializado.
 - Los recorridos E2E y el entorno de preproducción siguen pendientes.
 
 ## Trabajo futuro
 
-- Validación estructural de SPEC, plan y trazas.
 - Análisis asistido de fallos sin permitir modificaciones automáticas fuera del plan.
 - Métricas históricas de tareas sin almacenar prompts ni datos sensibles.
-- Integración de seguridad y cobertura en CI según evidencia de valor.
+- Evaluar SAST, secret scanning especializado y cobertura obligatoria según
+  evidencia de riesgo y coste de mantenimiento.

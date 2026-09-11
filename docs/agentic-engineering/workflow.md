@@ -40,7 +40,7 @@ Una tarea controlada conserva evidencia mediante:
 npm run agent:verify -- --task <TASK-ID> --attempt 1
 ```
 
-El wrapper ejecuta el contrato principal y la auditoría de dependencias. La
+El wrapper ejecuta el contrato principal, que ya incluye los gates de seguridad. La
 opción `--db-lint` incorpora el lint SQL cuando la tarea afecta base de datos y
 Supabase local está realmente disponible.
 
@@ -49,7 +49,7 @@ Gates condicionados:
 ```bash
 npm run test:coverage  # lógica de dominio o aplicación
 npm run db:lint        # cambios SQL con Supabase local alcanzable
-npm audit --audit-level=high
+npm run security       # artefactos, entorno, secretos acotados y dependencias
 ```
 
 Un gate bloqueado por el entorno no cuenta como aprobado.
@@ -82,7 +82,8 @@ Antes del Pull Request se comprueba:
 - riesgos restantes visibles;
 - ausencia de secretos y datos personales.
 
-CI confirma reproducibilidad técnica. Una persona conserva la decisión de
+CI confirma reproducibilidad técnica y conserva un reporte de seguridad
+sanitizado durante 14 días. Una persona conserva la decisión de
 aceptar, pedir cambios, fusionar o desplegar.
 
 ## Estados de una tarea

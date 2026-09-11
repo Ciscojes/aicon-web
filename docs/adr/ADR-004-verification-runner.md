@@ -10,8 +10,8 @@ guardar secretos o datos personales.
 ## Decision
 
 Crear un CLI local, sin dependencias nuevas, que exija tarea, plan, rama e intento
-explícito. El runner invoca `npm run verify`, audita dependencias y permite añadir
-`db:lint`. Detiene la secuencia al primer fallo, rechaza intentos fuera de 1–3 y
+explícito. El runner invoca `npm run verify`, que contiene los gates vigentes,
+y permite añadir `db:lint`. Detiene la secuencia al primer fallo, rechaza intentos fuera de 1–3 y
 genera un JSON inmutable con metadatos, nunca stdout, stderr o entorno.
 
 El agente conserva la responsabilidad de diagnosticar y reparar; el runner no
@@ -30,5 +30,4 @@ modifica archivos automáticamente.
 - El límite de reparación es verificable y no depende solo de instrucciones.
 - Un fallo conserva su salida únicamente en la terminal; la traza requiere un
   resumen sanitizado de la causa.
-- CI todavía usa el contrato normal y su integración agentic se evaluará en una
-  iteración posterior.
+- La evolución de los gates dentro de `verify` no exige duplicarlos en el runner.
