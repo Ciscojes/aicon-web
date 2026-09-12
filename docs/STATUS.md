@@ -1,6 +1,19 @@
 # Estado de implementación
 
-Actualizado: 2026-09-07.
+Actualizado: 2026-09-10.
+
+## Agentic Engineering Harness
+
+En cierre académico. Implementado:
+
+- Gobierno agentic con SPEC, PLAN, niveles de autoridad y Definition of Done.
+- Runner auditable con máximo de tres intentos y evidencia JSON inmutable.
+- Validación estructural de artefactos, contrato de entorno, patrones de
+  credenciales y auditoría de dependencias.
+- GitHub Actions con reporte de seguridad sanitizado y revisión SonarCloud.
+- Métricas reproducibles, auditoría final y guion de demostración del TFM.
+
+Pendiente de decisión humana: revisión de AEH-004 y protección obligatoria de `main`.
 
 ## Entrega 0 — Fundamentos técnicos
 

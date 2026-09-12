@@ -90,8 +90,7 @@ decisión humana. GitHub Actions conserva la evidencia remota de ejecución.
 
 `scripts/agentic-harness.mjs` is an orchestration adapter outside the production
 runtime. It validates task context and invokes `npm run verify` instead of
-reimplementing its gates. It then runs the dependency audit and optionally the
-Supabase SQL lint.
+reimplementing its gates. It can optionally add the Supabase SQL lint.
 
 Each explicit attempt creates an immutable JSON record. The runner stores
 timestamps, branch, commit, command name, exit code and duration, but never
