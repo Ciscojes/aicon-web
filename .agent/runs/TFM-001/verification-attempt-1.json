@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TFM-001",
+  "attempt": 1,
+  "status": "passed",
+  "startedAt": "2026-09-12T01:51:06.395Z",
+  "finishedAt": "2026-09-12T01:51:29.138Z",
+  "repository": {
+    "branch": "docs/tfm-manuscript",
+    "head": "26086b3b41d714d73559185a553bc2c1996f4f21"
+  },
+  "gates": [
+    {
+      "command": "npm run verify",
+      "durationMs": 22743,
+      "exitCode": 0,
+      "name": "quality",
+      "status": "passed"
+    }
+  ],
+  "nextAction": "Prepare the sanitized task trace and human review."
+}
