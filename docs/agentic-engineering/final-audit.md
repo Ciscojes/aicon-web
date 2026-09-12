@@ -79,6 +79,15 @@ herramientas agentic y build. El snapshot reproducible se encuentra en
 npm run agent:metrics -- --output docs/agentic-engineering/evidence/agentic-metrics.json
 ```
 
+Snapshot de cierre:
+
+- 4 tareas gobernadas, 4 planes y 4 trazas.
+- 3 tareas con SPEC formal; AEH-001 conserva su alcance aprobado legado.
+- 3 tareas con evidencia automática y 4 intentos inmutables.
+- 4 intentos aprobados y 0 intentos fallidos en la evidencia estructurada.
+- 124.317 ms acumulados dentro de gates registrados.
+- 21 archivos de prueba y 71 pruebas en el cierre de AEH-004.
+
 La tasa de primer intento usa únicamente evidencia JSON del runner. No incluye
 hallazgos remotos ni correcciones previas al intento; por ello no debe interpretarse
 como tasa total de defectos. Las reparaciones cualitativas permanecen en cada

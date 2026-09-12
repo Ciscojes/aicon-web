@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-11T01:01:52.987Z",
+  "methodology": {
+    "source": ".agent plans, specs, summaries and verification-attempt JSON files",
+    "excludes": "free-text repair interpretation, prompts, command output and environment values"
+  },
+  "totals": {
+    "tasks": 4,
+    "specs": 3,
+    "plans": 4,
+    "traces": 4,
+    "machineVerifiedTasks": 3,
+    "attempts": 4,
+    "passedAttempts": 4,
+    "failedAttempts": 0,
+    "firstAttemptPassRatePercent": 100,
+    "totalGateDurationMs": 124317
+  },
+  "tasks": [
+    {
+      "taskId": "AEH-001",
+      "hasPlan": true,
+      "hasSpec": false,
+      "hasSummary": true,
+      "firstAttemptStatus": null,
+      "attempts": []
+    },
+    {
+      "taskId": "AEH-002",
+      "hasPlan": true,
+      "hasSpec": true,
+      "hasSummary": true,
+      "firstAttemptStatus": "passed",
+      "attempts": [
+        {
+          "attempt": 1,
+          "durationMs": 56576,
+          "gateCount": 2,
+          "status": "passed"
+        },
+        {
+          "attempt": 2,
+          "durationMs": 22780,
+          "gateCount": 2,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "taskId": "AEH-003",
+      "hasPlan": true,
+      "hasSpec": true,
+      "hasSummary": true,
+      "firstAttemptStatus": "passed",
+      "attempts": [
+        {
+          "attempt": 1,
+          "durationMs": 17117,
+          "gateCount": 1,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "taskId": "AEH-004",
+      "hasPlan": true,
+      "hasSpec": true,
+      "hasSummary": true,
+      "firstAttemptStatus": "passed",
+      "attempts": [
+        {
+          "attempt": 1,
+          "durationMs": 27844,
+          "gateCount": 1,
+          "status": "passed"
+        }
+      ]
+    }
+  ]
+}

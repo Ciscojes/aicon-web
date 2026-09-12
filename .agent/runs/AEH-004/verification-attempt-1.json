@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "taskId": "AEH-004",
+  "attempt": 1,
+  "status": "passed",
+  "startedAt": "2026-09-11T01:00:55.481Z",
+  "finishedAt": "2026-09-11T01:01:23.325Z",
+  "repository": {
+    "branch": "chore/agentic-final-audit",
+    "head": "074812750d3c6f014b0ccb5895a446a03c6d7cf6"
+  },
+  "gates": [
+    {
+      "command": "npm run verify",
+      "durationMs": 27844,
+      "exitCode": 0,
+      "name": "quality",
+      "status": "passed"
+    }
+  ],
+  "nextAction": "Prepare the sanitized task trace and human review."
+}
