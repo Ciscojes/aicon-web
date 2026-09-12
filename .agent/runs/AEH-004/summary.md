@@ -7,11 +7,11 @@
 - Branch: `chore/agentic-final-audit`.
 - Planning commit: `6353b7a`.
 - Implementation commit: `0748127`.
-- Pull Request: pending.
+- Pull Request: `https://github.com/Ciscojes/aicon-web/pull/13`.
 
 ## Final status
 
-Locally verified; remote CI and human review pending.
+Locally verified; remote CI and human review pending in PR #13.
 
 ## Changed files
 
