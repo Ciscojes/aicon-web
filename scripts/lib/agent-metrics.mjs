@@ -5,12 +5,16 @@ const TASK_FILE = /^([A-Z][A-Z0-9]{1,9}-\d{3,6})-.+\.md$/u;
 const TASK_DIRECTORY = /^[A-Z][A-Z0-9]{1,9}-\d{3,6}$/u;
 const ATTEMPT_FILE = /^verification-attempt-(\d+)\.json$/u;
 
+function compareText(left, right) {
+  return left.localeCompare(right);
+}
+
 function taskIdsFromFiles(directory) {
   if (!existsSync(directory)) return [];
   return readdirSync(directory, { withFileTypes: true })
     .filter((entry) => entry.isFile())
     .flatMap((entry) => entry.name.match(TASK_FILE)?.[1] ?? [])
-    .sort();
+    .sort(compareText);
 }
 
 function runDirectories(directory) {
@@ -18,7 +22,7 @@ function runDirectories(directory) {
   return readdirSync(directory, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && TASK_DIRECTORY.test(entry.name))
     .map((entry) => entry.name)
-    .sort();
+    .sort(compareText);
 }
 
 function readAttempts(directory, taskId) {
@@ -52,7 +56,7 @@ export function collectAgentMetrics(root, generatedAt = new Date().toISOString()
   const specs = taskIdsFromFiles(join(agentDirectory, "specs"));
   const runsDirectory = join(agentDirectory, "runs");
   const runs = runDirectories(runsDirectory);
-  const taskIds = [...new Set([...plans, ...specs, ...runs])].sort();
+  const taskIds = [...new Set([...plans, ...specs, ...runs])].sort(compareText);
 
   const tasks = taskIds.map((taskId) => {
     const attempts = runs.includes(taskId) ? readAttempts(runsDirectory, taskId) : [];

@@ -11,7 +11,7 @@
 
 ## Final status
 
-Locally verified; remote CI and human review pending in PR #13.
+Second local verification passed after a remote SonarCloud finding; remote recheck and human review remain pending in PR #13.
 
 ## Changed files
 
@@ -31,7 +31,8 @@ No application route, migration, dependency, environment or production setting c
 | Quality | Included in `verify` | Passed | 21 files and 71 tests |
 | Database | Included in `verify` | Passed | 21 tables with RLS and 38 policies in two clean databases |
 | Build | Included in `verify` | Passed | Next.js production build |
-| Security | Included in `verify` | Passed | 234 files scanned; 0 high/critical dependency findings |
+| Agentic runner | `npm run agent:verify -- --task AEH-004 --attempt 2` | Passed | Verification after the minimal SonarCloud repair |
+| Security | Included in `verify` | Passed | 237 files scanned; 0 high/critical dependency findings |
 | Metrics snapshot | `npm run agent:metrics -- --output docs/agentic-engineering/evidence/agentic-metrics.json` | Passed | 4 tasks, 4 plans, 4 traces and 4 immutable attempts |
 
 Machine-readable verification:
@@ -39,7 +40,7 @@ Machine-readable verification:
 
 ## Repair attempts
 
-None. The focused tests and immutable agentic attempt passed.
+One remote repair was required. SonarCloud rejected an alphabetical `Array.sort()` without an explicit comparator in the metrics library. The repair added a reusable `localeCompare` comparator, reran the focused tests and recorded immutable agentic attempt 2. No application or database code changed.
 
 ## Security and privacy
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-11T01:01:52.987Z",
+  "generatedAt": "2026-09-12T00:55:10.075Z",
   "methodology": {
     "source": ".agent plans, specs, summaries and verification-attempt JSON files",
     "excludes": "free-text repair interpretation, prompts, command output and environment values"
@@ -11,11 +11,11 @@
     "plans": 4,
     "traces": 4,
     "machineVerifiedTasks": 3,
-    "attempts": 4,
-    "passedAttempts": 4,
+    "attempts": 5,
+    "passedAttempts": 5,
     "failedAttempts": 0,
     "firstAttemptPassRatePercent": 100,
-    "totalGateDurationMs": 124317
+    "totalGateDurationMs": 172090
   },
   "tasks": [
     {
@@ -72,6 +72,12 @@
         {
           "attempt": 1,
           "durationMs": 27844,
+          "gateCount": 1,
+          "status": "passed"
+        },
+        {
+          "attempt": 2,
+          "durationMs": 47773,
           "gateCount": 1,
           "status": "passed"
         }
