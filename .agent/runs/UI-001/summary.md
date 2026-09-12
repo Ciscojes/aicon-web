@@ -5,8 +5,8 @@
 - Specification: `.agent/specs/UI-001-remove-redundant-hero-actions.md`
 - Plan: `.agent/plans/UI-001-remove-redundant-hero-actions.md`
 - Branch: `ui/UI-001-remove-redundant-hero-actions`
-- Commit(s): se completará al crear el commit de revisión
-- Pull Request: se completará al abrir el PR
+- Commit(s): `a471263`
+- Pull Request: `#15`
 
 ## Final status
 
