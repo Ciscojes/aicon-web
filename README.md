@@ -129,6 +129,10 @@ evidencia de verificación y un Pull Request para revisión humana.
 El cierre académico se documenta en la
 [auditoría final](docs/agentic-engineering/final-audit.md) y el
 [guion de demostración](docs/agentic-engineering/demo-guide.md).
+El borrador formal del Trabajo Final de Máster se encuentra en la
+[memoria académica](docs/tfm/memoria.md), acompañado por sus
+[referencias](docs/tfm/referencias.md), [anexos](docs/tfm/anexos.md) y
+[checklist de adaptación institucional](docs/tfm/checklist-entrega.md).
 
 Para preparar una publicación consulta también el
 [manual operativo](docs/OPERATIONS.md) y el

@@ -1,10 +1,10 @@
 # Estado de implementación
 
-Actualizado: 2026-09-10.
+Actualizado: 2026-09-11.
 
 ## Agentic Engineering Harness
 
-En cierre académico. Implementado:
+Cierre técnico completado. Implementado:
 
 - Gobierno agentic con SPEC, PLAN, niveles de autoridad y Definition of Done.
 - Runner auditable con máximo de tres intentos y evidencia JSON inmutable.
@@ -12,8 +12,12 @@ En cierre académico. Implementado:
   credenciales y auditoría de dependencias.
 - GitHub Actions con reporte de seguridad sanitizado y revisión SonarCloud.
 - Métricas reproducibles, auditoría final y guion de demostración del TFM.
+- AEH-004 revisado y fusionado en `main`, con GitHub Actions y SonarCloud aprobados.
+- Borrador formal de memoria académica, referencias, anexos y checklist institucional.
 
-Pendiente de decisión humana: revisión de AEH-004 y protección obligatoria de `main`.
+Pendiente académico: completar datos institucionales, adaptar la plantilla oficial,
+incorporar la reflexión personal del autor y someter la memoria a revisión del tutor.
+Pendiente de gobierno remoto: protección obligatoria de `main`.
 
 ## Entrega 0 — Fundamentos técnicos
 
