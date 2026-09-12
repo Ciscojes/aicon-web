@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "taskId": "UI-001",
+  "attempt": 1,
+  "status": "passed",
+  "startedAt": "2026-09-12T02:36:16.083Z",
+  "finishedAt": "2026-09-12T02:36:40.098Z",
+  "repository": {
+    "branch": "ui/UI-001-remove-redundant-hero-actions",
+    "head": "5173831332d0053726847082cc68fd5e5b4f95cf"
+  },
+  "gates": [
+    {
+      "command": "npm run verify",
+      "durationMs": 24014,
+      "exitCode": 0,
+      "name": "quality",
+      "status": "passed"
+    }
+  ],
+  "nextAction": "Prepare the sanitized task trace and human review."
+}
