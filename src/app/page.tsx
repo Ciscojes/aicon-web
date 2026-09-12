@@ -22,7 +22,7 @@ export default async function Home() {
       <PublicSiteHeader />
       <main>
         <section className="public-hero">
-          <div className="public-hero-copy"><h1>Construimos espacios para vivir tu futuro.</h1><p>Explora proyectos residenciales y encuentra tu próxima casa.</p><div className="public-hero-actions"><Link className="button button-primary" href="/catalogo">Explorar casas</Link><Link className="button button-secondary" href="#condominios">Ver condominios</Link></div></div>
+          <div className="public-hero-copy"><h1>Construimos espacios para vivir tu futuro.</h1><p>Explora proyectos residenciales y encuentra tu próxima casa.</p></div>
           <span className="public-hero-label">Imagen conceptual</span>
         </section>
 
