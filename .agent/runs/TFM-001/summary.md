@@ -7,11 +7,11 @@
 - Branch: `docs/tfm-manuscript`.
 - Planning commit: `273eac9`.
 - Documentation commit: `26086b3`.
-- Pull Request: pending.
+- Pull Request: `https://github.com/Ciscojes/aicon-web/pull/14`.
 
 ## Final status
 
-Documentation implemented and locally verified; remote CI and human review pending.
+Documentation implemented and locally verified; remote CI and human review pending in PR #14.
 
 ## Changed files
 
