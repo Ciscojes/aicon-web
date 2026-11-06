@@ -1173,13 +1173,6 @@ textarea:focus-visible {
 
 .property-section { border-color: var(--public-line); }
 .property-grid { gap: 1.25rem; }
-.property-card {
-  background: #fffdf8;
-  border-color: var(--public-line);
-  border-radius: 1rem;
-  box-shadow: none;
-  transition: border-color 160ms ease;
-}
 .property-card:hover,
 .property-card:focus-within { border-color: var(--public-terracotta); }
 .property-visual { min-height: 17rem; }
@@ -1455,7 +1448,7 @@ textarea:focus-visible {
 .condominium-card a { bottom: 1.5rem; color: var(--accent-secondary); font-weight: 800; position: absolute; text-decoration: none; }
 
 .property-section { border-top: 1px solid var(--line); }
-.property-card { background: white; border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; }
+.property-card { background: white; border: 1px solid var(--line); border-radius: 1rem; box-shadow: none; overflow: hidden; position: relative; transition: border-color 160ms ease; }
 .property-visual { min-height: 14rem; }
 .property-photo { background-position: center; background-size: cover; }
 .house-outline,
@@ -2032,9 +2025,6 @@ textarea:focus-visible {
 }
 
 /* Public buyer-experience refinements. */
-.property-card { position: relative; }
-.property-card:hover,
-.property-card:focus-within { border-color: var(--public-terracotta); }
 .property-link::after { content: ""; inset: 0; position: absolute; }
 .property-link:focus-visible { border-radius: 0.25rem; }
 .property-card .property-price-pending,
