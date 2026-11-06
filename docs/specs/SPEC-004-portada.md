@@ -31,9 +31,9 @@ Presentar Aicon, generar confianza y guiar al comprador hacia los condominios, l
 ## Dirección visual provisional
 
 - Verde petróleo nocturno, marfil cálido y acentos terracota.
-- Gradientes sutiles, profundidad ligera y superficies limpias.
+- Superficies limpias, bordes discretos y profundidad visual reservada a contenido destacado.
 - Fotografías amplias.
-- Tipografía elegante y legible.
+- Tipografía elegante y legible; iconos y efectos solo cuando mejoren la comprensión.
 - Apariencia propia de una constructora, no de una agencia inmobiliaria genérica.
 - La portada priorizará un proyecto publicado sin atribuirle cualidades comerciales
   no registradas en el catálogo.

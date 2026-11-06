@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "taskId": "UI-017",
+  "attempt": 1,
+  "status": "passed",
+  "startedAt": "2026-11-06T13:43:38.134Z",
+  "finishedAt": "2026-11-06T13:44:01.110Z",
+  "repository": {
+    "branch": "design/refine-ui-2026-11-06",
+    "head": "a41889fc6a7197e093cc4eee3f977425b9a68cc2"
+  },
+  "gates": [
+    {
+      "command": "npm run verify",
+      "durationMs": 22976,
+      "exitCode": 0,
+      "name": "quality",
+      "status": "passed"
+    }
+  ],
+  "nextAction": "Prepare the sanitized task trace and human review."
+}
