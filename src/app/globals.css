@@ -423,7 +423,7 @@ textarea:focus-visible {
 }
 
 .dashboard-metrics { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); margin-top: 3rem; }
-.dashboard-metric { background: #fff; border: 1px solid var(--line); border-radius: 0.65rem; box-shadow: none; color: inherit; display: grid; gap: 0.65rem; padding: 1.35rem; text-decoration: none; transition: transform 160ms ease, border-color 160ms ease; }
+.dashboard-metric { background: #fff; border: 1px solid var(--line); border-radius: 0.65rem; box-shadow: none; color: inherit; display: grid; gap: 0.65rem; padding: 1.35rem; text-decoration: none; transition: border-color 160ms ease; }
 .dashboard-metric:hover, .dashboard-metric:focus-visible { border-color: var(--accent-secondary); }
 .dashboard-metric > span { color: var(--muted); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; }
 .dashboard-metric > strong { font-family: Georgia, serif; font-size: 2.8rem; }
@@ -1178,11 +1178,11 @@ textarea:focus-visible {
   border-color: var(--public-line);
   border-radius: 1rem;
   box-shadow: none;
-  transition: box-shadow 220ms ease, transform 220ms ease;
+  transition: border-color 160ms ease;
 }
 .property-card:hover,
 .property-card:focus-within { border-color: var(--public-terracotta); }
-.property-visual { min-height: 17rem; transition: transform 500ms ease; }
+.property-visual { min-height: 17rem; }
 
 .property-visual > .public-status { left: 1rem; position: absolute; top: 1rem; z-index: 2; }
 .property-image-count { backdrop-filter: blur(9px); background: rgb(11 37 39 / 64%); border: 1px solid rgb(255 250 240 / 24%); border-radius: 999px; color: #fffaf0 !important; font-size: 0.68rem !important; font-weight: 800; padding: 0.35rem 0.55rem; position: absolute; right: 1rem; top: 1rem; z-index: 2; }
